@@ -8,4 +8,7 @@ C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.Gen
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.CoreCompileInputs.cache
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.exe
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.pdb
-C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.Form1.resources
+C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.Menu.resources
+C:\Users\Jordi\AsterixDecoder\AsterixDecoder\bin\Debug\ClassLibrary.dll
+C:\Users\Jordi\AsterixDecoder\AsterixDecoder\bin\Debug\ClassLibrary.pdb
+C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.CopyComplete

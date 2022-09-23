@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Class1
+    public class CAT10
     {
+        public CAT10(byte[] arraymessage)
+        {
+
+        }
     }
 }

@@ -1,0 +1,6 @@
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.AssemblyReference.cache
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.pdb
