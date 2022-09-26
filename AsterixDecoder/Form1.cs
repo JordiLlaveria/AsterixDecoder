@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections;
 
 namespace AsterixDecoder
 {
@@ -28,12 +29,30 @@ namespace AsterixDecoder
 
             fichero.Read(buffer, 0, buffer.Length);
 
-            //for (int i = 0; i & lt; buffer.Length; i++)
-            //{
-            //    Console.WriteLine(buffer[i]);
-            //}
-
             fichero.Close();
+
+            byte CAT = buffer[0];
+            int length = buffer[1] + buffer[2];
+            List<byte> fspecList = new List<byte>();
+            int cont = 0;
+            int i = 3;
+            fspecList.Add(buffer[i]);
+            byte[] buffer2 = new byte[1];
+            buffer2[0] = buffer[i];
+            BitArray bits = new BitArray(buffer2);
+            while (bits[0] == true)
+            {
+                i++;
+                fspecList.Add(buffer[i]);
+                buffer2[0] = buffer[i];
+                bits = new BitArray(buffer2);               
+                
+            }
+
+            byte[] fspecArray = fspecList.ToArray();
+            
+            BitArray fspecBits = new BitArray(fspecArray);
+
         }
     }
 

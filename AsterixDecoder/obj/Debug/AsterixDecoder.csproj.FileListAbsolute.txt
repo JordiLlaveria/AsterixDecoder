@@ -9,3 +9,14 @@ C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.Cor
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.exe
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.pdb
 C:\Users\Jordi\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.Form1.resources
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.AssemblyReference.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.SuggestedBindingRedirects.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.Form1.resources
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.Properties.Resources.resources
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.GenerateResource.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.CoreCompileInputs.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.exe
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.exe.config
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.exe
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.pdb
