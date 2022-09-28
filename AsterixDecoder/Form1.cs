@@ -33,25 +33,32 @@ namespace AsterixDecoder
 
             byte CAT = buffer[0];
             int length = buffer[1] + buffer[2];
-            List<byte> fspecList = new List<byte>();
-            int cont = 0;
+            List<bool> fspecList = new List<bool>();
             int i = 3;
-            fspecList.Add(buffer[i]);
             byte[] buffer2 = new byte[1];
             buffer2[0] = buffer[i];
             BitArray bits = new BitArray(buffer2);
+            bool[] bitsArray = new bool[8];
+            bits.CopyTo(bitsArray,0);
+            Array.Reverse(bitsArray);
+            fspecList.AddRange(bitsArray);
             while (bits[0] == true)
             {
                 i++;
-                fspecList.Add(buffer[i]);
+                
                 buffer2[0] = buffer[i];
-                bits = new BitArray(buffer2);               
+                bits = new BitArray(buffer2);  
+                bits.CopyTo(bitsArray,0);
+                Array.Reverse(bitsArray);
+                fspecList.AddRange(bitsArray);
+                
                 
             }
 
-            byte[] fspecArray = fspecList.ToArray();
+            bool[] fspecBits = fspecList.ToArray();
             
-            BitArray fspecBits = new BitArray(fspecArray);
+
+            Console.Write("Hola");
 
         }
     }
