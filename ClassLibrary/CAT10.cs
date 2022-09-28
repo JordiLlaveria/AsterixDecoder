@@ -8,8 +8,9 @@ namespace ClassLibrary
 {
     public class CAT10
     {
-        byte[] D010;
-        byte D000;
+        byte[] D010; // Data Source Identifier
+        byte D000; // Message type
+        byte[] D020; // Target Report Descriptor
 
         public CAT10()
         {
@@ -35,6 +36,16 @@ namespace ClassLibrary
         public byte getD000()
         {
             return D000;
+        }
+
+        public void setD020(byte[] targetReportDescriptor)
+        {
+            D020 = targetReportDescriptor;
+        }
+
+        public byte[] getD020()
+        {
+            return D020;
         }
     }
 }
