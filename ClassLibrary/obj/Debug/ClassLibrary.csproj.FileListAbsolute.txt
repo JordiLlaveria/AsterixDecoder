@@ -1,0 +1,6 @@
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.AssemblyReference.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.pdb

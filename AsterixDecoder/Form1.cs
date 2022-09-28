@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections;
+using ClassLibrary;
 
 namespace AsterixDecoder
 {
@@ -33,6 +34,7 @@ namespace AsterixDecoder
 
             byte CAT = buffer[0];
             int length = buffer[1] + buffer[2];
+
             List<bool> fspecList = new List<bool>();
             int i = 3;
             byte[] buffer2 = new byte[1];
@@ -42,23 +44,48 @@ namespace AsterixDecoder
             bits.CopyTo(bitsArray,0);
             Array.Reverse(bitsArray);
             fspecList.AddRange(bitsArray);
+            int fspecLength = 0;
             while (bits[0] == true)
             {
-                i++;
-                
+                i++;                
                 buffer2[0] = buffer[i];
                 bits = new BitArray(buffer2);  
                 bits.CopyTo(bitsArray,0);
                 Array.Reverse(bitsArray);
                 fspecList.AddRange(bitsArray);
-                
-                
+                fspecLength++;
             }
+                       
 
-            bool[] fspecBits = fspecList.ToArray();
+            int frn = 0;
+            int pos = fspecLength + 3;
+            if(CAT == 10)
+            {
+                CAT10 data = new CAT10();
+
+                while (frn < fspecList.Count)
+                {
+                    if (fspecList[frn])
+                    {
+                        switch (frn)
+                        {
+                            case 0:
+                                // 1 I010/010 Data Source identifier
+
+                                byte sac = buffer[pos+1];
+                                byte sic = buffer[pos+2];
+                                data.setD010(sac,sic);
+                                Console.Write("Hello World");
+                                break;
+                        }
+                    }
+                    frn++;
+                }
+            }
+            
             
 
-            Console.Write("Hola");
+            Console.Write("Hello World");
 
         }
     }

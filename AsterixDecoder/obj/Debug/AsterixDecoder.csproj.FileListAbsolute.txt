@@ -20,3 +20,6 @@ C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDe
 C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.exe.config
 C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.exe
 C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\AsterixDecoder.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\ClassLibrary.dll
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\bin\Debug\ClassLibrary.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\AsterixDecoder\AsterixDecoder\obj\Debug\AsterixDecoder.csproj.CopyComplete
