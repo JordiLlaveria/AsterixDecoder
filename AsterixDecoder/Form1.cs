@@ -150,6 +150,54 @@ namespace AsterixDecoder
                                 byte[] targetReportDescriptor = targetReportDescriptorList.ToArray();
                                 data.setD020(targetReportDescriptor);
                                 break;
+
+                            case 3: // 4 I010/140 Time of the Day
+
+                                byte[] timeOfTheDayArray = { 0, buffer[pos+5], buffer[pos+6], buffer[pos+7] };
+                                if (BitConverter.IsLittleEndian) {
+                                    Array.Reverse(timeOfTheDayArray);
+                                }
+
+                                double timeOfTheDay = BitConverter.ToInt32(timeOfTheDayArray, 0) / (double) 128; // segons
+                                data.setD140(timeOfTheDay);
+                                break;
+
+                            case 4:
+
+                                break;
+
+                            case 5: // 6 I010/040 Measured Position in Polar Co-ordinates
+
+                                byte[] rhoArray = { 0, 0, buffer[pos + 8], buffer[pos + 9] };
+                                byte[] thetaArray = { 0, 0, buffer[pos + 10], buffer[pos + 11] };
+                                if (BitConverter.IsLittleEndian)
+                                {
+                                    Array.Reverse(rhoArray);
+                                    Array.Reverse(thetaArray);
+                                }
+
+                                double rho = BitConverter.ToInt32(rhoArray, 0);
+                                double theta = BitConverter.ToInt32(thetaArray, 0) * 0.0055;
+                                data.setD040(rho, theta);
+                                break;
+
+                            case 7: // 7 I010//042 Position in Cartesian Co-ordinates
+
+                                byte[] xArray = { 0, 0, buffer[pos + 12], buffer[pos + 13] };
+                                byte[] yArray = { 0, 0, buffer[pos + 14], buffer[pos + 15] };
+                                if (BitConverter.IsLittleEndian)
+                                {
+                                    Array.Reverse(xArray);
+                                    Array.Reverse(yArray);
+                                }
+
+                                double x = BitConverter.ToInt32(xArray, 0);
+                                double y = BitConverter.ToInt32(yArray, 0);
+
+                                data.setD042(x, y);
+
+                                break;
+
                         }
                     }
                     frn++;
