@@ -69,12 +69,18 @@ namespace AsterixDecoder
                     {
                         switch (frn)
                         {
-                            case 0:
-                                // 1 I010/010 Data Source identifier
+                            case 0: // 1 I010/010 Data Source identifier
+
 
                                 byte sac = buffer[pos+1];
                                 byte sic = buffer[pos+2];
-                                data.setD010(sac,sic);
+                                data.setD010(sac,sic);                                
+                                break;
+
+                            case 1: // 2 I010/000 Message Type
+
+                                byte messageType = buffer[pos + 3];
+                                data.setD000(messageType);
                                 Console.Write("Hello World");
                                 break;
                         }

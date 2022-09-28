@@ -9,6 +9,7 @@ namespace ClassLibrary
     public class CAT10
     {
         byte[] D010;
+        byte D000;
 
         public CAT10()
         {
@@ -26,5 +27,14 @@ namespace ClassLibrary
             return D010;
         }
 
+        public void setD000(byte messageType)
+        {
+            D000 = messageType;
+        }
+
+        public byte getD000()
+        {
+            return D000;
+        }
     }
 }
