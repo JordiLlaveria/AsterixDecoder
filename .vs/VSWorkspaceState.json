@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AsterixDecoder",
+    "\\ClassLibrary"
   ],
-  "SelectedNode": "\\AsterixDecoder.sln",
+  "SelectedNode": "\\ClassLibrary\\AsterixFile.cs",
   "PreviewInSolutionExplorer": false
 }
