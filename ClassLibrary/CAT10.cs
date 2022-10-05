@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,10 +23,10 @@ namespace ClassLibrary
 
         // 3 I010/020 Target Report Descriptor
         string typ;
-        string dcr; 
+        string dcr;
         string chn;
-        string gbs; 
-        string crt; 
+        string gbs;
+        string crt;
         string sim;
         string tst;
         string rab;
@@ -58,6 +59,14 @@ namespace ClassLibrary
         //11 I010/170 Track Status
         string[] trackstatus = new string[10];
 
+        //14 I010/245 Target Identification
+        string sti;
+
+        // 17 I010/090 Flight Level in Binary Representation
+        string v;
+        string g;
+        int FL;
+
         //20 (19 real) I010/270 Target Size and Orientation
         double length; // m
         double orientation;
@@ -75,10 +84,11 @@ namespace ClassLibrary
         byte[] threebytes = new byte[3];
         byte[] fourbytes = new byte[4];
         byte[] eightbits = new byte[8];
+        bool[] octet;
         public CAT10(byte[] arraymessage)
         {
-            int byteread = 3;
             int j = 0;
+            int byteread = 3;
             this.flightinformation = arraymessage;
             for (int i = 0; i < 8; i++)
             {
@@ -86,6 +96,7 @@ namespace ClassLibrary
                 UAP[j] = byteobtained;
                 j++;
             }
+            
             while (UAP[j-1] == 1)
             {
                 byteread++;
@@ -96,6 +107,7 @@ namespace ClassLibrary
                     j++;
                 }
             }
+            byteread++;
 
             for (int i = 0; i < UAP.Length; i++)
             {
@@ -105,13 +117,14 @@ namespace ClassLibrary
                     {
                         case 0: 
                             // 1 I010/010
-                            sac = arraymessage[byteread + 1];
-                            sic = arraymessage[byteread + 2];
+                            sac = arraymessage[byteread];
+                            sic = arraymessage[byteread + 1];
+                            byteread = byteread + 2;
                             break;
 
                         case 1:
                             // 2 I010/000
-                            byte num = arraymessage[byteread + 3];
+                            byte num = arraymessage[byteread];
                             if (num == 1)
                             {
                                 messageType = "Target Report";
@@ -132,7 +145,7 @@ namespace ClassLibrary
                             {
                                 messageType = "Error";
                             }
-
+                            byteread = byteread + 1;
                             break;
 
                         case 2:
@@ -142,7 +155,7 @@ namespace ClassLibrary
 
                             while (fx)
                             {
-                                bool[] octetArray = getOctet(arraymessage[byteread + 4]);                                
+                                bool[] octetArray = getOctet(arraymessage[byteread]);                                
 
                                 switch (cont)
                                 {
@@ -240,6 +253,7 @@ namespace ClassLibrary
                                         fx = octetArray[7];
                                         break;
                                 }
+                                byteread = byteread + 1;
                                 cont++;
                             }
 
@@ -247,7 +261,8 @@ namespace ClassLibrary
 
                         case 3:
                             // 4 I010/140 Time of the Day
-                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread + 5], arraymessage[byteread + 6], arraymessage[byteread + 7]) / (double)128; // segons
+                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / (double)128; // segons
+                            byteread = byteread + 3;
                             break;
 
                         case 4:
@@ -256,15 +271,16 @@ namespace ClassLibrary
 
                         case 5:
                             // 6 I010/040 Measured Position in Polar Co-ordinates                            
-                            rho = getInt32FromBytes(0, 0, arraymessage[byteread + 8], arraymessage[byteread + 9]);
-                            theta = getInt32FromBytes(0, 0, arraymessage[byteread + 10], arraymessage[byteread + 11]) * 0.0055;
+                            rho = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
+                            theta = getInt32FromBytes(0, 0, arraymessage[byteread + 2], arraymessage[byteread + 3]) * 0.0055;
+                            byteread = byteread + 4;
                             break;
 
                         case 6:
                             // 7 I010//042 Position in Cartesian Co-ordinates
-                            bool[] octet = getOctet(arraymessage[byteread + 12]);
+                            octet = getOctet(arraymessage[byteread]);
                             bool x2Complement = octet[0];
-                            octet = getOctet(arraymessage[byteread + 14]);
+                            octet = getOctet(arraymessage[byteread + 2]);
                             bool y2complement = octet[0];
 
                             byte[] x1Array = new byte[1];
@@ -275,10 +291,10 @@ namespace ClassLibrary
 
                             if (x2Complement)
                             {
-                                onebyte[0] = arraymessage[byteread+12];
+                                onebyte[0] = arraymessage[byteread];
                                 BitArray xbits1 = new BitArray(onebyte);
                                 BitArray xbits1Complement = complement2(xbits1);
-                                onebyte[0] = arraymessage[byteread+13];
+                                onebyte[0] = arraymessage[byteread+1];
                                 BitArray xbits2 = new BitArray(onebyte);
                                 BitArray xbits2Complement = complement2(xbits2);
                                 
@@ -290,16 +306,16 @@ namespace ClassLibrary
                             }
                             else
                             {
-                                x1Array[0] = arraymessage[byteread+12];
-                                x2Array[0] = arraymessage[byteread+13];
+                                x1Array[0] = arraymessage[byteread];
+                                x2Array[0] = arraymessage[byteread+1];
                                 x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);                                
                             }
                             if (y2complement)
                             {
-                                onebyte[0] = arraymessage[byteread+14];
+                                onebyte[0] = arraymessage[byteread+2];
                                 BitArray ybits1 = new BitArray(onebyte);
                                 BitArray ybits1Complement = complement2(ybits1);
-                                onebyte[0] = arraymessage[byteread+15];
+                                onebyte[0] = arraymessage[byteread+3];
                                 BitArray ybits2 = new BitArray(onebyte);
                                 BitArray ybits2Complement = complement2(ybits2);
                                 
@@ -310,16 +326,15 @@ namespace ClassLibrary
                             }
                             else
                             {
-                                y1Array[0] = arraymessage[byteread+14];
-                                y2Array[0] = arraymessage[byteread+15];
+                                y1Array[0] = arraymessage[byteread+2];
+                                y2Array[0] = arraymessage[byteread+3];
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
-                            }                            
-
+                            }
+                            byteread = byteread + 4;
                             break;
 
                         case 8:
                             // I010/200
-                            byteread = 22;
                             for (j = 0; j < 2; j++) 
                             {
                                 twobytes[1] = arraymessage[byteread + j * 2];
@@ -561,22 +576,64 @@ namespace ClassLibrary
                             break;
                         case 12:
                             // I010/060
+                            byteread = byteread + 3;
                             break;
                         case 13:
                             // I010/220
+                            byteread = byteread + 3;
                             break;
                         case 14:
-                            // I010/245
+                            // I010/245 Target Identification
+                            octet = getOctet(arraymessage[byteread]);
+
+                            if (octet[0] == false && octet[1] == false)
+                            {
+                                sti = "Callsign or registration downlinked from transponder";
+                            }
+                            else if(octet[0] == false && octet[1] == true)
+                            {
+                                sti = "Callsign not downlinked from transponder";
+                            }
+                            else if( octet[0] == true && octet[1] == false)
+                            {
+                                sti = "Registration not downlinked from transponder";
+                            }
+
+                            bool[] totalCharactersBits = new bool[48];
+                            getOctet(arraymessage[byteread + 1]).CopyTo(totalCharactersBits, 0);
+                            getOctet(arraymessage[byteread + 2]).CopyTo(totalCharactersBits, 8);
+                            getOctet(arraymessage[byteread + 3]).CopyTo(totalCharactersBits, 16);
+                            getOctet(arraymessage[byteread + 4]).CopyTo(totalCharactersBits, 24);
+                            getOctet(arraymessage[byteread + 5]).CopyTo(totalCharactersBits, 32);
+                            getOctet(arraymessage[byteread + 6]).CopyTo(totalCharactersBits, 40);
+
+
+
+                            byteread = byteread + 7;
                             break;
                         case 16:
                             // I010/250
                             break;
                         case 17:
                             // I010/300
+
                             break;
                         case 18:
-                            // I010/090
+                            // 17 I010/090 Flight Level in Binary Representation
+
+                            octet = getOctet(arraymessage[byteread]);
+                            v = octet[0] ? "Code not validated" : "Code validated";
+                            g = octet[1] ? "Garbled code" : "Default";
+
+                            BitArray flbits = new BitArray(new bool[] { octet[7], octet[6], octet[5], octet[4], octet[3], octet[2], false, false });
+                            byte[] fl1 = new byte[1];
+                            flbits.CopyTo(fl1, 0);
+
+                            FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1])/4;
+
+                            byteread = byteread + 2;
                             break;
+
                         case 19:
                             // I010/091
                             break;
