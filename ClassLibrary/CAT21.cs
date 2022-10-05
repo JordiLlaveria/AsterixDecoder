@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Class1
+    public class CAT21
     {
+        public CAT21(byte[] array)
+        {
+
+        }
     }
 }
