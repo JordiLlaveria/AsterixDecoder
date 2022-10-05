@@ -40,6 +40,7 @@ namespace ClassLibrary
                     //CAT21list.Add(cat21);
                 }
             }
+            Console.WriteLine("Hola");
         }
 
     }

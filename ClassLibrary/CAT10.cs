@@ -23,7 +23,7 @@ namespace ClassLibrary
 
         // 3 I010/020 Target Report Descriptor
         string typ;
-        string dcr;
+        string drc; 
         string chn;
         string gbs;
         string crt;
@@ -59,6 +59,9 @@ namespace ClassLibrary
         //11 I010/170 Track Status
         string[] trackstatus = new string[10];
 
+        //13 
+        string targetaddress;
+
         //14 I010/245 Target Identification
         string sti;
 
@@ -67,10 +70,14 @@ namespace ClassLibrary
         string g;
         int FL;
 
+
         //20 (19 real) I010/270 Target Size and Orientation
         double length; // m
         double orientation;
         double width; // m
+
+        //21 (20 real)
+        string[] systemstatus = new string[5];
 
         //27 (25 real) I010/210 Calculated Acceleration
         double Ax; // m/s^2
@@ -145,6 +152,7 @@ namespace ClassLibrary
                             {
                                 messageType = "Error";
                             }
+
                             byteread = byteread + 1;
                             break;
 
@@ -194,7 +202,7 @@ namespace ClassLibrary
                                             typ = "Other types";
                                         }
 
-                                        dcr = octetArray[3] ? "Differential Correction (ADS-B)" : "No Differential Correction (ADS_B)";
+                                        drc = octetArray[3] ? "Differential Correction (ADS-B)" : "No Differential Correction (ADS_B)";
                                         chn = octetArray[4] ? "Chain 2" : "Chain 1";
                                         gbs = octetArray[5] ? "Transponder Ground bit set" : "Transponder Ground bit not set";
                                         crt = octetArray[6] ? "Corrupted replies in multilateration" : "No Corrupted reply in multilateration";
@@ -438,59 +446,59 @@ namespace ClassLibrary
                             byteread++;
                             if (eightbits[0] == 0)
                             {
-                                trackstatus[0]= "Confirmed track";
+                                trackstatus[0]= "CNF: Confirmed track";
                             }
                             else
                             {
-                                trackstatus[0]= "Track in initialisation phase";
+                                trackstatus[0]= "CNF: Track in initialisation phase";
                             }
                             if (eightbits[1] == 0)
                             {
-                                trackstatus[1]= "Default";
+                                trackstatus[1]= "TRE: Default";
                             }
                             else
                             {
-                                trackstatus[1]= "Last report for a track";
+                                trackstatus[1]= "TRE: Last report for a track";
                             }
                             if (eightbits[2] == 0 && eightbits[3] == 0)
                             {
-                                trackstatus[2]= "No extraploation";
+                                trackstatus[2]= "CST: No extraploation";
                             }
                             else if(eightbits[2] == 0 && eightbits[3] == 1)
                             {
-                                trackstatus[2]= "Predictable extrapolation due to sensor refresh period (see Note)";
+                                trackstatus[2]= "CST: Predictable extrapolation due to sensor refresh period (see Note)";
                             }
                             else if(eightbits[2] == 1 && eightbits[3] == 0)
                             {
-                                trackstatus[2]= "Predictable extrapolation in masked area";
+                                trackstatus[2]= "CST: Predictable extrapolation in masked area";
                             }
                             else if(eightbits[2] == 1 && eightbits[3] == 1)
                             {
-                                trackstatus[2]= "Extrapolation due to unpredictable absence of detection";
+                                trackstatus[2]= "CST: Extrapolation due to unpredictable absence of detection";
                             }
                             if (eightbits[4] == 0)
                             {
-                                trackstatus[3]= "Default";
+                                trackstatus[3]= "MAH: Default";
                             }
                             else 
                             {
-                                trackstatus[3] = "Horizontal Manouvre";
+                                trackstatus[3] = "MAH: Horizontal Manouvre";
                             }
                             if (eightbits[5] == 0) 
                             {
-                                trackstatus[4] = "Tracking performed in 'Sensor Plane', i.e. neither start range correction nor projection was applied";
+                                trackstatus[4] = "TCC: Tracking performed in 'Sensor Plane', i.e. neither start range correction nor projection was applied";
                             }
                             else 
                             {
-                                trackstatus[4] = "Slant range correction and suitable projection technique are used to track in a 2D.reference plane, tangential to the earth model at the Sensor Site co-cordinates";
+                                trackstatus[4] = "TCC: Slant range correction and suitable projection technique are used to track in a 2D.reference plane, tangential to the earth model at the Sensor Site co-cordinates";
                             }
                             if (eightbits[6] == 0) 
                             {
-                                trackstatus[5] = "Measured position";
+                                trackstatus[5] = "STH: Measured position";
                             }
                             else 
                             {
-                                trackstatus[5] = "Smoothed position";
+                                trackstatus[5] = "STH: Smoothed position";
                             }
                             if (eightbits[7] == 1)
                             {
@@ -501,63 +509,63 @@ namespace ClassLibrary
                                 byteread++;
                                 if (eightbits[0] == 0 && eightbits[1] == 0)
                                 {
-                                    trackstatus[6] = "Unknown type of movement";
+                                    trackstatus[6] = "TOM: Unknown type of movement";
                                 }
                                 else if (eightbits[0] == 0 && eightbits[1] == 1)
                                 {
-                                    trackstatus[6] = "Taking-off";
+                                    trackstatus[6] = "TOM: Taking-off";
                                 }
                                 else if (eightbits[0] == 1 && eightbits[1] == 0)
                                 {
-                                    trackstatus[6] = "Landing";
+                                    trackstatus[6] = "TOM: Landing";
                                 }
                                 else if (eightbits[0] == 1 && eightbits[1] == 1)
                                 {
-                                    trackstatus[6] = "Other types of movement";
+                                    trackstatus[6] = "TOM: Other types of movement";
                                 }
                                 if (eightbits[2] == 0 && eightbits[3] == 0 && eightbits[4] == 0)
                                 {
-                                    trackstatus[7] = "No doubt";
+                                    trackstatus[7] = "DOU: No doubt";
                                 }
                                 else if (eightbits[2] == 0 && eightbits[3] == 0 && eightbits[4] == 1)
                                 {
-                                    trackstatus[7] = "Doubtful correlation (undetermined reason)";
+                                    trackstatus[7] = "DOU: Doubtful correlation (undetermined reason)";
                                 }
                                 else if (eightbits[2] == 0 && eightbits[3] == 1 && eightbits[4] == 0)
                                 {
-                                    trackstatus[7] = "Doubtful correlation in clutter";
+                                    trackstatus[7] = "DOU: Doubtful correlation in clutter";
                                 }
                                 else if (eightbits[2] == 0 && eightbits[3] == 1 && eightbits[4] == 1)
                                 {
-                                    trackstatus[7] = "Loss of accuracy";
+                                    trackstatus[7] = "DOU: Loss of accuracy";
                                 }
                                 else if (eightbits[2] == 1 && eightbits[3] == 0 && eightbits[4] == 0)
                                 {
-                                    trackstatus[7] = "Loss of accuracy in clutter";
+                                    trackstatus[7] = "DOU: Loss of accuracy in clutter";
                                 }
                                 else if (eightbits[2] == 1 && eightbits[3] == 0 && eightbits[4] == 1)
                                 {
-                                    trackstatus[7] = "Unstable track";
+                                    trackstatus[7] = "DOU: Unstable track";
                                 }
                                 else if (eightbits[2] == 1 && eightbits[3] == 1 && eightbits[4] == 0)
                                 {
-                                    trackstatus[7] = "Previously coasted";
+                                    trackstatus[7] = "DOU: Previously coasted";
                                 }
                                 if (eightbits[5] == 0 && eightbits[6] == 0)
                                 {
-                                    trackstatus[8] = "Merge or split indication undetermined";
+                                    trackstatus[8] = "MSR: Merge or split indication undetermined";
                                 }
                                 else if (eightbits[5] == 0 && eightbits[6] == 1)
                                 {
-                                    trackstatus[8] = "Track merged by assocation to plot";
+                                    trackstatus[8] = "MSR: Track merged by assocation to plot";
                                 }
                                 else if (eightbits[5] == 1 && eightbits[6] == 0)
                                 {
-                                    trackstatus[8] = "Track merged by non-association to plot";
+                                    trackstatus[8] = "MSR: Track merged by non-association to plot";
                                 }
                                 else if (eightbits[5] == 1 && eightbits[6] == 1)
                                 {
-                                    trackstatus[8] = "Split track";
+                                    trackstatus[8] = "MSR: Split track";
                                 }
                                 if (eightbits[7] == 1)
                                 {
@@ -574,12 +582,41 @@ namespace ClassLibrary
                                 }
                             }
                             break;
+
                         case 12:
                             // I010/060
-                            byteread = byteread + 3;
+                            byteread = byteread + 2;
                             break;
                         case 13:
                             // I010/220
+                            threebytes[2] = arraymessage[byteread];
+                            threebytes[1] = arraymessage[byteread + 1];
+                            threebytes[0] = arraymessage[byteread + 2];
+                            bytestogether1 = new BitArray(threebytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            int position = 0;
+                            int positionfourbits = 0;
+                            string stringbits;
+                            byte[] fourbits = new byte[1];
+                            fourbits[0] = 0;
+                            while (position < bytestogether1.Length)
+                            {
+                                while (positionfourbits < 4)
+                                {
+                                    if (bytestogether1[position] == true)
+                                    {
+                                        fourbits[0] = (byte)(fourbits[0] + Math.Pow(2, 3 - positionfourbits));
+                                    }
+                                    positionfourbits++;
+                                    position++;
+                                }
+                                string decimalNumber = fourbits[0].ToString();
+                                int number = int.Parse(decimalNumber);
+                                stringbits = number.ToString("x");
+                                targetaddress = targetaddress + stringbits;
+                                positionfourbits = 0;
+                                fourbits[0] = 0;
+                            }
                             byteread = byteread + 3;
                             break;
                         case 14:
@@ -622,14 +659,14 @@ namespace ClassLibrary
                             // 17 I010/090 Flight Level in Binary Representation
 
                             octet = getOctet(arraymessage[byteread]);
-                            v = octet[0] ? "Code not validated" : "Code validated";
-                            g = octet[1] ? "Garbled code" : "Default";
+                            this.v = octet[0] ? "Code not validated" : "Code validated";
+                            this.g = octet[1] ? "Garbled code" : "Default";
 
                             BitArray flbits = new BitArray(new bool[] { octet[7], octet[6], octet[5], octet[4], octet[3], octet[2], false, false });
                             byte[] fl1 = new byte[1];
                             flbits.CopyTo(fl1, 0);
 
-                            FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1])/4;
+                            this.FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1])/4;
 
                             byteread = byteread + 2;
                             break;
@@ -678,6 +715,55 @@ namespace ClassLibrary
                             break;
                         case 21:
                             // I010/550
+                            for(j = 0; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                            }
+                            if (eightbits[0] == 0 && eightbits[1] == 0)
+                            {
+                                systemstatus[0] = "Operational Release Status of the System(NOGO): Operational";
+                            }
+                            else if (eightbits[0] == 0 && eightbits[1] == 1)
+                            {
+                                systemstatus[0] = "Operational Release Status of the System(NOGO): Degraded";
+                            }
+                            else if (eightbits[0] == 1 && eightbits[1] == 0)
+                            {
+                                systemstatus[0] = "Operational Release Status of the System(NOGO): NOGO";
+                            }
+                            if (eightbits[2] == 0)
+                            {
+                                systemstatus[1] = "Overload indicator: No overload";
+                            }
+                            else
+                            {
+                                systemstatus[1] = "Overload indicator: Overload";
+                            }
+                            if (eightbits[3] == 0)
+                            {
+                                systemstatus[2] = "Time Source Validity: valid";
+                            }
+                            else
+                            {
+                                systemstatus[2] = "Time Source Validity: invalid";
+                            }
+                            if (eightbits[4] == 0)
+                            {
+                                systemstatus[3] = "DIV: Normal Operation";
+                            }
+                            else
+                            {
+                                systemstatus[3] = "DIV: Diversity degraded";
+                            }
+                            if (eightbits[5] == 0)
+                            {
+                                systemstatus[4] = "TTF: Test Target Operative";
+                            }
+                            else
+                            {
+                                systemstatus[4] = "TTF: Test Target Failure";
+                            }
+                            byteread++;
                             break;
                         case 22:
                             // I010/310
@@ -745,14 +831,14 @@ namespace ClassLibrary
             }
         }
 
-        byte getBit(byte b, int bitNumber)
+        public byte getBit(byte b, int bitNumber)
         {
             int valueint = (b >> bitNumber) & 0x01;
             byte b2 = Convert.ToByte(valueint);
             return (b2);
         }
 
-        bool[] getOctet(byte Byte)
+        public bool[] getOctet(byte Byte)
         {
             byte[] octet = new byte[1];
             octet[0] = Byte;
@@ -773,7 +859,21 @@ namespace ClassLibrary
             return BitConverter.ToInt32(bytesArray, 0);
         }
 
-        BitArray complement2(BitArray b)
+        public BitArray Reverse(BitArray array)
+        {
+            int length = array.Length;
+            int mid = (length / 2);
+
+            for (int i = 0; i < mid; i++)
+            {
+                bool bit = array[i];
+                array[i] = array[length - i - 1];
+                array[length - i - 1] = bit;
+            }
+            return array;
+        }
+
+        public BitArray complement2(BitArray b)
         {
             //Complemento a 1
             for(int i = 0; i < b.Length; i++)
@@ -787,27 +887,6 @@ namespace ClassLibrary
                     b[i] = true;
                 }
             }
-           /*
-            bool complement2done = false;
-            int j = 0;
-            while (complement2done == false && j < b.Length)
-            {
-                if (b[j] == true)
-                {
-                    b[j]=false;
-                }
-                else
-                {
-                    if (j == 0)
-                    {
-                        b[j]=true;
-                    }
-                    complement2done = true;
-                }
-                j++;
-            }
-            */
-            //bool complement2done = false;
             bool mellevoununo = false;
             int j = 0;
             if(b[0] == true)
