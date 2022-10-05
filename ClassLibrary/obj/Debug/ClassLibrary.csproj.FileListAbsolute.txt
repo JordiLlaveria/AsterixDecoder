@@ -4,3 +4,9 @@ C:\Users\Jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.dll
 C:\Users\Jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.pdb
 C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.dll
 C:\Users\Jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.AssemblyReference.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\joana\Documents\uni\5A\Projectes en Gestió del Trànsit Aeri\branca jordi\AsterixDecoder\ClassLibrary\obj\Debug\ClassLibrary.pdb

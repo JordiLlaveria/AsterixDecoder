@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,21 +13,57 @@ namespace ClassLibrary
         byte[] UAP = new byte[32];
         byte[] flightinformation = new byte[300];
 
-        //8
+        // 1 I010/010 Data Source Identifier
+        byte sac;
+        byte sic;
+
+        // 2 I010/000 Message Type
+        string messageType;
+
+        // 3 I010/020 Target Report Descriptor
+        string typ;
+        string dcr; 
+        string chn;
+        string gbs; 
+        string crt; 
+        string sim;
+        string tst;
+        string rab;
+        string lop;
+        string tot;
+        string spi;
+
+        // 4 I010/140 Time of the Day
+        double timeOfTheDay;
+
+        // 6 I010/040 Measured Position in Polar Co-ordinates
+        double rho;
+        double theta;
+
+        // 7 I010//042 Position in Cartesian Co-ordinates
+        double x;
+        double y;
+
+        // 8 I010/200 Calculated Track Velocity in Polar Coordinates
         double groundspeed_polar_coordinates; // kt
         double trackangle_polar_coordinates; // deg
-        //9
+
+        // 9 I010/202 Calculated Track Velocity in Cartesian Coordinates
         double vx_cartesian_coordinates; // m/s
         double vy_cartesian_coordinates; // m/s
-        //10
+
+        //10 I010/161 Track Number
         double tracknumber;
-        //11
+
+        //11 I010/170 Track Status
         string[] trackstatus = new string[10];
-        //20 (19 real)
+
+        //20 (19 real) I010/270 Target Size and Orientation
         double length; // m
         double orientation;
         double width; // m
-        //27 (25 real)
+
+        //27 (25 real) I010/210 Calculated Acceleration
         double Ax; // m/s^2
         double Ay; // m/s^2
 
@@ -66,10 +103,220 @@ namespace ClassLibrary
                 {
                     switch(i)
                     {
-                        case 0:
+                        case 0: 
+                            // 1 I010/010
+                            sac = arraymessage[byteread + 1];
+                            sic = arraymessage[byteread + 2];
                             break;
+
                         case 1:
+                            // 2 I010/000
+                            byte num = arraymessage[byteread + 3];
+                            if (num == 1)
+                            {
+                                messageType = "Target Report";
+                            }
+                            else if(num == 2)
+                            {
+                                messageType = "Start of Update Cycle";
+                            }
+                            else if (num == 3)
+                            {
+                                messageType = "Periodic Status Message";
+                            }
+                            else if (num == 4)
+                            {
+                                messageType = "Event-Triggered Status Message";
+                            }
+                            else
+                            {
+                                messageType = "Error";
+                            }
+
                             break;
+
+                        case 2:
+                            // 3 I010/020 Target Report Descriptor
+                            int cont = 0;
+                            bool fx = true;
+
+                            while (fx)
+                            {
+                                bool[] octetArray = getOctet(arraymessage[byteread + 4]);                                
+
+                                switch (cont)
+                                {
+                                    case 0:
+                                        // TYP
+                                        if (octetArray[0] == false && octetArray[1] == false && octetArray[2] == false)
+                                        {
+                                            typ = "SSR multilateration";
+                                        }
+                                        else if (octetArray[0] == false && octetArray[1] == false && octetArray[2] == true)
+                                        {
+                                            typ = "Mode S multilateration";
+                                        }
+                                        else if (octetArray[0] == false && octetArray[1] == true && octetArray[2] == false)
+                                        {
+                                            typ = "ADS-B";
+                                        }
+                                        else if (octetArray[0] == false && octetArray[1] == true && octetArray[2] == true)
+                                        {
+                                            typ = "PSR";
+                                        }
+                                        else if (octetArray[0] == true && octetArray[1] == false && octetArray[2] == false)
+                                        {
+                                            typ = "Magnetic Loop System";
+                                        }
+                                        else if (octetArray[0] == true && octetArray[1] == false && octetArray[2] == true)
+                                        {
+                                            typ = "HF multilateration";
+                                        }
+                                        else if (octetArray[0] == true && octetArray[1] == true && octetArray[2] == false)
+                                        {
+                                            typ = "Not defined";
+                                        }
+                                        else
+                                        {
+                                            typ = "Other types";
+                                        }
+
+                                        dcr = octetArray[3] ? "Differential Correction (ADS-B)" : "No Differential Correction (ADS_B)";
+                                        chn = octetArray[4] ? "Chain 2" : "Chain 1";
+                                        gbs = octetArray[5] ? "Transponder Ground bit set" : "Transponder Ground bit not set";
+                                        crt = octetArray[6] ? "Corrupted replies in multilateration" : "No Corrupted reply in multilateration";
+
+                                        fx = octetArray[7];
+
+                                        break;
+
+                                    case 1:
+
+                                        sim = octetArray[0] ? "Simulated target report" : "Actual target report";
+                                        tst = octetArray[1] ? "Test Target" : "Default";
+                                        rab = octetArray[2] ? "Report from field monitor (fixed transponder)" : "Report from target monitor";
+
+                                        if (octetArray[3] == false && octetArray[4] == false)
+                                        {
+                                            this.lop = "Undetermined";
+                                        }
+                                        else if (octetArray[3] == false && octetArray[4] == true)
+                                        {
+                                            this.lop = "Loop start";
+                                        }
+                                        else if (octetArray[3] == true && octetArray[4] == false)
+                                        {
+                                            this.lop = "Loop finish";
+                                        }
+                                        else
+                                        {
+                                            this.lop = "Error";
+                                        }
+
+                                        if (octetArray[5] == false && octetArray[6] == false)
+                                        {
+                                            this.tot = "Undetermined";
+                                        }
+                                        else if (octetArray[5] == false && octetArray[6] == true)
+                                        {
+                                            this.tot = "Aircraft";
+                                        }
+                                        else if (octetArray[5] == true && octetArray[6] == false)
+                                        {
+                                            this.tot = "Ground vehicle";
+                                        }
+                                        else
+                                        {
+                                            this.tot = "Helicopter";
+                                        }                                       
+
+                                        fx = octetArray[7];
+                                        break;
+
+                                    case 2:
+
+                                        spi = octetArray[0] ? "Special Position Identification" : "Absence of SPI";
+
+                                        fx = octetArray[7];
+                                        break;
+                                }
+                                cont++;
+                            }
+
+                            break;
+
+                        case 3:
+                            // 4 I010/140 Time of the Day
+                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread + 5], arraymessage[byteread + 6], arraymessage[byteread + 7]) / (double)128; // segons
+                            break;
+
+                        case 4:
+
+                            break;
+
+                        case 5:
+                            // 6 I010/040 Measured Position in Polar Co-ordinates                            
+                            rho = getInt32FromBytes(0, 0, arraymessage[byteread + 8], arraymessage[byteread + 9]);
+                            theta = getInt32FromBytes(0, 0, arraymessage[byteread + 10], arraymessage[byteread + 11]) * 0.0055;
+                            break;
+
+                        case 6:
+                            // 7 I010//042 Position in Cartesian Co-ordinates
+                            bool[] octet = getOctet(arraymessage[byteread + 12]);
+                            bool x2Complement = octet[0];
+                            octet = getOctet(arraymessage[byteread + 14]);
+                            bool y2complement = octet[0];
+
+                            byte[] x1Array = new byte[1];
+                            byte[] x2Array = new byte[1];
+
+                            byte[] y1Array = new byte[1];
+                            byte[] y2Array = new byte[1];
+
+                            if (x2Complement)
+                            {
+                                onebyte[0] = arraymessage[byteread+12];
+                                BitArray xbits1 = new BitArray(onebyte);
+                                BitArray xbits1Complement = complement2(xbits1);
+                                onebyte[0] = arraymessage[byteread+13];
+                                BitArray xbits2 = new BitArray(onebyte);
+                                BitArray xbits2Complement = complement2(xbits2);
+                                
+                                xbits1Complement.CopyTo(x1Array,0);                                
+                                xbits2Complement.CopyTo(x2Array,0);
+
+                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
+                                x = x*(-1);
+                            }
+                            else
+                            {
+                                x1Array[0] = arraymessage[byteread+12];
+                                x2Array[0] = arraymessage[byteread+13];
+                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);                                
+                            }
+                            if (y2complement)
+                            {
+                                onebyte[0] = arraymessage[byteread+14];
+                                BitArray ybits1 = new BitArray(onebyte);
+                                BitArray ybits1Complement = complement2(ybits1);
+                                onebyte[0] = arraymessage[byteread+15];
+                                BitArray ybits2 = new BitArray(onebyte);
+                                BitArray ybits2Complement = complement2(ybits2);
+                                
+                                ybits1Complement.CopyTo(y1Array,0);                                
+                                ybits2Complement.CopyTo(y2Array,0);
+                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                                y = y*(-1);
+                            }
+                            else
+                            {
+                                y1Array[0] = arraymessage[byteread+14];
+                                y2Array[0] = arraymessage[byteread+15];
+                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                            }                            
+
+                            break;
+
                         case 8:
                             // I010/200
                             byteread = 22;
@@ -446,6 +693,27 @@ namespace ClassLibrary
             int valueint = (b >> bitNumber) & 0x01;
             byte b2 = Convert.ToByte(valueint);
             return (b2);
+        }
+
+        bool[] getOctet(byte Byte)
+        {
+            byte[] octet = new byte[1];
+            octet[0] = Byte;
+            BitArray octetBits = new BitArray(octet);
+            bool[] octetArray = new bool[8];
+            octetBits.CopyTo(octetArray, 0);
+            Array.Reverse(octetArray);
+            return octetArray;
+        }
+
+        int getInt32FromBytes(byte first, byte second, byte third, byte fourth)
+        {
+            byte[] bytesArray = { first , second, third, fourth };
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(bytesArray);
+            }
+            return BitConverter.ToInt32(bytesArray, 0);
         }
 
         BitArray complement2(BitArray b)

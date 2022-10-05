@@ -27,6 +27,8 @@ namespace ClassLibrary
                     arraymessage[j] = messages[i];
                     i++;
                 }
+                //Array.Copy(messages, i, arraymessage, 0, lenmessage);
+                //i = i + lenmessage - 1;
                 if (arraymessage[0] == 10)
                 {
                     CAT10 cat10 = new CAT10(arraymessage);
