@@ -1,6 +1,0 @@
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\bin\Debug\FlightDataItems.dll
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\bin\Debug\FlightDataItems.pdb
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\obj\Debug\FlightDataItems.csproj.AssemblyReference.cache
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\obj\Debug\FlightDataItems.csproj.CoreCompileInputs.cache
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\obj\Debug\FlightDataItems.dll
-C:\Users\Jordi\AsterixDecoder\FlightDataItems\obj\Debug\FlightDataItems.pdb
