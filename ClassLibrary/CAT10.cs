@@ -59,17 +59,26 @@ namespace ClassLibrary
         //11 I010/170 Track Status
         string[] trackstatus = new string[10];
 
+        //12
+        string[] mode3Acode = new string[3];
+        string code3A;
+
         //13 
         string targetaddress;
 
         //14 I010/245 Target Identification
         string sti;
 
-        // 17 I010/090 Flight Level in Binary Representation
+        //17 (16 real) Vehicle fleet identification
+        string vfi;
+
+        //18 (17 real) I010/090 Flight Level in Binary Representation
         string v;
         string g;
         int FL;
 
+        //19 (18 real)
+        double height;
 
         //20 (19 real) I010/270 Target Size and Orientation
         double length; // m
@@ -78,6 +87,14 @@ namespace ClassLibrary
 
         //21 (20 real)
         string[] systemstatus = new string[5];
+
+        //22 (21 real)
+        string[] pre_programmed_message = new string[2];
+
+        //24 (23 real)
+        double x_standard_deviation;
+        double y_standard_deviation;
+        double covariance;
 
         //27 (25 real) I010/210 Calculated Acceleration
         double Ax; // m/s^2
@@ -350,20 +367,20 @@ namespace ClassLibrary
                                 bytestogether1 = new BitArray(twobytes);
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[p] == true) { 
+                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,p);
                                         }
                                     }
                                     groundspeed_polar_coordinates = groundspeed_polar_coordinates * 0.22;
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[p] == true) { 
+                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2,p);
                                         }
                                     }
                                     trackangle_polar_coordinates = trackangle_polar_coordinates * (360/Math.Pow(2,16));
@@ -388,10 +405,10 @@ namespace ClassLibrary
                                 }
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int s = 0; s < bytestogether1.Length; s++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[s] == true) { 
+                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,s);
                                         }
                                     }
                                     if (complement2done == true)
@@ -405,10 +422,10 @@ namespace ClassLibrary
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int q = 0; q < bytestogether1.Length; q++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[q] == true) { 
+                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,q);
                                         }
                                     }
                                     if (complement2done == true)
@@ -428,11 +445,11 @@ namespace ClassLibrary
                             twobytes[1] = arraymessage[byteread];
                             twobytes[0] = arraymessage[byteread + 1];
                             bytestogether1 = new BitArray(twobytes);
-                            for (int k = 0; k < bytestogether1.Length; k++)
+                            for (int t = 0; t < bytestogether1.Length; t++)
                             {
-                                if (bytestogether1[k] == true) 
+                                if (bytestogether1[t] == true) 
                                 { 
-                                    tracknumber = tracknumber + Math.Pow(2,k);
+                                    tracknumber = tracknumber + Math.Pow(2,t);
                                 }
                             }
                             byteread = byteread + 2;
@@ -585,6 +602,47 @@ namespace ClassLibrary
 
                         case 12:
                             // I010/060
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            code3A = "";
+                            string letter3Acode = "";
+                            if (bytestogether1[0] == false)
+                            {
+                                mode3Acode[0] = "Code Validated";
+                            }
+                            else
+                            {
+                                mode3Acode[0] = "Code not validated";
+                            }
+                            if (bytestogether1[1] == false)
+                            {
+                                mode3Acode[1] = "Default";
+                            }
+                            else
+                            {
+                                mode3Acode[1] = "Garbled Mode";
+                            }
+                            if (bytestogether1[2] == false)
+                            {
+                                mode3Acode[2] = "Mode-3/A code derived from the reply of the transponder";
+                            }
+                            else
+                            {
+                                mode3Acode[2] = "Mode-3/A code not extracted during the last scan";
+                            }
+                            int k = 4;
+                            BitArray threebytesarray = new BitArray(3);
+                            while (k < bytestogether1.Length)
+                            {
+                                threebytesarray[0] = bytestogether1[k];
+                                threebytesarray[1] = bytestogether1[k + 1];
+                                threebytesarray[2] = bytestogether1[k + 2];
+                                letter3Acode = GetNumber3Bits(threebytesarray);
+                                code3A = code3A + letter3Acode;
+                                k = k + 3;
+                            }
                             byteread = byteread + 2;
                             break;
                         case 13:
@@ -644,8 +702,6 @@ namespace ClassLibrary
                             getOctet(arraymessage[byteread + 5]).CopyTo(totalCharactersBits, 32);
                             getOctet(arraymessage[byteread + 6]).CopyTo(totalCharactersBits, 40);
 
-
-
                             byteread = byteread + 7;
                             break;
                         case 16:
@@ -653,11 +709,78 @@ namespace ClassLibrary
                             break;
                         case 17:
                             // I010/300
-
+                            if (arraymessage[byteread] == 0)
+                            {
+                                this.vfi = "Unknown";
+                            }
+                            else if (arraymessage[byteread] == 1)
+                            {
+                                this.vfi = "ATC equipment maintenance";
+                            }
+                            else if (arraymessage[byteread] == 2)
+                            {
+                                this.vfi = "Airport maintenance";
+                            }
+                            else if (arraymessage[byteread] == 3)
+                            {
+                                this.vfi = "Fire";
+                            }
+                            else if (arraymessage[byteread] == 4)
+                            {
+                                this.vfi = "Bird scarer";
+                            }
+                            else if (arraymessage[byteread] == 5)
+                            {
+                                this.vfi = "Snow plough";
+                            }
+                            else if (arraymessage[byteread] == 6)
+                            {
+                                this.vfi = "Runway sweeper";
+                            }
+                            else if (arraymessage[byteread] == 7)
+                            {
+                                this.vfi = "Emergency";
+                            }
+                            else if (arraymessage[byteread] == 8)
+                            {
+                                this.vfi = "Police";
+                            }
+                            else if (arraymessage[byteread] == 9)
+                            {
+                                this.vfi = "Bus";
+                            }
+                            else if (arraymessage[byteread] == 10)
+                            {
+                                this.vfi = "Tug (push/tow)";
+                            }
+                            else if (arraymessage[byteread] == 11)
+                            {
+                                this.vfi = "Grass cutter";
+                            }
+                            else if (arraymessage[byteread] == 12)
+                            {
+                                this.vfi = "Fuel";
+                            }
+                            else if (arraymessage[byteread] == 13)
+                            {
+                                this.vfi = "Baggage";
+                            }
+                            else if (arraymessage[byteread] == 14)
+                            {
+                                this.vfi = "Catering";
+                            }
+                            else if (arraymessage[byteread] == 15)
+                            {
+                                this.vfi = "Aircraft maintenance";
+                            }
+                            else
+                            {
+                                this.vfi = "Flyco (follow me)";
+                            }
+                            byteread++;
                             break;
                         case 18:
                             // 17 I010/090 Flight Level in Binary Representation
-
                             octet = getOctet(arraymessage[byteread]);
                             this.v = octet[0] ? "Code not validated" : "Code validated";
                             this.g = octet[1] ? "Garbled code" : "Default";
@@ -673,6 +796,21 @@ namespace ClassLibrary
 
                         case 19:
                             // I010/091
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            if (bytestogether1[0] == true)
+                            {
+                                bytestogether1 = complement2(bytestogether1);
+                            }
+                            height = 0;
+                            for ( j = 1; j < bytestogether1.Length; j++)
+                            {
+                                height = height + Math.Pow(2, 14 - j); 
+                            }
+                            height = height * 6.25;
+                            byteread = byteread + 2;
                             break;
                         case 20:
                             // I010/270
@@ -767,9 +905,59 @@ namespace ClassLibrary
                             break;
                         case 22:
                             // I010/310
+                            for (j = 0; j < 8; j++)
+                            {
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
+                            }
+                            if (eightbits[0] == 1)
+                            {
+                                pre_programmed_message[0] = "Default";
+                            }
+                            else
+                            {
+                                pre_programmed_message[0] = "In Trouble";
+                            }
+                            if (eightbits[5] == 0 && eightbits[6] == 0 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Towing aircraft";
+                            }
+                            else if (eightbits[5] == 0 && eightbits[6] == 1 && eightbits[7] == 0)
+                            {
+                                pre_programmed_message[1] = "“Follow me” operation";
+                            }
+                            else if (eightbits[5] == 0 && eightbits[6] == 1 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Runway check";
+                            }
+                            else if (eightbits[5] == 1 && eightbits[6] == 0 && eightbits[7] == 0)
+                            {
+                                pre_programmed_message[1] = "Emergency operation (fire, medical…)";
+                            }
+                            else if (eightbits[5] == 1 && eightbits[6] == 0 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Work in progress (maintenance, birds scarer,sweepers…)";
+                            }
+                            byteread++;
                             break;
                         case 24:
                             // I010/500
+                            x_standard_deviation = arraymessage[byteread] * 0.25;
+                            y_standard_deviation = arraymessage[byteread + 1] * 0.25;
+                            covariance = 0;
+                            twobytes[1] = arraymessage[byteread + 2];
+                            twobytes[0] = arraymessage[byteread + 4];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            bytestogether1 = complement2(bytestogether1);
+                            for (int r = 0; r < bytestogether1.Length; r++)
+                            {
+                                if (bytestogether1[r] == true)
+                                {
+                                    covariance = covariance + Math.Pow(2, 15 - r);
+                                }
+                            }
+                            covariance = covariance * 0.25;
+                            byteread = byteread + 4;
                             break;
                         case 25:
                             // I010/280
@@ -792,7 +980,7 @@ namespace ClassLibrary
                                 }
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < simplebyte.Length; k++)
+                                    for ( k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
                                             Ax = Ax + Math.Pow(2,k);
@@ -809,7 +997,7 @@ namespace ClassLibrary
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < simplebyte.Length; k++)
+                                    for (k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
                                             Ay = Ay + Math.Pow(2,k);
@@ -847,6 +1035,24 @@ namespace ClassLibrary
             octetBits.CopyTo(octetArray, 0);
             Array.Reverse(octetArray);
             return octetArray;
+        }
+
+        public string GetNumber3Bits(BitArray bytes)
+        {
+            double total = 0;
+            if (bytes[0] == true)
+            {
+                total = total + Math.Pow(2, 2);
+            }
+            if(bytes[1] == true)
+            {
+                total = total + Math.Pow(2, 1);
+            }
+            if (bytes[2] == true)
+            {
+                total = total + Math.Pow(2, 0);
+            }
+            return total.ToString();
         }
 
         int getInt32FromBytes(byte first, byte second, byte third, byte fourth)
