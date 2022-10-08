@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,8 +25,8 @@ namespace ClassLibrary
         string typ;
         string drc; 
         string chn;
-        string gbs; 
-        string crt; 
+        string gbs;
+        string crt;
         string sim;
         string tst;
         string rab;
@@ -58,8 +59,27 @@ namespace ClassLibrary
         //11 I010/170 Track Status
         string[] trackstatus = new string[10];
 
+        //12
+        string[] mode3Acode = new string[3];
+        string code3A;
+
         //13 
         string targetaddress;
+
+        //14 I010/245 Target Identification
+        string sti;
+        string targetIdentification;
+
+        //17 (16 real) Vehicle fleet identification
+        string vfi;
+
+        //18 (17 real) I010/090 Flight Level in Binary Representation
+        string v;
+        string g;
+        int FL;
+
+        //19 (18 real)
+        double height;
 
         //20 (19 real) I010/270 Target Size and Orientation
         double length; // m
@@ -68,6 +88,17 @@ namespace ClassLibrary
 
         //21 (20 real)
         string[] systemstatus = new string[5];
+
+        //22 (21 real)
+        string[] pre_programmed_message = new string[2];
+
+        //24 (23 real)
+        double x_standard_deviation;
+        double y_standard_deviation;
+        double covariance;
+
+        //26 (24 real) I010/131 Amplitude of primary plot
+        byte amplitudeOfPrimaryPlot;
 
         //27 (25 real) I010/210 Calculated Acceleration
         double Ax; // m/s^2
@@ -81,10 +112,11 @@ namespace ClassLibrary
         byte[] threebytes = new byte[3];
         byte[] fourbytes = new byte[4];
         byte[] eightbits = new byte[8];
+        bool[] octet;
         public CAT10(byte[] arraymessage)
         {
-            int byteread = 3;
             int j = 0;
+            int byteread = 3;
             this.flightinformation = arraymessage;
             for (int i = 0; i < 8; i++)
             {
@@ -92,6 +124,7 @@ namespace ClassLibrary
                 UAP[j] = byteobtained;
                 j++;
             }
+            
             while (UAP[j-1] == 1)
             {
                 byteread++;
@@ -102,6 +135,7 @@ namespace ClassLibrary
                     j++;
                 }
             }
+            byteread++;
 
             for (int i = 0; i < UAP.Length; i++)
             {
@@ -111,13 +145,14 @@ namespace ClassLibrary
                     {
                         case 0: 
                             // 1 I010/010
-                            sac = arraymessage[byteread + 1];
-                            sic = arraymessage[byteread + 2];
+                            sac = arraymessage[byteread];
+                            sic = arraymessage[byteread + 1];
+                            byteread = byteread + 2;
                             break;
 
                         case 1:
                             // 2 I010/000
-                            byte num = arraymessage[byteread + 3];
+                            byte num = arraymessage[byteread];
                             if (num == 1)
                             {
                                 messageType = "Target Report";
@@ -138,6 +173,8 @@ namespace ClassLibrary
                             {
                                 messageType = "Error";
                             }
+
+                            byteread = byteread + 1;
                             break;
 
                         case 2:
@@ -147,7 +184,7 @@ namespace ClassLibrary
 
                             while (fx)
                             {
-                                bool[] octetArray = getOctet(arraymessage[byteread + 4]);                                
+                                bool[] octetArray = getOctet(arraymessage[byteread]);                                
 
                                 switch (cont)
                                 {
@@ -245,6 +282,7 @@ namespace ClassLibrary
                                         fx = octetArray[7];
                                         break;
                                 }
+                                byteread = byteread + 1;
                                 cont++;
                             }
 
@@ -252,7 +290,8 @@ namespace ClassLibrary
 
                         case 3:
                             // 4 I010/140 Time of the Day
-                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread + 5], arraymessage[byteread + 6], arraymessage[byteread + 7]) / (double)128; // segons
+                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / (double)128; // segons
+                            byteread = byteread + 3;
                             break;
 
                         case 4:
@@ -261,15 +300,16 @@ namespace ClassLibrary
 
                         case 5:
                             // 6 I010/040 Measured Position in Polar Co-ordinates                            
-                            rho = getInt32FromBytes(0, 0, arraymessage[byteread + 8], arraymessage[byteread + 9]);
-                            theta = getInt32FromBytes(0, 0, arraymessage[byteread + 10], arraymessage[byteread + 11]) * 0.0055;
+                            rho = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
+                            theta = getInt32FromBytes(0, 0, arraymessage[byteread + 2], arraymessage[byteread + 3]) * 0.0055;
+                            byteread = byteread + 4;
                             break;
 
                         case 6:
                             // 7 I010//042 Position in Cartesian Co-ordinates
-                            bool[] octet = getOctet(arraymessage[byteread + 12]);
+                            octet = getOctet(arraymessage[byteread]);
                             bool x2Complement = octet[0];
-                            octet = getOctet(arraymessage[byteread + 14]);
+                            octet = getOctet(arraymessage[byteread + 2]);
                             bool y2complement = octet[0];
 
                             byte[] x1Array = new byte[1];
@@ -280,10 +320,10 @@ namespace ClassLibrary
 
                             if (x2Complement)
                             {
-                                onebyte[0] = arraymessage[byteread+12];
+                                onebyte[0] = arraymessage[byteread];
                                 BitArray xbits1 = new BitArray(onebyte);
                                 BitArray xbits1Complement = complement2(xbits1);
-                                onebyte[0] = arraymessage[byteread+13];
+                                onebyte[0] = arraymessage[byteread+1];
                                 BitArray xbits2 = new BitArray(onebyte);
                                 BitArray xbits2Complement = complement2(xbits2);
                                 
@@ -295,16 +335,16 @@ namespace ClassLibrary
                             }
                             else
                             {
-                                x1Array[0] = arraymessage[byteread+12];
-                                x2Array[0] = arraymessage[byteread+13];
+                                x1Array[0] = arraymessage[byteread];
+                                x2Array[0] = arraymessage[byteread+1];
                                 x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);                                
                             }
                             if (y2complement)
                             {
-                                onebyte[0] = arraymessage[byteread+14];
+                                onebyte[0] = arraymessage[byteread+2];
                                 BitArray ybits1 = new BitArray(onebyte);
                                 BitArray ybits1Complement = complement2(ybits1);
-                                onebyte[0] = arraymessage[byteread+15];
+                                onebyte[0] = arraymessage[byteread+3];
                                 BitArray ybits2 = new BitArray(onebyte);
                                 BitArray ybits2Complement = complement2(ybits2);
                                 
@@ -315,11 +355,11 @@ namespace ClassLibrary
                             }
                             else
                             {
-                                y1Array[0] = arraymessage[byteread+14];
-                                y2Array[0] = arraymessage[byteread+15];
+                                y1Array[0] = arraymessage[byteread+2];
+                                y2Array[0] = arraymessage[byteread+3];
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
-                            }                            
-
+                            }
+                            byteread = byteread + 4;
                             break;
 
                         case 8:
@@ -331,20 +371,20 @@ namespace ClassLibrary
                                 bytestogether1 = new BitArray(twobytes);
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[p] == true) { 
+                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,p);
                                         }
                                     }
                                     groundspeed_polar_coordinates = groundspeed_polar_coordinates * 0.22;
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[p] == true) { 
+                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2,p);
                                         }
                                     }
                                     trackangle_polar_coordinates = trackangle_polar_coordinates * (360/Math.Pow(2,16));
@@ -369,10 +409,10 @@ namespace ClassLibrary
                                 }
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int s = 0; s < bytestogether1.Length; s++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[s] == true) { 
+                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,s);
                                         }
                                     }
                                     if (complement2done == true)
@@ -386,10 +426,10 @@ namespace ClassLibrary
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < bytestogether1.Length; k++)
+                                    for (int q = 0; q < bytestogether1.Length; q++)
                                     {
-                                        if (bytestogether1[k] == true) { 
-                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,k);
+                                        if (bytestogether1[q] == true) { 
+                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,q);
                                         }
                                     }
                                     if (complement2done == true)
@@ -409,11 +449,11 @@ namespace ClassLibrary
                             twobytes[1] = arraymessage[byteread];
                             twobytes[0] = arraymessage[byteread + 1];
                             bytestogether1 = new BitArray(twobytes);
-                            for (int k = 0; k < bytestogether1.Length; k++)
+                            for (int t = 0; t < bytestogether1.Length; t++)
                             {
-                                if (bytestogether1[k] == true) 
+                                if (bytestogether1[t] == true) 
                                 { 
-                                    tracknumber = tracknumber + Math.Pow(2,k);
+                                    tracknumber = tracknumber + Math.Pow(2,t);
                                 }
                             }
                             byteread = byteread + 2;
@@ -566,6 +606,48 @@ namespace ClassLibrary
 
                         case 12:
                             // I010/060
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            code3A = "";
+                            string letter3Acode = "";
+                            if (bytestogether1[0] == false)
+                            {
+                                mode3Acode[0] = "Code Validated";
+                            }
+                            else
+                            {
+                                mode3Acode[0] = "Code not validated";
+                            }
+                            if (bytestogether1[1] == false)
+                            {
+                                mode3Acode[1] = "Default";
+                            }
+                            else
+                            {
+                                mode3Acode[1] = "Garbled Mode";
+                            }
+                            if (bytestogether1[2] == false)
+                            {
+                                mode3Acode[2] = "Mode-3/A code derived from the reply of the transponder";
+                            }
+                            else
+                            {
+                                mode3Acode[2] = "Mode-3/A code not extracted during the last scan";
+                            }
+                            int k = 4;
+                            BitArray threebytesarray = new BitArray(3);
+                            while (k < bytestogether1.Length)
+                            {
+                                threebytesarray[0] = bytestogether1[k];
+                                threebytesarray[1] = bytestogether1[k + 1];
+                                threebytesarray[2] = bytestogether1[k + 2];
+                                letter3Acode = GetNumber3Bits(threebytesarray);
+                                code3A = code3A + letter3Acode;
+                                k = k + 3;
+                            }
+                            byteread = byteread + 2;
                             break;
                         case 13:
                             // I010/220
@@ -597,21 +679,305 @@ namespace ClassLibrary
                                 positionfourbits = 0;
                                 fourbits[0] = 0;
                             }
+                            byteread = byteread + 3;
                             break;
                         case 14:
-                            // I010/245
+                            // I010/245 Target Identification
+                            octet = getOctet(arraymessage[byteread]);
+
+                            if (octet[0] == false && octet[1] == false)
+                            {
+                                sti = "Callsign or registration downlinked from transponder";
+                            }
+                            else if(octet[0] == false && octet[1] == true)
+                            {
+                                sti = "Callsign not downlinked from transponder";
+                            }
+                            else if( octet[0] == true && octet[1] == false)
+                            {
+                                sti = "Registration not downlinked from transponder";
+                            }
+
+                            bool[] totalCharactersBits = new bool[48];
+                            getOctet(arraymessage[byteread + 1]).CopyTo(totalCharactersBits, 0);
+                            getOctet(arraymessage[byteread + 2]).CopyTo(totalCharactersBits, 8);
+                            getOctet(arraymessage[byteread + 3]).CopyTo(totalCharactersBits, 16);
+                            getOctet(arraymessage[byteread + 4]).CopyTo(totalCharactersBits, 24);
+                            getOctet(arraymessage[byteread + 5]).CopyTo(totalCharactersBits, 32);
+                            getOctet(arraymessage[byteread + 6]).CopyTo(totalCharactersBits, 40);
+
+                            targetIdentification = "";                           
+
+                            int numchar = 0;
+                            while (numchar < 48)
+                            {
+                                bool[] char1 = new bool[6];
+                                Array.Copy(totalCharactersBits, numchar, char1, 0, 6);
+                                string character = "";
+
+                                if (char1.SequenceEqual(new bool[] { false, false, false, false, false, true }))
+                                {
+                                    character = "A";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, false, true, false }))
+                                {
+                                    character = "B";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, false, true, true }))
+                                {
+                                    character = "C";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, false, false }))
+                                {
+                                    character = "D";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, false, true }))
+                                {
+                                    character = "E";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, true, false }))
+                                {
+                                    character = "F";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, true, true }))
+                                {
+                                    character = "G";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, false, false }))
+                                {
+                                    character = "H";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, false, true }))
+                                {
+                                    character = "I";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, true, false }))
+                                {
+                                    character = "J";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, true, true }))
+                                {
+                                    character = "K";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, false, false }))
+                                {
+                                    character = "L";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, false, true }))
+                                {
+                                    character = "M";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, true, false }))
+                                {
+                                    character = "N";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, true, true }))
+                                {
+                                    character = "O";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, false }))
+                                {
+                                    character = "P";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, true}))
+                                {
+                                    character = "Q";
+                                }
+                                else if (char1.SequenceEqual(new bool[] {false, true, false, false, true, false}))
+                                {
+                                    character = "R";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, true, true }))
+                                {
+                                    character = "S";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, false, false }))
+                                {
+                                    character = "T";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, false, true }))
+                                {
+                                    character = "U";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, true, false }))
+                                {
+                                    character = "V";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, true, true }))
+                                {
+                                    character = "W";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, true, false, false, false }))
+                                {
+                                    character = "X";
+                                }
+                                else if (char1.SequenceEqual(new bool[]{ false, true, true, false, false, true }))
+                                {
+                                    character = "Y";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, true, false, true, false }))
+                                {
+                                    character = "Z";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, false, false, false, false, false }))
+                                {
+                                    character = " ";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, false, false }))
+                                {
+                                    character = "0";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, false, true }))
+                                {
+                                    character = "1";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, true, false }))
+                                {
+                                    character = "2";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, true, true }))
+                                {
+                                    character = "3";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, false, false }))
+                                {
+                                    character = "4";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, false, true }))
+                                {
+                                    character = "5";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, true, false }))
+                                {
+                                    character = "6";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, true, true }))
+                                {
+                                    character = "7";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, true, false, false, false }))
+                                {
+                                    character = "8";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, true, false, false, true }))
+                                {
+                                    character = "9";
+                                }
+
+                                targetIdentification = targetIdentification + character;
+
+                                numchar = numchar + 6;
+                            }
+
+                            byteread = byteread + 7;
                             break;
                         case 16:
                             // I010/250
                             break;
                         case 17:
                             // I010/300
+                            if (arraymessage[byteread] == 0)
+                            {
+                                this.vfi = "Unknown";
+                            }
+                            else if (arraymessage[byteread] == 1)
+                            {
+                                this.vfi = "ATC equipment maintenance";
+                            }
+                            else if (arraymessage[byteread] == 2)
+                            {
+                                this.vfi = "Airport maintenance";
+                            }
+                            else if (arraymessage[byteread] == 3)
+                            {
+                                this.vfi = "Fire";
+                            }
+                            else if (arraymessage[byteread] == 4)
+                            {
+                                this.vfi = "Bird scarer";
+                            }
+                            else if (arraymessage[byteread] == 5)
+                            {
+                                this.vfi = "Snow plough";
+                            }
+                            else if (arraymessage[byteread] == 6)
+                            {
+                                this.vfi = "Runway sweeper";
+                            }
+                            else if (arraymessage[byteread] == 7)
+                            {
+                                this.vfi = "Emergency";
+                            }
+                            else if (arraymessage[byteread] == 8)
+                            {
+                                this.vfi = "Police";
+                            }
+                            else if (arraymessage[byteread] == 9)
+                            {
+                                this.vfi = "Bus";
+                            }
+                            else if (arraymessage[byteread] == 10)
+                            {
+                                this.vfi = "Tug (push/tow)";
+                            }
+                            else if (arraymessage[byteread] == 11)
+                            {
+                                this.vfi = "Grass cutter";
+                            }
+                            else if (arraymessage[byteread] == 12)
+                            {
+                                this.vfi = "Fuel";
+                            }
+                            else if (arraymessage[byteread] == 13)
+                            {
+                                this.vfi = "Baggage";
+                            }
+                            else if (arraymessage[byteread] == 14)
+                            {
+                                this.vfi = "Catering";
+                            }
+                            else if (arraymessage[byteread] == 15)
+                            {
+                                this.vfi = "Aircraft maintenance";
+                            }
+                            else
+                            {
+                                this.vfi = "Flyco (follow me)";
+                            }
+                            byteread++;
                             break;
                         case 18:
-                            // I010/090
+                            // 17 I010/090 Flight Level in Binary Representation
+                            octet = getOctet(arraymessage[byteread]);
+                            this.v = octet[0] ? "Code not validated" : "Code validated";
+                            this.g = octet[1] ? "Garbled code" : "Default";
+
+                            BitArray flbits = new BitArray(new bool[] { octet[7], octet[6], octet[5], octet[4], octet[3], octet[2], false, false });
+                            byte[] fl1 = new byte[1];
+                            flbits.CopyTo(fl1, 0);
+
+                            this.FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1])/4;
+
+                            byteread = byteread + 2;
                             break;
+
                         case 19:
                             // I010/091
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            if (bytestogether1[0] == true)
+                            {
+                                bytestogether1 = complement2(bytestogether1);
+                            }
+                            height = 0;
+                            for ( j = 1; j < bytestogether1.Length; j++)
+                            {
+                                height = height + Math.Pow(2, 14 - j); 
+                            }
+                            height = height * 6.25;
+                            byteread = byteread + 2;
                             break;
                         case 20:
                             // I010/270
@@ -706,15 +1072,68 @@ namespace ClassLibrary
                             break;
                         case 22:
                             // I010/310
+                            for (j = 0; j < 8; j++)
+                            {
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
+                            }
+                            if (eightbits[0] == 1)
+                            {
+                                pre_programmed_message[0] = "Default";
+                            }
+                            else
+                            {
+                                pre_programmed_message[0] = "In Trouble";
+                            }
+                            if (eightbits[5] == 0 && eightbits[6] == 0 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Towing aircraft";
+                            }
+                            else if (eightbits[5] == 0 && eightbits[6] == 1 && eightbits[7] == 0)
+                            {
+                                pre_programmed_message[1] = "“Follow me” operation";
+                            }
+                            else if (eightbits[5] == 0 && eightbits[6] == 1 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Runway check";
+                            }
+                            else if (eightbits[5] == 1 && eightbits[6] == 0 && eightbits[7] == 0)
+                            {
+                                pre_programmed_message[1] = "Emergency operation (fire, medical…)";
+                            }
+                            else if (eightbits[5] == 1 && eightbits[6] == 0 && eightbits[7] == 1)
+                            {
+                                pre_programmed_message[1] = "Work in progress (maintenance, birds scarer,sweepers…)";
+                            }
+                            byteread++;
                             break;
                         case 24:
                             // I010/500
+                            x_standard_deviation = arraymessage[byteread] * 0.25;
+                            y_standard_deviation = arraymessage[byteread + 1] * 0.25;
+                            covariance = 0;
+                            twobytes[1] = arraymessage[byteread + 2];
+                            twobytes[0] = arraymessage[byteread + 4];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            bytestogether1 = complement2(bytestogether1);
+                            for (int r = 0; r < bytestogether1.Length; r++)
+                            {
+                                if (bytestogether1[r] == true)
+                                {
+                                    covariance = covariance + Math.Pow(2, 15 - r);
+                                }
+                            }
+                            covariance = covariance * 0.25;
+                            byteread = byteread + 4;
                             break;
                         case 25:
                             // I010/280
+                            byteread = byteread + 2;
                             break;
                         case 26:
                             // I010/131
+                            amplitudeOfPrimaryPlot = arraymessage[byteread];
+                            byteread = byteread + 1;
                             break;
                         case 27:
                             // I010/210
@@ -731,7 +1150,7 @@ namespace ClassLibrary
                                 }
                                 if (j == 0)
                                 {
-                                    for (int k = 0; k < simplebyte.Length; k++)
+                                    for ( k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
                                             Ax = Ax + Math.Pow(2,k);
@@ -748,7 +1167,7 @@ namespace ClassLibrary
                                 }
                                 else
                                 {
-                                    for (int k = 0; k < simplebyte.Length; k++)
+                                    for (k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
                                             Ay = Ay + Math.Pow(2,k);
@@ -786,6 +1205,24 @@ namespace ClassLibrary
             octetBits.CopyTo(octetArray, 0);
             Array.Reverse(octetArray);
             return octetArray;
+        }
+
+        public string GetNumber3Bits(BitArray bytes)
+        {
+            double total = 0;
+            if (bytes[0] == true)
+            {
+                total = total + Math.Pow(2, 2);
+            }
+            if(bytes[1] == true)
+            {
+                total = total + Math.Pow(2, 1);
+            }
+            if (bytes[2] == true)
+            {
+                total = total + Math.Pow(2, 0);
+            }
+            return total.ToString();
         }
 
         int getInt32FromBytes(byte first, byte second, byte third, byte fourth)
