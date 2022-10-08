@@ -68,6 +68,7 @@ namespace ClassLibrary
 
         //14 I010/245 Target Identification
         string sti;
+        string targetIdentification;
 
         //17 (16 real) Vehicle fleet identification
         string vfi;
@@ -701,6 +702,169 @@ namespace ClassLibrary
                             getOctet(arraymessage[byteread + 4]).CopyTo(totalCharactersBits, 24);
                             getOctet(arraymessage[byteread + 5]).CopyTo(totalCharactersBits, 32);
                             getOctet(arraymessage[byteread + 6]).CopyTo(totalCharactersBits, 40);
+
+                            targetIdentification = "";                           
+
+                            int numchar = 0;
+                            while (numchar < 48)
+                            {
+                                bool[] char1 = new bool[6];
+                                Array.Copy(totalCharactersBits, numchar, char1, 0, 6);
+                                string character = "";
+
+                                if (char1.SequenceEqual(new bool[] { false, false, false, false, false, true }))
+                                {
+                                    character = "A";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, false, true, false }))
+                                {
+                                    character = "B";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, false, true, true }))
+                                {
+                                    character = "C";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, false, false }))
+                                {
+                                    character = "D";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, false, true }))
+                                {
+                                    character = "E";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, true, false }))
+                                {
+                                    character = "F";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, false, true, true, true }))
+                                {
+                                    character = "G";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, false, false }))
+                                {
+                                    character = "H";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, false, true }))
+                                {
+                                    character = "I";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, true, false }))
+                                {
+                                    character = "J";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, false, true, true }))
+                                {
+                                    character = "K";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, false, false }))
+                                {
+                                    character = "L";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, false, true }))
+                                {
+                                    character = "M";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, true, false }))
+                                {
+                                    character = "N";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, false, true, true, true, true }))
+                                {
+                                    character = "O";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, false }))
+                                {
+                                    character = "P";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, true}))
+                                {
+                                    character = "Q";
+                                }
+                                else if (char1.SequenceEqual(new bool[] {false, true, false, false, true, false}))
+                                {
+                                    character = "R";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, true, true }))
+                                {
+                                    character = "S";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, false, false }))
+                                {
+                                    character = "T";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, false, true }))
+                                {
+                                    character = "U";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, true, false }))
+                                {
+                                    character = "V";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, true, true, true }))
+                                {
+                                    character = "W";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, true, false, false, false }))
+                                {
+                                    character = "X";
+                                }
+                                else if (char1.SequenceEqual(new bool[]{ false, true, true, false, false, true }))
+                                {
+                                    character = "Y";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { false, true, true, false, true, false }))
+                                {
+                                    character = "Z";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, false, false, false, false, false }))
+                                {
+                                    character = " ";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, false, false }))
+                                {
+                                    character = "0";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, false, true }))
+                                {
+                                    character = "1";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, true, false }))
+                                {
+                                    character = "2";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, false, true, true }))
+                                {
+                                    character = "3";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, false, false }))
+                                {
+                                    character = "4";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, false, true }))
+                                {
+                                    character = "5";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, true, false }))
+                                {
+                                    character = "6";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, false, true, true, true }))
+                                {
+                                    character = "7";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, true, false, false, false }))
+                                {
+                                    character = "8";
+                                }
+                                else if (char1.SequenceEqual(new bool[] { true, true, true, false, false, true }))
+                                {
+                                    character = "9";
+                                }
+
+                                targetIdentification = targetIdentification + character;
+
+                                numchar = numchar + 6;
+                            }
 
                             byteread = byteread + 7;
                             break;
