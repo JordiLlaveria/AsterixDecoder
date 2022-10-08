@@ -97,6 +97,9 @@ namespace ClassLibrary
         double y_standard_deviation;
         double covariance;
 
+        //26 (24 real) I010/131 Amplitude of primary plot
+        byte amplitudeOfPrimaryPlot;
+
         //27 (25 real) I010/210 Calculated Acceleration
         double Ax; // m/s^2
         double Ay; // m/s^2
@@ -1125,9 +1128,12 @@ namespace ClassLibrary
                             break;
                         case 25:
                             // I010/280
+                            byteread = byteread + 2;
                             break;
                         case 26:
                             // I010/131
+                            amplitudeOfPrimaryPlot = arraymessage[byteread];
+                            byteread = byteread + 1;
                             break;
                         case 27:
                             // I010/210
