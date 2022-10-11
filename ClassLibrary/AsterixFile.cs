@@ -36,8 +36,8 @@ namespace ClassLibrary
                 }
                 else
                 {
-                    //CAT21 cat21 = new CAT21(arraymessage);
-                    //CAT21list.Add(cat21);
+                    CAT21 cat21 = new CAT21(arraymessage);
+                    CAT21list.Add(cat21);
                 }
             }
             Console.WriteLine("Hola");
