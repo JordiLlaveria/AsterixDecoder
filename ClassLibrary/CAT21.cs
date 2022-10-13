@@ -60,10 +60,34 @@ namespace ClassLibrary
         double trueAirspeed;
 
         // 11 Target Address
-        int targetAddress;
+        string targetAddress;
 
         // 12 Time of Message Reception for Position
-        int timeMessageReceptionPosition;
+        double tomrp;
+
+        // 13 Time of Message Reception of Position-High Precision
+        double tomrphp;
+
+        // 14 Time of Message Reception for Velocity
+        double tomrv;
+
+        // 15 Time of Message Reception of Velocity-High Precision
+        double tomrvhp;
+
+        // 17 Geometric Height
+        double geometricHeight;
+        bool greaterThanGeometricHeight;
+
+        // 18 Quality Indicators
+        double nucr;
+        double nucp;
+        double nicbaro;
+        double sil;
+        double nacp;
+        string silSupplement;
+        double sda;
+        double gva;
+        double pic;
 
         public CAT21(byte[] arraymessage)
         {
@@ -399,32 +423,163 @@ namespace ClassLibrary
 
                         case 11: 
                             // I021/080
-                            targetAddress = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread+1], arraymessage[byteread+3]);
+                            threebytes[2] = arraymessage[byteread];
+                            threebytes[1] = arraymessage[byteread + 1];
+                            threebytes[0] = arraymessage[byteread + 2];
+                            bytestogether1 = new BitArray(threebytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            int position = 0;
+                            int positionfourbits = 0;
+                            string stringbits;
+                            byte[] fourbits = new byte[1];
+                            fourbits[0] = 0;
+                            while (position < bytestogether1.Length)
+                            {
+                                while (positionfourbits < 4)
+                                {
+                                    if (bytestogether1[position] == true)
+                                    {
+                                        fourbits[0] = (byte)(fourbits[0] + Math.Pow(2, 3 - positionfourbits));
+                                    }
+                                    positionfourbits++;
+                                    position++;
+                                }
+                                string decimalNumber = fourbits[0].ToString();
+                                int number = int.Parse(decimalNumber);
+                                stringbits = number.ToString("x");
+                                targetAddress = targetAddress + stringbits;
+                                positionfourbits = 0;
+                                fourbits[0] = 0;
+                            }
                             byteread = byteread + 3;
                         break;
 
                         case 12:
                             // I021/073
+                            tomrp = getInt32FromBytes(0,arraymessage[byteread],arraymessage[byteread+1],arraymessage[byteread+2]) * Math.Pow(2,-7);
+                            byteread = byteread + 3;
                         break;
 
                         case 13:
                             // I021/074
+                            fourbytes[3] = arraymessage[byteread];
+                            fourbytes[2] = arraymessage[byteread+1];
+                            fourbytes[1] = arraymessage[byteread+2];
+                            fourbytes[0] = arraymessage[byteread+3];
+                            bytestogether1 = new BitArray(fourbytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            tomrphp = 0;
+                            if (bytestogether1[0] == true && bytestogether1[1] == false)
+                                tomrp = tomrp - 1;
+                            else if (bytestogether1[0] == true && bytestogether1[1] == false)
+                                tomrp = tomrp + 1;
+                            for (int q = 2; q < bytestogether1.Length; q++)
+                            {
+                                if (bytestogether1[q] == true)
+                                    tomrphp = tomrphp + Math.Pow(2,bytestogether1.Length - 3 - q);
+                            }
+                            tomrphp = tomrphp * Math.Pow(2,-30);
+                            byteread = byteread + 4;
                         break;
 
                         case 14:
                             // I021/075
+                            tomrv = getInt32FromBytes(0,arraymessage[byteread],arraymessage[byteread+1],arraymessage[byteread+2]) * Math.Pow(2,-7);
+                            byteread = byteread + 3;
                         break;
                         
                         case 16:
                             // I021/076
+                            fourbytes[3] = arraymessage[byteread];
+                            fourbytes[2] = arraymessage[byteread+1];
+                            fourbytes[1] = arraymessage[byteread+2];
+                            fourbytes[0] = arraymessage[byteread+3];
+                            bytestogether1 = new BitArray(fourbytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            tomrvhp = 0;
+                            if (bytestogether1[0] == true && bytestogether1[1] == false)
+                                tomrv = tomrv - 1;
+                            else if (bytestogether1[0] == true && bytestogether1[1] == false)
+                                tomrv = tomrv + 1;
+                            for (int q = 2; q < bytestogether1.Length; q++)
+                            {
+                                if (bytestogether1[q] == true)
+                                    tomrvhp = tomrvhp + Math.Pow(2,bytestogether1.Length - 3 - q);
+                            }
+                            tomrvhp = tomrvhp * Math.Pow(2,-30);
+                            byteread = byteread + 4;
                         break;
 
                         case 17:
                             // I021/140
+                            eightbits[0] = getBit(arraymessage[byteread+1],7);
+                            if (eightbits[0] == 1) 
+                            { 
+                                twobytes[1] = arraymessage[byteread];
+                                twobytes[0] = arraymessage[byteread+1];
+                                bytestogether1 = new BitArray(twobytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                bytestogether1 = complement2(bytestogether1);
+                                geometricHeight = 0;
+                                for (int w = 0; w < bytestogether1.Length; w++)
+                                {
+                                    if (bytestogether1[w] == true)
+                                        geometricHeight = geometricHeight + Math.Pow(2,bytestogether1.Length - 1 - w);
+                                }
+                                geometricHeight = geometricHeight * -6.25;
+                            }
+                            else
+                                geometricHeight = getInt32FromBytes(0,0,arraymessage[byteread],arraymessage[byteread+1]) * 6.25;
+                            if (geometricHeight == 204800)
+                                greaterThanGeometricHeight = true;
+                            else
+                                greaterThanGeometricHeight = false;
+                            byteread = byteread + 2;
                         break;
 
                         case 18:
                             // I021/090
+                            for(j = 0; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                            }
+                            nucr = eightbits[0] * Math.Pow(2,2) + eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                            nucr = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                            byteread++;
+                            if (eightbits[7] == 1)
+                            {
+                                for(j = 0; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                }
+                                nicbaro = eightbits[0];
+                                sil = eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                                nacp = eightbits[3] * Math.Pow(2,2) + eightbits[4] * Math.Pow(2,1) + eightbits[5] * Math.Pow(2,0);
+                                byteread++;
+                                if (eightbits[7] == 1)
+                                {
+                                    for(j = 0; j < 8; j++) 
+                                    {
+                                        eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    }
+                                    if (eightbits[2] == 1)
+                                        silSupplement = "Measured per Flight-hour";
+                                    else
+                                        silSupplement = "Measured per sample";
+                                    sda = eightbits[3] * Math.Pow(2,1) + eightbits[4] * Math.Pow(2,0);
+                                    gva = eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                                    byteread++;
+                                    if (eightbits[7] == 1)
+                                    {
+                                        for(j = 0; j < 8; j++) 
+                                        {
+                                            eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                        }
+                                        pic = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                        byteread++;
+                                    }
+                            }
+                            }
                         break;
                         
                         case 19:
