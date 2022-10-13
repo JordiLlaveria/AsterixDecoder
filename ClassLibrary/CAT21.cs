@@ -29,14 +29,41 @@ namespace ClassLibrary
         byte sic;
 
         // 1 Target Report Descriptor
-        string[] targetreportdescriptor = new string[17];
+        string[] targetReportDescriptor = new string[17];
 
         // 2 Track Number
         int trackNumber;
 
+        // 3 Service Identification
+        int serviceIdentification;
+
+        // 4 Time of Applicability for Position
+        double timeOfApplicabilityForPosition;
+
         // 5 Position in WGS-84 Co-ordinates
         int latitude;
         int longitude;
+
+        // 6 High-Resolution Position inf WGS-84 Co-cordinates
+        double highResLatitude;
+        double  highResLongitude;
+
+        // 8 Time of Applicability for Velocity
+        int timeOfApplicabilityVelocity;
+
+        // 9 Air Speed
+        string airSpeedUnits;
+        double airSpeed;
+
+        // 10 True Airspeed
+        string rangeTrueAirspeed;
+        double trueAirspeed;
+
+        // 11 Target Address
+        int targetAddress;
+
+        // 12 Time of Message Reception for Position
+        int timeMessageReceptionPosition;
 
         public CAT21(byte[] arraymessage)
         {
@@ -81,42 +108,129 @@ namespace ClassLibrary
                             {
                                 eightbits[7-j] = getBit(arraymessage[byteread], j);
                             }
+                            byteread++;
                             if (eightbits[0] == 0 && eightbits[1] == 0 && eightbits[2] == 0)
-                                targetreportdescriptor[0] = "24-Bit ICAO address";
+                                targetReportDescriptor[0] = "24-Bit ICAO address";
                             else if (eightbits[0] == 0 && eightbits[1] == 0 && eightbits[2] == 1)
-                                targetreportdescriptor[0] = "Duplicate address";
+                                targetReportDescriptor[0] = "Duplicate address";
                             else if (eightbits[0] == 0 && eightbits[1] == 1 && eightbits[2] == 0)
-                                targetreportdescriptor[0] = "Surface vehicle address";
+                                targetReportDescriptor[0] = "Surface vehicle address";
                             else if (eightbits[0] == 0 && eightbits[1] == 1 && eightbits[2] == 1)
-                                targetreportdescriptor[0] = "Anonymous address";
+                                targetReportDescriptor[0] = "Anonymous address";
                             else
-                                targetreportdescriptor[0] = "Reserved for future use";
+                                targetReportDescriptor[0] = "Reserved for future use";
                             if (eightbits[3] == 0 && eightbits[4] == 0)
-                                targetreportdescriptor[1] = "25 ft";
+                                targetReportDescriptor[1] = "25 ft";
                             else if (eightbits[3] == 0 && eightbits[4] == 1)
-                                targetreportdescriptor[1] = "100 ft";
+                                targetReportDescriptor[1] = "100 ft";
                             else if (eightbits[3] == 1 && eightbits[4] == 0)
-                                targetreportdescriptor[1] = "Unknown";
+                                targetReportDescriptor[1] = "Altitude Reporting Capability: Unknown";
                             else
-                                targetreportdescriptor[1] = "Invalid";
+                                targetReportDescriptor[1] = "Altitude Reporting Capability: Invalid";
+                            if (eightbits[5] == 0)
+                                targetReportDescriptor[2] = "Range Check: Default";
+                            else
+                                targetReportDescriptor[2] = "Range Check passed, CPR Validation pending";
+                            if (eightbits[6] == 0)
+                                targetReportDescriptor[3] = "Report from target transponder";
+                            else
+                                targetReportDescriptor[3] = "Report from field monitor (fixed transponder)";
+                            if (eightbits[7] == 1)
+                            {
+                                for(j = 0; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                }
+                                byteread++;
+                                if (eightbits[0] == 0)
+                                    targetReportDescriptor[4] = "No differential correction (ADS-B)";
+                                else
+                                    targetReportDescriptor[4] = "Differential correction (ADS-B)";
+                                if (eightbits[1] == 0)
+                                    targetReportDescriptor[5] = "Ground Bit not set";
+                                else
+                                    targetReportDescriptor[5] = "Ground Bit set";
+                                if (eightbits[2] == 0)
+                                    targetReportDescriptor[6] = "Actual target report";
+                                else
+                                    targetReportDescriptor[6] = "Simulated target report";
+                                if (eightbits[3] == 0)
+                                    targetReportDescriptor[7] = "Test Target: Default";
+                                else
+                                    targetReportDescriptor[7] = "Test Target";
+                                if (eightbits[4] == 0)
+                                    targetReportDescriptor[8] = "Equipment capable to provide Selected Altitude";
+                                else
+                                    targetReportDescriptor[8] = "Equipment not capable to provide Selected Altitude";
+                                if (eightbits[5] == 0 && eightbits[6] == 0)
+                                    targetReportDescriptor[9] = "Confidence Level: Report valid";
+                                else if (eightbits[5] == 0 && eightbits[6] == 1)
+                                    targetReportDescriptor[9] = "Confidence Level: Report suspect";
+                                else if (eightbits[5] == 1 && eightbits[6] == 0)
+                                    targetReportDescriptor[9] = "Confidence Level: No information";
+                                else
+                                    targetReportDescriptor[9] = "Confidence Level: Reserved for future use";
+                                if (eightbits[7] == 1)
+                                {
+                                    for(j = 0; j < 8; j++) 
+                                    {
+                                        eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    }
+                                    byteread++;
+                                    if (eightbits[2] == 0)
+                                        targetReportDescriptor[10] = "Independent Position check: Default";
+                                    else
+                                        targetReportDescriptor[10] = "Independent Position Check failed";
+                                    if (eightbits[3] == 0)
+                                        targetReportDescriptor[11] = "NOGO-bit not set";
+                                    else
+                                        targetReportDescriptor[11] = "NOGO-bit set";
+                                    if (eightbits[4] == 0)
+                                        targetReportDescriptor[12] = "CPR Validation correct";
+                                    else
+                                        targetReportDescriptor[12] = "CPR Validation failed";
+                                    if (eightbits[5] == 0)
+                                        targetReportDescriptor[13] = "LDPJ not detected";
+                                    else
+                                        targetReportDescriptor[13] = "LDPJ detected";
+                                    if (eightbits[6] == 0)
+                                        targetReportDescriptor[14] = "Range Check: Default";
+                                    else
+                                        targetReportDescriptor[14] = "Range Check failed";
+                                }
+                            }
                             
                         break;
 
                         case 2:
                             // I021/161 Track Number
-                            byteread = byteread + 3; //Treure
                             trackNumber = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
                             byteread = byteread + 2;
                         break;
 
                         case 3:
                             // I021/015
-                            byteread = byteread + 1;
+                            serviceIdentification = getInt32FromBytes(0,0,0,arraymessage[byteread]);
+                            byteread++;
                         break;
 
                         case 4: 
                             // I021/071
-
+                            threebytes[2] = arraymessage[byteread];
+                            threebytes[1] = arraymessage[byteread + 1];
+                            threebytes[0] = arraymessage[byteread + 2];
+                            bytestogether1 = new BitArray(threebytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            for(int k = 0; k < threebytes.Length; k++)
+                            {
+                                timeOfApplicabilityForPosition = 0;
+                                if (bytestogether1[k] == true)
+                                {
+                                    timeOfApplicabilityForPosition = timeOfApplicabilityForPosition + Math.Pow(2, threebytes.Length - k);
+                                }
+                            }
+                            timeOfApplicabilityForPosition = timeOfApplicabilityForPosition * Math.Pow(2,-7);
+                            byteread = byteread + 3;
                         break;
 
                         case 5:
@@ -179,28 +293,114 @@ namespace ClassLibrary
                                 y2Array[0] = arraymessage[byteread + 3];
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
                             }
-
-                            byteread = byteread + 8;
+                            byteread = byteread + 6;
                         break;
 
                         case 6: 
                             // I021/131
+                            fourbytes[3] = arraymessage[byteread];
+                            fourbytes[2] = arraymessage[byteread+1];
+                            fourbytes[1] = arraymessage[byteread+2];
+                            fourbytes[0] = arraymessage[byteread+3];
+                            byte complement2check = getBit(fourbytes[3], 7);
+                            highResLatitude = 0;
+                            if (complement2check == 1)
+                            {
+                                bytestogether1 = new BitArray(fourbytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                bytestogether1 = complement2(bytestogether1);
+                                for(int k = 0; k < bytestogether1.Length; k++)
+                                {
+                                    if (bytestogether1[k] == true)
+                                        highResLatitude = highResLatitude + Math.Pow(2,bytestogether1.Length - 1 - k);
+                                }
+                                highResLatitude =  highResLatitude * (180/(Math.Pow(2,30))) * -1;
+                            }
+                            else
+                            {
+                                highResLatitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180/(Math.Pow(2,30)));
+                            }
+                            fourbytes[3] = arraymessage[byteread+4];
+                            fourbytes[2] = arraymessage[byteread+5];
+                            fourbytes[1] = arraymessage[byteread+6];
+                            fourbytes[0] = arraymessage[byteread+7];
+                            complement2check = getBit(fourbytes[3], 7);
+                            highResLongitude = 0;
+                            if (complement2check == 1)
+                            {
+                                bytestogether1 = new BitArray(fourbytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                bytestogether1 = complement2(bytestogether1);
+                                for(int k = 0; k < bytestogether1.Length; k++)
+                                {
+                                    if (bytestogether1[k] == true)
+                                        highResLongitude = highResLongitude + Math.Pow(2,bytestogether1.Length - 1 - k);
+                                }
+                                highResLongitude = highResLongitude * (180/(Math.Pow(2,30))) * -1;
+                            }
+                            else
+                            {
+                                highResLongitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180/(Math.Pow(2,30)));
+                            }
+                            byteread = byteread + 8;
                         break;
 
                         case 8:
                             // I021/072
+                            timeOfApplicabilityVelocity = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread+1], arraymessage[byteread+2]);
+                            byteread = byteread + 3;
+                            
                         break;
 
                         case 9: 
                             // I021/150
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread+1];
+                            eightbits[0] = getBit(twobytes[1],7);
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            airSpeed = 0;
+                            for (int m = 1; m<bytestogether1.Length; m++)
+                            {
+                                airSpeed = airSpeed + Math.Pow(2,bytestogether1.Length - 2 - m);
+                            }
+                            if (bytestogether1[0] == true)
+                            { 
+                                airSpeedUnits = "Mach";
+                                airSpeed = airSpeed * 0.001;
+                            }
+                            else
+                            { 
+                                airSpeedUnits = "IAS";
+                                airSpeed = airSpeed * Math.Pow(2,-14);
+                            }
+                            byteread = byteread + 2;
                         break;
 
                         case 10:
                             // I021/151
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread+1];
+                            eightbits[0] = getBit(twobytes[1],7);
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            trueAirspeed = 0;
+                            for (int m = 1; m<bytestogether1.Length; m++)
+                            {
+                                trueAirspeed = trueAirspeed + Math.Pow(2,bytestogether1.Length - 2 - m);
+                            }
+                            if (bytestogether1[0] == true)
+                                rangeTrueAirspeed = "Value exceeds defined range";
+                            else
+                                rangeTrueAirspeed =  "Value in defined range";
+                            byteread = byteread + 2;
+;
                         break;
 
                         case 11: 
                             // I021/080
+                            targetAddress = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread+1], arraymessage[byteread+3]);
+                            byteread = byteread + 3;
                         break;
 
                         case 12:
@@ -341,6 +541,20 @@ namespace ClassLibrary
             return BitConverter.ToInt32(bytesArray, 0);
         }
 
+        public BitArray Reverse(BitArray array)
+        {
+            int length = array.Length;
+            int mid = (length / 2);
+
+            for (int i = 0; i < mid; i++)
+            {
+                bool bit = array[i];
+                array[i] = array[length - i - 1];
+                array[length - i - 1] = bit;
+            }
+            return array;
+        }
+
         public bool[] getOctet(byte Byte)
         {
             byte[] octet = new byte[1];
@@ -374,10 +588,10 @@ namespace ClassLibrary
                 }
             }
             bool mellevoununo = false;
-            int j = 0;
-            if (b[0] == true)
+            int j = b.Length-2;
+            if (b[b.Length-1] == true)
             {
-                b[0] = false;
+                b[b.Length-1] = false;
                 mellevoununo = true;
             }
             while (mellevoununo == true)
@@ -391,7 +605,7 @@ namespace ClassLibrary
                 {
                     b[j] = false;
                 }
-                j++;
+                j = j-1;
             }
             return b;
         }
