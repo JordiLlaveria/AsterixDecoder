@@ -31,6 +31,12 @@ namespace ClassLibrary
         // 1 Target Report Descriptor
         string[] targetreportdescriptor = new string[17];
 
+        // 2 Track Number
+        int trackNumber;
+
+        // 5 Position in WGS-84 Co-ordinates
+        int latitude;
+        int longitude;
 
         public CAT21(byte[] arraymessage)
         {
@@ -93,23 +99,88 @@ namespace ClassLibrary
                                 targetreportdescriptor[1] = "Unknown";
                             else
                                 targetreportdescriptor[1] = "Invalid";
-
+                            
                         break;
 
-                        case 2: 
-                            // I021/161
+                        case 2:
+                            // I021/161 Track Number
+                            byteread = byteread + 3; //Treure
+                            trackNumber = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
+                            byteread = byteread + 2;
                         break;
 
-                        case 3: 
+                        case 3:
                             // I021/015
+                            byteread = byteread + 1;
                         break;
 
                         case 4: 
                             // I021/071
+
                         break;
 
-                        case 5: 
+                        case 5:
                             // I021/130
+                            bool[] octetlat = getOctet(arraymessage[byteread]);
+                            bool[] octetlong = getOctet(arraymessage[byteread + 3]);
+
+                            bool latComp = octetlat[0];
+                            bool longComp = octetlong[0];
+
+                            byte[] lat1Array = new byte[1];
+                            byte[] lat2Array = new byte[1];
+                            byte[] lat3Array = new byte[1];
+
+                            byte[] long1Array = new byte[1];
+                            byte[] long2Array = new byte[1];
+                            byte[] long3Array = new byte[1];
+
+                            if (latComp)
+                            {
+                                onebyte[0] = arraymessage[byteread];
+                                BitArray latbits1 = new BitArray(onebyte);
+                                BitArray latbits1Complement = complement2(latbits1);
+                                onebyte[0] = arraymessage[byteread + 1];
+                                BitArray latbits2 = new BitArray(onebyte);
+                                BitArray latbits2Complement = complement2(latbits2);
+                                onebyte[0] = arraymessage[byteread + 2];
+                                BitArray latbits3 = new BitArray(onebyte);
+                                BitArray latbits3Complement = complement2(latbits3);
+
+                                latbits1Complement.CopyTo(lat1Array, 0);
+                                latbits2Complement.CopyTo(lat2Array, 0);
+
+                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
+                                x = x * (-1);
+                            }
+                            else
+                            {
+                                x1Array[0] = arraymessage[byteread];
+                                x2Array[0] = arraymessage[byteread + 1];
+                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
+                            }
+                            if (y2complement)
+                            {
+                                onebyte[0] = arraymessage[byteread + 2];
+                                BitArray ybits1 = new BitArray(onebyte);
+                                BitArray ybits1Complement = complement2(ybits1);
+                                onebyte[0] = arraymessage[byteread + 3];
+                                BitArray ybits2 = new BitArray(onebyte);
+                                BitArray ybits2Complement = complement2(ybits2);
+
+                                ybits1Complement.CopyTo(y1Array, 0);
+                                ybits2Complement.CopyTo(y2Array, 0);
+                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                                y = y * (-1);
+                            }
+                            else
+                            {
+                                y1Array[0] = arraymessage[byteread + 2];
+                                y2Array[0] = arraymessage[byteread + 3];
+                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                            }
+
+                            byteread = byteread + 8;
                         break;
 
                         case 6: 
@@ -260,11 +331,69 @@ namespace ClassLibrary
             }
         }
 
+        int getInt32FromBytes(byte first, byte second, byte third, byte fourth)
+        {
+            byte[] bytesArray = { first, second, third, fourth };
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(bytesArray);
+            }
+            return BitConverter.ToInt32(bytesArray, 0);
+        }
+
+        public bool[] getOctet(byte Byte)
+        {
+            byte[] octet = new byte[1];
+            octet[0] = Byte;
+            BitArray octetBits = new BitArray(octet);
+            bool[] octetArray = new bool[8];
+            octetBits.CopyTo(octetArray, 0);
+            Array.Reverse(octetArray);
+            return octetArray;
+        }
+
         public byte getBit(byte b, int bitNumber)
         {
             int valueint = (b >> bitNumber) & 0x01;
             byte b2 = Convert.ToByte(valueint);
             return (b2);
+        }
+
+        public BitArray complement2(BitArray b)
+        {
+            //Complemento a 1
+            for (int i = 0; i < b.Length; i++)
+            {
+                if (b[i] == true)
+                {
+                    b[i] = false;
+                }
+                else
+                {
+                    b[i] = true;
+                }
+            }
+            bool mellevoununo = false;
+            int j = 0;
+            if (b[0] == true)
+            {
+                b[0] = false;
+                mellevoununo = true;
+            }
+            while (mellevoununo == true)
+            {
+                if (b[j] == false)
+                {
+                    b[j] = true;
+                    mellevoununo = false;
+                }
+                else
+                {
+                    b[j] = false;
+                }
+                j++;
+            }
+            return b;
         }
     }
 }
