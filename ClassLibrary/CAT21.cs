@@ -65,6 +65,13 @@ namespace ClassLibrary
         // 12 Time of Message Reception for Position
         int timeMessageReceptionPosition;
 
+
+        // 24 Magnetic Heading
+        double magneticHeading;
+
+        // 25 Target Status
+        string[] targetStatus = new string[4];
+
         public CAT21(byte[] arraymessage)
         {
             int j = 0;
@@ -303,8 +310,9 @@ namespace ClassLibrary
                             byteread = byteread + 6;
                         break;
 
-                        case 6: 
+                        case 6:
                             // I021/131
+                            Console.Write(byteread);
                             fourbytes[3] = arraymessage[byteread];
                             fourbytes[2] = arraymessage[byteread+1];
                             fourbytes[1] = arraymessage[byteread+2];
@@ -412,50 +420,118 @@ namespace ClassLibrary
 
                         case 12:
                             // I021/073
+                            byteread = byteread + 3;
                         break;
 
                         case 13:
                             // I021/074
+                            byteread = byteread + 4;
                         break;
 
                         case 14:
                             // I021/075
+                            byteread = byteread + 3;
                         break;
                         
                         case 16:
                             // I021/076
+                            byteread = byteread + 4;
                         break;
 
                         case 17:
                             // I021/140
+                            byteread = byteread + 2;
                         break;
 
                         case 18:
                             // I021/090
+                            byteread = byteread + 4;
                         break;
                         
                         case 19:
                             // I021/210
+                            byteread = byteread + 1;
                         break;
 
                         case 20:
                             // I021/070
+                            byteread = byteread + 2;
                         break;
 
                         case 21:
                             // I021/230
+                            byteread = byteread + 2;
                         break;
 
                         case 22:
                             // I021/145
+                            byteread = byteread + 2;
                         break;
 
                         case 24:
-                            // I021/152
+                            // I021/152 Magnetic Heading
+                            magneticHeading = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1])*360/(Math.Pow(2,16));
+                            byteread = byteread + 2;                            
                         break;
 
                         case 25:
-                            // I021/200
+                            // I021/200 Target Status
+                            bool[] octetStatus = getOctet(arraymessage[byteread]);
+                            targetStatus[0] = octetStatus[0] ? "Intent change flag raised" : "No intent change active";
+                            targetStatus[1] = octetStatus[1] ? "LNAV Mode not engaged" : "LNAV Mode engaged";
+                            BitArray priorityStatusBits = new BitArray(new bool[] { octetStatus[5], octetStatus[4], octetStatus[3], false, false, false,false, false });
+                            byte priorityStatus = convertToByte(priorityStatusBits);
+
+                            if (priorityStatus == 0)
+                            {
+                                targetStatus[2] = "No emergency / not reported";
+                            }
+                            else if(priorityStatus == 1)
+                            {
+                                targetStatus[2] = "General emergency";
+                            }
+                            else if (priorityStatus == 2)
+                            {
+                                targetStatus[2] = "Lifeguard / medical emergency";
+                            }
+                            else if (priorityStatus == 3)
+                            {
+                                targetStatus[2] = "Minimum fuel";
+                            }
+                            else if (priorityStatus == 4)
+                            {
+                                targetStatus[2] = "No communications";
+                            }
+                            else if (priorityStatus == 5)
+                            {
+                                targetStatus[2] = "Unlawful interference";
+                            }
+                            else if (priorityStatus == 6)
+                            {
+                                targetStatus[2] = "Downed Aircraft";
+                            }
+
+                            BitArray surveillanceStatusBits = new BitArray(new bool[] { octetStatus[7], octetStatus[6], false, false, false, false, false, false });
+                            byte surveillanceStatus = convertToByte(surveillanceStatusBits);
+
+                            if(surveillanceStatus == 0)
+                            {
+                                targetStatus[3] = "No condition reported";
+                            }
+                            else if (surveillanceStatus == 1)
+                            {
+                                targetStatus[3] = "Permanent Alert (Emergency condition)";
+                            }
+                            else if (surveillanceStatus == 2)
+                            {
+                                targetStatus[3] = "Temporary Alert (change in Mode 3/A\r\nCode other than emergency)";
+                            }
+                            else if (surveillanceStatus == 3)
+                            {
+                                targetStatus[3] = "SPI set";
+                            }
+
+                            byteread++;
                         break;
 
                         case 26:
@@ -615,6 +691,17 @@ namespace ClassLibrary
                 j = j-1;
             }
             return b;
+        }
+
+        byte convertToByte(BitArray bits)
+        {
+            if (bits.Count != 8)
+            {
+                throw new ArgumentException("bits");
+            }
+            byte[] bytes = new byte[1];
+            bits.CopyTo(bytes, 0);
+            return bytes[0];
         }
     }
 }
