@@ -35,8 +35,8 @@ namespace ClassLibrary
         int trackNumber;
 
         // 5 Position in WGS-84 Co-ordinates
-        int latitude;
-        int longitude;
+        double latitude;
+        double longitude;
 
         public CAT21(byte[] arraymessage)
         {
@@ -149,35 +149,42 @@ namespace ClassLibrary
 
                                 latbits1Complement.CopyTo(lat1Array, 0);
                                 latbits2Complement.CopyTo(lat2Array, 0);
+                                latbits3Complement.CopyTo(lat3Array, 0);
 
-                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
-                                x = x * (-1);
+                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0]) * 180 / (Math.Pow(2, 23));
+                                latitude = latitude * (-1);
                             }
                             else
                             {
-                                x1Array[0] = arraymessage[byteread];
-                                x2Array[0] = arraymessage[byteread + 1];
-                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
+                                lat1Array[0] = arraymessage[byteread];
+                                lat2Array[0] = arraymessage[byteread + 1];
+                                lat3Array[0] = arraymessage[byteread + 2];
+                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0])*180/(Math.Pow(2,23));
                             }
-                            if (y2complement)
+                            if (longComp)
                             {
-                                onebyte[0] = arraymessage[byteread + 2];
-                                BitArray ybits1 = new BitArray(onebyte);
-                                BitArray ybits1Complement = complement2(ybits1);
                                 onebyte[0] = arraymessage[byteread + 3];
-                                BitArray ybits2 = new BitArray(onebyte);
-                                BitArray ybits2Complement = complement2(ybits2);
+                                BitArray longbits1 = new BitArray(onebyte);
+                                BitArray longbits1Complement = complement2(longbits1);
+                                onebyte[0] = arraymessage[byteread + 4];
+                                BitArray longbits2 = new BitArray(onebyte);
+                                BitArray longbits2Complement = complement2(longbits2);
+                                onebyte[0] = arraymessage[byteread + 5];
+                                BitArray longbits3 = new BitArray(onebyte);
+                                BitArray longbits3Complement = complement2(longbits3);
 
-                                ybits1Complement.CopyTo(y1Array, 0);
-                                ybits2Complement.CopyTo(y2Array, 0);
-                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
-                                y = y * (-1);
+                                longbits1Complement.CopyTo(long1Array, 0);
+                                longbits2Complement.CopyTo(long2Array, 0);
+                                longbits3Complement.CopyTo(long3Array, 0);
+                                longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
+                                longitude = longitude * (-1);
                             }
                             else
                             {
-                                y1Array[0] = arraymessage[byteread + 2];
-                                y2Array[0] = arraymessage[byteread + 3];
-                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                                long1Array[0] = arraymessage[byteread + 3];
+                                long2Array[0] = arraymessage[byteread + 4];
+                                long3Array[0] = arraymessage[byteread + 5];
+                                longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
                             }
 
                             byteread = byteread + 8;
