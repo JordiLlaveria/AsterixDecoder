@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -301,7 +302,7 @@ namespace ClassLibrary
 
                         case 5:
                             // I021/130
-                            /*
+                            
                             bool[] octetlat = getOctet(arraymessage[byteread]);
                             bool[] octetlong = getOctet(arraymessage[byteread + 3]);
 
@@ -367,7 +368,7 @@ namespace ClassLibrary
                                 long3Array[0] = arraymessage[byteread + 5];
                                 longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
                             }
-                            */
+                            
                             byteread = byteread + 6;
                         break;
 
@@ -590,7 +591,9 @@ namespace ClassLibrary
                             break;
 
                         case 18:
+                            Console.Write(byteread);
                             // I021/090
+                            /*
                             for (j = 0; j < 8; j++)
                             {
                                 eightbits[7 - j] = getBit(arraymessage[byteread], j);
@@ -632,6 +635,9 @@ namespace ClassLibrary
                                     }
                                 }
                             }
+                            break;
+                            */
+                            byteread = byteread + 4;
                             break;
 
                         case 19:
@@ -725,13 +731,30 @@ namespace ClassLibrary
 
                             bool[] octetBar = getOctet(arraymessage[byteread]);
                             rangeExceeded = octetBar[0] ? "Value exceeds defined range" : "Value in defined range";
-                            
 
+                            bool[] octet2bar = getOctet(arraymessage[byteread + 1]);
+                            bool[] z = new bool[15];
+                            bool[] octet1Bar = new bool[] { octetBar[7], octetBar[6], octetBar[5], octetBar[4], octetBar[3], octetBar[2], octetBar[1] };
+                            octet1Bar.CopyTo(z, 0);
+                            octet2bar.CopyTo(z, 7);
+                            BitArray firstBits = new BitArray(z);
                             
                             if (octetBar[1])
                             {
+                                BitArray firstBitsComp = complement2(firstBits);
+                                bool[] barometric = new bool[16];
+                                barometric[0] = false;
+                                firstBitsComp.CopyTo(barometric, 1);
+                                BitArray barometricBit = new BitArray(barometric);
+                                barometricVerticalRate = convertToInt32(Reverse(barometricBit))*(-1)* 6.25;
 
                             }
+                            else
+                            {
+                                barometricVerticalRate = convertToInt32(Reverse(firstBits))* 6.25;
+                            }
+                            byteread = byteread + 2;
+                            
 
                         break;
 
@@ -1305,6 +1328,10 @@ namespace ClassLibrary
                 b[b.Length-1] = false;
                 mellevoununo = true;
             }
+            else
+            {
+                b[b.Length - 1] = true;
+            }
             while (mellevoununo == true)
             {
                 if (b[j] == false)
@@ -1321,6 +1348,17 @@ namespace ClassLibrary
             return b;
         }
 
+        int convertToInt32(BitArray bitArray)
+        {
+            if (bitArray.Length > 32)
+                throw new ArgumentException("Argument length shall be at most 32 bits.");
+
+            int[] array = new int[1];
+            bitArray.CopyTo(array, 0);
+            return array[0];
+
+        }
+
         byte convertToByte(BitArray bits)
         {
             if (bits.Count != 8)
@@ -1332,17 +1370,6 @@ namespace ClassLibrary
             return bytes[0];
         }
 
-        byte complement2bytes(byte byte1)
-        {
-            byte[] arrayByte = new byte[1];
-            byte[] only1 = new byte[1];
-            only1[0] = byte1;
-            BitArray bits = new BitArray(only1);
-            BitArray bitsComplement = complement2(bits);
-
-            bitsComplement.CopyTo(arrayByte, 0);
-            return arrayByte[0];
-
-            }
+        
     }
 }

@@ -34,7 +34,7 @@ namespace ClassLibrary
                     CAT10 cat10 = new CAT10(arraymessage);
                     CAT10list.Add(cat10);
                 }
-                else
+                else if(arraymessage[0] == 21)
                 {
                     CAT21 cat21 = new CAT21(arraymessage);
                     CAT21list.Add(cat21);
