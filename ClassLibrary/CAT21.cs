@@ -72,6 +72,10 @@ namespace ClassLibrary
         // 25 Target Status
         string[] targetStatus = new string[4];
 
+        // 26 Barometric Vertical Rate
+        string rangeExceeded;
+        double barometricVerticalRate;
+
         public CAT21(byte[] arraymessage)
         {
             int j = 0;
@@ -536,6 +540,17 @@ namespace ClassLibrary
 
                         case 26:
                             // I021/155
+
+                            bool[] octetBar = getOctet(arraymessage[byteread]);
+                            rangeExceeded = octetBar[0] ? "Value exceeds defined range" : "Value in defined range";
+                            
+
+                            
+                            if (octetBar[1])
+                            {
+
+                            }
+
                         break;
 
                         case 27:
@@ -703,5 +718,18 @@ namespace ClassLibrary
             bits.CopyTo(bytes, 0);
             return bytes[0];
         }
+
+        byte complement2bytes(byte byte1)
+        {
+            byte[] arrayByte = new byte[1];
+            byte[] only1 = new byte[1];
+            only1[0] = byte1;
+            BitArray bits = new BitArray(only1);
+            BitArray bitsComplement = complement2(bits);
+
+            bitsComplement.CopyTo(arrayByte, 0);
+            return arrayByte[0];
+
+            }
     }
 }
