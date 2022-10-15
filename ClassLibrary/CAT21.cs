@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -29,7 +30,7 @@ namespace ClassLibrary
         byte sic;
 
         // 1 Target Report Descriptor
-        string[] targetReportDescriptor = new string[17];
+        string[] targetReportDescriptor = new string[15];
 
         // 2 Track Number
         int trackNumber;
@@ -41,8 +42,8 @@ namespace ClassLibrary
         double timeOfApplicabilityForPosition;
 
         // 5 Position in WGS-84 Co-ordinates
-        int latitude;
-        int longitude;
+        double latitude;
+        double longitude;
 
         // 6 High-Resolution Position inf WGS-84 Co-cordinates
         double highResLatitude;
@@ -65,6 +66,7 @@ namespace ClassLibrary
         // 12 Time of Message Reception for Position
         double tomrp;
 
+
         // 13 Time of Message Reception of Position-High Precision
         double tomrphp;
 
@@ -80,6 +82,16 @@ namespace ClassLibrary
 
         // 18 Quality Indicators
         string[] qualityIndicators = new string[12];
+
+        // 24 Magnetic Heading
+        double magneticHeading;
+
+        // 25 Target Status
+        string[] targetStatus = new string[4];
+
+        // 26 Barometric Vertical Rate
+        string rangeExceeded;
+        double barometricVerticalRate;
 
         // 35 Selected Altitude
         string[] selectedAltitudeInfo = new string[2];
@@ -322,41 +334,49 @@ namespace ClassLibrary
 
                                 latbits1Complement.CopyTo(lat1Array, 0);
                                 latbits2Complement.CopyTo(lat2Array, 0);
+                                latbits3Complement.CopyTo(lat3Array, 0);
 
-                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
-                                x = x * (-1);
+                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0]) * 180 / (Math.Pow(2, 23));
+                                latitude = latitude * (-1);
                             }
                             else
                             {
-                                x1Array[0] = arraymessage[byteread];
-                                x2Array[0] = arraymessage[byteread + 1];
-                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
+                                lat1Array[0] = arraymessage[byteread];
+                                lat2Array[0] = arraymessage[byteread + 1];
+                                lat3Array[0] = arraymessage[byteread + 2];
+                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0])*180/(Math.Pow(2,23));
                             }
-                            if (y2complement)
+                            if (longComp)
                             {
-                                onebyte[0] = arraymessage[byteread + 2];
-                                BitArray ybits1 = new BitArray(onebyte);
-                                BitArray ybits1Complement = complement2(ybits1);
                                 onebyte[0] = arraymessage[byteread + 3];
-                                BitArray ybits2 = new BitArray(onebyte);
-                                BitArray ybits2Complement = complement2(ybits2);
+                                BitArray longbits1 = new BitArray(onebyte);
+                                BitArray longbits1Complement = complement2(longbits1);
+                                onebyte[0] = arraymessage[byteread + 4];
+                                BitArray longbits2 = new BitArray(onebyte);
+                                BitArray longbits2Complement = complement2(longbits2);
+                                onebyte[0] = arraymessage[byteread + 5];
+                                BitArray longbits3 = new BitArray(onebyte);
+                                BitArray longbits3Complement = complement2(longbits3);
 
-                                ybits1Complement.CopyTo(y1Array, 0);
-                                ybits2Complement.CopyTo(y2Array, 0);
-                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
-                                y = y * (-1);
+                                longbits1Complement.CopyTo(long1Array, 0);
+                                longbits2Complement.CopyTo(long2Array, 0);
+                                longbits3Complement.CopyTo(long3Array, 0);
+                                longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
+                                longitude = longitude * (-1);
                             }
                             else
                             {
-                                y1Array[0] = arraymessage[byteread + 2];
-                                y2Array[0] = arraymessage[byteread + 3];
-                                y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
+                                long1Array[0] = arraymessage[byteread + 3];
+                                long2Array[0] = arraymessage[byteread + 4];
+                                long3Array[0] = arraymessage[byteread + 5];
+                                longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
                             }
                             byteread = byteread + 6;
                         break;
 
-                        case 6: 
+                        case 6:
                             // I021/131
+                            Console.Write(byteread);
                             fourbytes[3] = arraymessage[byteread];
                             fourbytes[2] = arraymessage[byteread+1];
                             fourbytes[1] = arraymessage[byteread+2];
@@ -456,7 +476,7 @@ namespace ClassLibrary
 ;
                         break;
 
-                        case 11: 
+                        case 11:
                             // I021/080
                             threebytes[2] = arraymessage[byteread];
                             threebytes[1] = arraymessage[byteread + 1];
@@ -487,20 +507,20 @@ namespace ClassLibrary
                                 fourbits[0] = 0;
                             }
                             byteread = byteread + 3;
-                        break;
+                            break;
 
                         case 12:
                             // I021/073
-                            tomrp = getInt32FromBytes(0,arraymessage[byteread],arraymessage[byteread+1],arraymessage[byteread+2]) * Math.Pow(2,-7);
+                            tomrp = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) * Math.Pow(2, -7);
                             byteread = byteread + 3;
-                        break;
+                            break;
 
                         case 13:
                             // I021/074
                             fourbytes[3] = arraymessage[byteread];
-                            fourbytes[2] = arraymessage[byteread+1];
-                            fourbytes[1] = arraymessage[byteread+2];
-                            fourbytes[0] = arraymessage[byteread+3];
+                            fourbytes[2] = arraymessage[byteread + 1];
+                            fourbytes[1] = arraymessage[byteread + 2];
+                            fourbytes[0] = arraymessage[byteread + 3];
                             bytestogether1 = new BitArray(fourbytes);
                             bytestogether1 = Reverse(bytestogether1);
                             tomrphp = 0;
@@ -511,24 +531,24 @@ namespace ClassLibrary
                             for (int q = 2; q < bytestogether1.Length; q++)
                             {
                                 if (bytestogether1[q] == true)
-                                    tomrphp = tomrphp + Math.Pow(2,bytestogether1.Length - 3 - q);
+                                    tomrphp = tomrphp + Math.Pow(2, bytestogether1.Length - 3 - q);
                             }
-                            tomrphp = tomrphp * Math.Pow(2,-30);
+                            tomrphp = tomrphp * Math.Pow(2, -30);
                             byteread = byteread + 4;
-                        break;
+                            break;
 
                         case 14:
                             // I021/075
-                            tomrv = getInt32FromBytes(0,arraymessage[byteread],arraymessage[byteread+1],arraymessage[byteread+2]) * Math.Pow(2,-7);
+                            tomrv = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) * Math.Pow(2, -7);
                             byteread = byteread + 3;
-                        break;
-                        
+                            break;
+
                         case 16:
                             // I021/076
                             fourbytes[3] = arraymessage[byteread];
-                            fourbytes[2] = arraymessage[byteread+1];
-                            fourbytes[1] = arraymessage[byteread+2];
-                            fourbytes[0] = arraymessage[byteread+3];
+                            fourbytes[2] = arraymessage[byteread + 1];
+                            fourbytes[1] = arraymessage[byteread + 2];
+                            fourbytes[0] = arraymessage[byteread + 3];
                             bytestogether1 = new BitArray(fourbytes);
                             bytestogether1 = Reverse(bytestogether1);
                             tomrvhp = 0;
@@ -539,19 +559,19 @@ namespace ClassLibrary
                             for (int q = 2; q < bytestogether1.Length; q++)
                             {
                                 if (bytestogether1[q] == true)
-                                    tomrvhp = tomrvhp + Math.Pow(2,bytestogether1.Length - 3 - q);
+                                    tomrvhp = tomrvhp + Math.Pow(2, bytestogether1.Length - 3 - q);
                             }
-                            tomrvhp = tomrvhp * Math.Pow(2,-30);
+                            tomrvhp = tomrvhp * Math.Pow(2, -30);
                             byteread = byteread + 4;
-                        break;
+                            break;
 
                         case 17:
                             // I021/140
-                            eightbits[0] = getBit(arraymessage[byteread+1],7);
-                            if (eightbits[0] == 1) 
-                            { 
+                            eightbits[0] = getBit(arraymessage[byteread + 1], 7);
+                            if (eightbits[0] == 1)
+                            {
                                 twobytes[1] = arraymessage[byteread];
-                                twobytes[0] = arraymessage[byteread+1];
+                                twobytes[0] = arraymessage[byteread + 1];
                                 bytestogether1 = new BitArray(twobytes);
                                 bytestogether1 = Reverse(bytestogether1);
                                 bytestogether1 = complement2(bytestogether1);
@@ -559,25 +579,26 @@ namespace ClassLibrary
                                 for (int w = 0; w < bytestogether1.Length; w++)
                                 {
                                     if (bytestogether1[w] == true)
-                                        geometricHeight = geometricHeight + Math.Pow(2,bytestogether1.Length - 1 - w);
+                                        geometricHeight = geometricHeight + Math.Pow(2, bytestogether1.Length - 1 - w);
                                 }
                                 geometricHeight = geometricHeight * -6.25;
                             }
                             else
-                                geometricHeight = getInt32FromBytes(0,0,arraymessage[byteread],arraymessage[byteread+1]) * 6.25;
+                                geometricHeight = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]) * 6.25;
                             if (geometricHeight == 204800)
                                 greaterThanGeometricHeight = true;
                             else
                                 greaterThanGeometricHeight = false;
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 18:
+                            Console.Write(byteread);
                             // I021/090
                             double value;
                             for(j = 0; j < 8; j++) 
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             value = eightbits[0] * Math.Pow(2,2) + eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
                             qualityIndicators[0] = "NUCr or NACv: " + value.ToString();
@@ -586,23 +607,23 @@ namespace ClassLibrary
                             byteread++;
                             if (eightbits[7] == 1)
                             {
-                                for(j = 0; j < 8; j++) 
+                                for (j = 0; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 qualityIndicators[2] = "Navigation Integrity Category for Barometric Altitude: " + eightbits[0].ToString();
                                 value = eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
                                 qualityIndicators[3] = "Surveillance of Source Integrity Level: " + value.ToString();
-                                value = eightbits[3] * Math.Pow(2,2) + eightbits[4] * Math.Pow(2,1) + eightbits[5] * Math.Pow(2,0);
+                                value = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
                                 qualityIndicators[4] = "Navigation Accuracy Category for Position: " + value.ToString();
                                 byteread++;
                                 if (eightbits[7] == 1)
                                 {
-                                    for(j = 0; j < 8; j++) 
+                                    for (j = 0; j < 8; j++)
                                     {
-                                        eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                        eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                     }
-                                    if (eightbits[2] == 1)
+                                    if (eightbits[2] == 0)
                                         qualityIndicators[5] = "SIL-Supplement: Measured per Flight-hour";
                                     else
                                         qualityIndicators[5] = "SIL-Supplement: Measured per sample";
@@ -613,9 +634,9 @@ namespace ClassLibrary
                                     byteread++;
                                     if (eightbits[7] == 1)
                                     {
-                                        for(j = 0; j < 8; j++) 
+                                        for (j = 0; j < 8; j++)
                                         {
-                                            eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                            eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                         }
                                         value = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
                                         if (value == 15)
@@ -730,38 +751,127 @@ namespace ClassLibrary
                                             qualityIndicators[10] = "NIC (+suppl.): 0";
                                             qualityIndicators[11] = "NIC (+suppl.'s): 0";
                                         }
-                                        byteread++;
                                     }
                                 }
                             }
                         break;
-                        
+
                         case 19:
                             // I021/210
+                            byteread = byteread + 1;
                         break;
 
                         case 20:
                             // I021/070
+                            byteread = byteread + 2;
                         break;
 
                         case 21:
                             // I021/230
+                            byteread = byteread + 2;
                         break;
 
                         case 22:
                             // I021/145
+                            byteread = byteread + 2;
                         break;
 
                         case 24:
-                            // I021/152
+                            // I021/152 Magnetic Heading
+                            magneticHeading = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1])*360/(Math.Pow(2,16));
+                            byteread = byteread + 2;                            
                         break;
 
                         case 25:
-                            // I021/200
+                            // I021/200 Target Status
+                            bool[] octetStatus = getOctet(arraymessage[byteread]);
+                            targetStatus[0] = octetStatus[0] ? "Intent change flag raised" : "No intent change active";
+                            targetStatus[1] = octetStatus[1] ? "LNAV Mode not engaged" : "LNAV Mode engaged";
+                            BitArray priorityStatusBits = new BitArray(new bool[] { octetStatus[5], octetStatus[4], octetStatus[3], false, false, false,false, false });
+                            byte priorityStatus = convertToByte(priorityStatusBits);
+
+                            if (priorityStatus == 0)
+                            {
+                                targetStatus[2] = "No emergency / not reported";
+                            }
+                            else if(priorityStatus == 1)
+                            {
+                                targetStatus[2] = "General emergency";
+                            }
+                            else if (priorityStatus == 2)
+                            {
+                                targetStatus[2] = "Lifeguard / medical emergency";
+                            }
+                            else if (priorityStatus == 3)
+                            {
+                                targetStatus[2] = "Minimum fuel";
+                            }
+                            else if (priorityStatus == 4)
+                            {
+                                targetStatus[2] = "No communications";
+                            }
+                            else if (priorityStatus == 5)
+                            {
+                                targetStatus[2] = "Unlawful interference";
+                            }
+                            else if (priorityStatus == 6)
+                            {
+                                targetStatus[2] = "Downed Aircraft";
+                            }
+
+                            BitArray surveillanceStatusBits = new BitArray(new bool[] { octetStatus[7], octetStatus[6], false, false, false, false, false, false });
+                            byte surveillanceStatus = convertToByte(surveillanceStatusBits);
+
+                            if(surveillanceStatus == 0)
+                            {
+                                targetStatus[3] = "No condition reported";
+                            }
+                            else if (surveillanceStatus == 1)
+                            {
+                                targetStatus[3] = "Permanent Alert (Emergency condition)";
+                            }
+                            else if (surveillanceStatus == 2)
+                            {
+                                targetStatus[3] = "Temporary Alert (change in Mode 3/A\r\nCode other than emergency)";
+                            }
+                            else if (surveillanceStatus == 3)
+                            {
+                                targetStatus[3] = "SPI set";
+                            }
+
+                            byteread++;
                         break;
 
                         case 26:
                             // I021/155
+
+                            bool[] octetBar = getOctet(arraymessage[byteread]);
+                            rangeExceeded = octetBar[0] ? "Value exceeds defined range" : "Value in defined range";
+
+                            bool[] octet2bar = getOctet(arraymessage[byteread + 1]);
+                            bool[] z = new bool[15];
+                            bool[] octet1Bar = new bool[] { octetBar[7], octetBar[6], octetBar[5], octetBar[4], octetBar[3], octetBar[2], octetBar[1] };
+                            octet1Bar.CopyTo(z, 0);
+                            octet2bar.CopyTo(z, 7);
+                            BitArray firstBits = new BitArray(z);
+                            
+                            if (octetBar[1])
+                            {
+                                BitArray firstBitsComp = complement2(firstBits);
+                                bool[] barometric = new bool[16];
+                                barometric[0] = false;
+                                firstBitsComp.CopyTo(barometric, 1);
+                                BitArray barometricBit = new BitArray(barometric);
+                                barometricVerticalRate = convertToInt32(Reverse(barometricBit))*(-1)* 6.25;
+
+                            }
+                            else
+                            {
+                                barometricVerticalRate = convertToInt32(Reverse(firstBits))* 6.25;
+                            }
+                            byteread = byteread + 2;
+                            
+
                         break;
 
                         case 27:
@@ -1526,6 +1636,10 @@ namespace ClassLibrary
                 b[b.Length-1] = false;
                 mellevoununo = true;
             }
+            else
+            {
+                b[b.Length - 1] = true;
+            }
             while (mellevoununo == true)
             {
                 if (b[j] == false)
@@ -1541,5 +1655,29 @@ namespace ClassLibrary
             }
             return b;
         }
+
+        int convertToInt32(BitArray bitArray)
+        {
+            if (bitArray.Length > 32)
+                throw new ArgumentException("Argument length shall be at most 32 bits.");
+
+            int[] array = new int[1];
+            bitArray.CopyTo(array, 0);
+            return array[0];
+
+        }
+
+        byte convertToByte(BitArray bits)
+        {
+            if (bits.Count != 8)
+            {
+                throw new ArgumentException("bits");
+            }
+            byte[] bytes = new byte[1];
+            bits.CopyTo(bytes, 0);
+            return bytes[0];
+        }
+
+        
     }
 }
