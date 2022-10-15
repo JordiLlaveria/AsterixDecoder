@@ -79,15 +79,7 @@ namespace ClassLibrary
         bool greaterThanGeometricHeight;
 
         // 18 Quality Indicators
-        double nucr;
-        double nucp;
-        double nicbaro;
-        double sil;
-        double nacp;
-        string silSupplement;
-        double sda;
-        double gva;
-        double pic;
+        string[] qualityIndicators = new string[12];
 
         // 35 Selected Altitude
         string[] selectedAltitudeInfo = new string[2];
@@ -97,21 +89,33 @@ namespace ClassLibrary
         string[] finalSelectedAltitudeInfo = new string[3];
         double finalSelectedAltitude;
 
+        // 37 Trajectory Intent
+        string[] trajectoryIntent = new string[9];
+        double trajectoryIntentAltitude;
+        double trajectoryIntentLatitude;
+        double trajectoryIntentLongitude;
+        double trajectoryIntentTimeOverPoint;
+        double trajectoryIntentTCPTurnRadius;
+
         // 38 Service Management
         double serviceManagement;
 
-        // 39 Aircraft Operational Status
+        // 40 Aircraft Operational Status
         string[] aircraftOperationalStatus = new string[7];
 
-        // 40 Surface Capabilities and Chatacteristics
+        // 41 Surface Capabilities and Chatacteristics
         string[] surfaceCapabilities = new string[5];
         bool lengthAircraftLowerThan;
         bool widthAircraftLowerThan;
         double lengthAircraft;
         double widthAircraft;
 
-        // 41 Message Amplitude
+        // 42 Message Amplitude
         double messageAmplitude;
+
+        // 44 ACAS Resolution Advisory Report
+        string[] acasResolutionReport = new string[9];
+        double[] acasResolutionReportValues = new double[9];
 
         // 45 Receiver ID
         double receiverID;
@@ -165,19 +169,19 @@ namespace ClassLibrary
                             }
                             byteread++;
                             if (eightbits[0] == 0 && eightbits[1] == 0 && eightbits[2] == 0)
-                                targetReportDescriptor[0] = "24-Bit ICAO address";
+                                targetReportDescriptor[0] = "Address Type: 24-Bit ICAO address";
                             else if (eightbits[0] == 0 && eightbits[1] == 0 && eightbits[2] == 1)
-                                targetReportDescriptor[0] = "Duplicate address";
+                                targetReportDescriptor[0] = "Address Type: Duplicate address";
                             else if (eightbits[0] == 0 && eightbits[1] == 1 && eightbits[2] == 0)
-                                targetReportDescriptor[0] = "Surface vehicle address";
+                                targetReportDescriptor[0] = "Address Type: Surface vehicle address";
                             else if (eightbits[0] == 0 && eightbits[1] == 1 && eightbits[2] == 1)
-                                targetReportDescriptor[0] = "Anonymous address";
+                                targetReportDescriptor[0] = "Address Type: Anonymous address";
                             else
-                                targetReportDescriptor[0] = "Reserved for future use";
+                                targetReportDescriptor[0] = "Address Type: Reserved for future use";
                             if (eightbits[3] == 0 && eightbits[4] == 0)
-                                targetReportDescriptor[1] = "25 ft";
+                                targetReportDescriptor[1] = "Altitude Reporting Capability: 25 ft";
                             else if (eightbits[3] == 0 && eightbits[4] == 1)
-                                targetReportDescriptor[1] = "100 ft";
+                                targetReportDescriptor[1] = "Altitude Reporting Capability: 100 ft";
                             else if (eightbits[3] == 1 && eightbits[4] == 0)
                                 targetReportDescriptor[1] = "Altitude Reporting Capability: Unknown";
                             else
@@ -185,11 +189,11 @@ namespace ClassLibrary
                             if (eightbits[5] == 0)
                                 targetReportDescriptor[2] = "Range Check: Default";
                             else
-                                targetReportDescriptor[2] = "Range Check passed, CPR Validation pending";
+                                targetReportDescriptor[2] = "Range Check: Range Check passed, CPR Validation pending";
                             if (eightbits[6] == 0)
-                                targetReportDescriptor[3] = "Report from target transponder";
+                                targetReportDescriptor[3] = "Report Type: Report from target transponder";
                             else
-                                targetReportDescriptor[3] = "Report from field monitor (fixed transponder)";
+                                targetReportDescriptor[3] = "Report Type: Report from field monitor (fixed transponder)";
                             if (eightbits[7] == 1)
                             {
                                 for(j = 0; j < 8; j++) 
@@ -198,25 +202,25 @@ namespace ClassLibrary
                                 }
                                 byteread++;
                                 if (eightbits[0] == 0)
-                                    targetReportDescriptor[4] = "No differential correction (ADS-B)";
+                                    targetReportDescriptor[4] = "Differential Correction: No differential correction (ADS-B)";
                                 else
-                                    targetReportDescriptor[4] = "Differential correction (ADS-B)";
+                                    targetReportDescriptor[4] = "Differential Correction: Differential correction (ADS-B)";
                                 if (eightbits[1] == 0)
-                                    targetReportDescriptor[5] = "Ground Bit not set";
+                                    targetReportDescriptor[5] = "Ground Bit Setting: Ground Bit not set";
                                 else
-                                    targetReportDescriptor[5] = "Ground Bit set";
+                                    targetReportDescriptor[5] = "Ground Bit Setting: Ground Bit set";
                                 if (eightbits[2] == 0)
-                                    targetReportDescriptor[6] = "Actual target report";
+                                    targetReportDescriptor[6] = "Simulated Target: Actual target report";
                                 else
-                                    targetReportDescriptor[6] = "Simulated target report";
+                                    targetReportDescriptor[6] = "Simulated Target: Simulated target report";
                                 if (eightbits[3] == 0)
                                     targetReportDescriptor[7] = "Test Target: Default";
                                 else
-                                    targetReportDescriptor[7] = "Test Target";
+                                    targetReportDescriptor[7] = "Test Target: Test Target";
                                 if (eightbits[4] == 0)
-                                    targetReportDescriptor[8] = "Equipment capable to provide Selected Altitude";
+                                    targetReportDescriptor[8] = "Selected Altitude Available: Equipment capable to provide Selected Altitude";
                                 else
-                                    targetReportDescriptor[8] = "Equipment not capable to provide Selected Altitude";
+                                    targetReportDescriptor[8] = "Selected Altitude Available: Equipment not capable to provide Selected Altitude";
                                 if (eightbits[5] == 0 && eightbits[6] == 0)
                                     targetReportDescriptor[9] = "Confidence Level: Report valid";
                                 else if (eightbits[5] == 0 && eightbits[6] == 1)
@@ -233,25 +237,25 @@ namespace ClassLibrary
                                     }
                                     byteread++;
                                     if (eightbits[2] == 0)
-                                        targetReportDescriptor[10] = "Independent Position check: Default";
+                                        targetReportDescriptor[10] = "Independent Position Check: Default";
                                     else
                                         targetReportDescriptor[10] = "Independent Position Check failed";
                                     if (eightbits[3] == 0)
-                                        targetReportDescriptor[11] = "NOGO-bit not set";
+                                        targetReportDescriptor[11] = "No-go Bit Status: NOGO-bit not set";
                                     else
-                                        targetReportDescriptor[11] = "NOGO-bit set";
+                                        targetReportDescriptor[11] = "No-go Bit Status: NOGO-bit set";
                                     if (eightbits[4] == 0)
-                                        targetReportDescriptor[12] = "CPR Validation correct";
+                                        targetReportDescriptor[12] = "Compact Position Recording: CPR Validation correct";
                                     else
-                                        targetReportDescriptor[12] = "CPR Validation failed";
+                                        targetReportDescriptor[12] = "Compact Position Recording: CPR Validation failed";
                                     if (eightbits[5] == 0)
-                                        targetReportDescriptor[13] = "LDPJ not detected";
+                                        targetReportDescriptor[13] = "Local Decoding Position Jump: LDPJ not detected";
                                     else
-                                        targetReportDescriptor[13] = "LDPJ detected";
+                                        targetReportDescriptor[13] = "Local Decoding Position Jump: LDPJ detected";
                                     if (eightbits[6] == 0)
                                         targetReportDescriptor[14] = "Range Check: Default";
                                     else
-                                        targetReportDescriptor[14] = "Range Check failed";
+                                        targetReportDescriptor[14] = "Range Check: Range Check failed";
                                 }
                             }
                             
@@ -290,7 +294,6 @@ namespace ClassLibrary
 
                         case 5:
                             // I021/130
-                            /*
                             bool[] octetlat = getOctet(arraymessage[byteread]);
                             bool[] octetlong = getOctet(arraymessage[byteread + 3]);
 
@@ -349,7 +352,6 @@ namespace ClassLibrary
                                 y2Array[0] = arraymessage[byteread + 3];
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
                             }
-                            */
                             byteread = byteread + 6;
                         break;
 
@@ -449,7 +451,7 @@ namespace ClassLibrary
                             if (bytestogether1[0] == true)
                                 rangeTrueAirspeed = "Value exceeds defined range";
                             else
-                                rangeTrueAirspeed =  "Value in defined range";
+                                rangeTrueAirspeed = "Value in defined range";
                             byteread = byteread + 2;
 ;
                         break;
@@ -572,13 +574,15 @@ namespace ClassLibrary
 
                         case 18:
                             // I021/090
-                            // modificar i fer un array de strings amb la informació
+                            double value;
                             for(j = 0; j < 8; j++) 
                             {
                                 eightbits[7-j] = getBit(arraymessage[byteread], j);
                             }
-                            nucr = eightbits[0] * Math.Pow(2,2) + eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
-                            nucr = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                            value = eightbits[0] * Math.Pow(2,2) + eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                            qualityIndicators[0] = "NUCr or NACv: " + value.ToString();
+                            value = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                            qualityIndicators[1] = "NUCp or NIC: " + value.ToString();
                             byteread++;
                             if (eightbits[7] == 1)
                             {
@@ -586,9 +590,11 @@ namespace ClassLibrary
                                 {
                                     eightbits[7-j] = getBit(arraymessage[byteread], j);
                                 }
-                                nicbaro = eightbits[0];
-                                sil = eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
-                                nacp = eightbits[3] * Math.Pow(2,2) + eightbits[4] * Math.Pow(2,1) + eightbits[5] * Math.Pow(2,0);
+                                qualityIndicators[2] = "Navigation Integrity Category for Barometric Altitude: " + eightbits[0].ToString();
+                                value = eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                                qualityIndicators[3] = "Surveillance of Source Integrity Level: " + value.ToString();
+                                value = eightbits[3] * Math.Pow(2,2) + eightbits[4] * Math.Pow(2,1) + eightbits[5] * Math.Pow(2,0);
+                                qualityIndicators[4] = "Navigation Accuracy Category for Position: " + value.ToString();
                                 byteread++;
                                 if (eightbits[7] == 1)
                                 {
@@ -597,11 +603,13 @@ namespace ClassLibrary
                                         eightbits[7-j] = getBit(arraymessage[byteread], j);
                                     }
                                     if (eightbits[2] == 1)
-                                        silSupplement = "Measured per Flight-hour";
+                                        qualityIndicators[5] = "SIL-Supplement: Measured per Flight-hour";
                                     else
-                                        silSupplement = "Measured per sample";
-                                    sda = eightbits[3] * Math.Pow(2,1) + eightbits[4] * Math.Pow(2,0);
-                                    gva = eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                                        qualityIndicators[5] = "SIL-Supplement: Measured per sample";
+                                    value = eightbits[3] * Math.Pow(2,1) + eightbits[4] * Math.Pow(2,0);
+                                    qualityIndicators[6] = "Horizontal Position System Design Assurance Level: " + value.ToString();
+                                    value = eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                                    qualityIndicators[7] = "Geometric Altitude Accuracy: " + value.ToString();
                                     byteread++;
                                     if (eightbits[7] == 1)
                                     {
@@ -609,10 +617,122 @@ namespace ClassLibrary
                                         {
                                             eightbits[7-j] = getBit(arraymessage[byteread], j);
                                         }
-                                        pic = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                        value = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                        if (value == 15)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: not defined";
+                                            qualityIndicators[9] = "NUCp (+suppl.): not defined";
+                                            qualityIndicators[10] = "NIC (+suppl.): not defined";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): not defined";
+                                        }
+                                        else if (value == 14)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.004 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 9";
+                                            qualityIndicators[10] = "NIC (+suppl.): 11";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 11";
+                                        }
+                                        else if (value == 13)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.013 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 8";
+                                            qualityIndicators[10] = "NIC (+suppl.): 10";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 10";
+                                        }
+                                        else if (value == 12)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.04 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): -";
+                                            qualityIndicators[10] = "NIC (+suppl.): 9";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 9";
+                                        }
+                                        else if (value == 11)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.1 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 7";
+                                            qualityIndicators[10] = "NIC (+suppl.): 8";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 8";
+                                        }
+                                        else if (value == 10)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.2 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 6";
+                                            qualityIndicators[10] = "NIC (+suppl.): 7";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 7";
+                                        }
+                                        else if (value == 9)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.3 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): -";
+                                            qualityIndicators[10] = "NIC (+suppl.): -";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 6 (+ 0/1)";
+                                        }
+                                        else if (value == 8)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.5 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 5";
+                                            qualityIndicators[10] = "NIC (+suppl.): 6 (+ 0)";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 6 (+ 0/0)";
+                                        }
+                                        else if (value == 7)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 0.6 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): -";
+                                            qualityIndicators[10] = "NIC (+suppl.): 6 (+ 1)";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 6 (+ 1/1)";
+                                        }
+                                        else if (value == 6)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 1.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 4";
+                                            qualityIndicators[10] = "NIC (+suppl.): 5";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 5";
+                                        }
+                                        else if (value == 5)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 2.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 3";
+                                            qualityIndicators[10] = "NIC (+suppl.): 4";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 4";
+                                        }
+                                        else if (value == 4)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 4.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): -";
+                                            qualityIndicators[10] = "NIC (+suppl.): 3";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 3";
+                                        }
+                                        else if (value == 3)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 8.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): -";
+                                            qualityIndicators[10] = "NIC (+suppl.): 2";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 2";
+                                        }
+                                        else if (value == 2)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 10.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 2";
+                                            qualityIndicators[10] = "NIC (+suppl.): -";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): -";
+                                        }
+                                        else if (value == 1)
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: < 20.0 NM";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 1";
+                                            qualityIndicators[10] = "NIC (+suppl.): 1";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 1";
+                                        }
+                                        else
+                                        {
+                                            qualityIndicators[8] = "Integrity Containment Bound: No integrity (or > 20.0 NM)";
+                                            qualityIndicators[9] = "NUCp (+suppl.): 0";
+                                            qualityIndicators[10] = "NIC (+suppl.): 0";
+                                            qualityIndicators[11] = "NIC (+suppl.'s): 0";
+                                        }
                                         byteread++;
                                     }
-                            }
+                                }
                             }
                         break;
                         
@@ -674,7 +794,7 @@ namespace ClassLibrary
 
                         case 35:
                             // I021/146
-                            byteread = 69;
+                            //byteread = 69;
                             eightbits[0] = getBit(arraymessage[byteread], 7);
                             if (eightbits[0] == 0)
                                 selectedAltitudeInfo[0] = "Source Availability: No source information provided";
@@ -762,6 +882,173 @@ namespace ClassLibrary
 
                         case 37:
                             // I021/110
+                            for(j = 6; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                            }
+                            byte firstsubfield = eightbits[0];
+                            byte secondsubfield = eightbits[1];
+                            byteread++;
+                            if(firstsubfield == 1)
+                            {
+                                //First subfield
+                                for(j = 6; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                }
+                                if (eightbits[0] == 0)
+                                    trajectoryIntent[0] = "NAV: Trajectory Intent Data is available for this aircraft";
+                                else
+                                    trajectoryIntent[0] = "NAV: Trajectory Intent Data is not available for this aircraft";
+                                if (eightbits[1] == 0)
+                                    trajectoryIntent[1] = "NVB: Trajectory Intent Data is valid";
+                                else
+                                    trajectoryIntent[1] = "NVB: Trajectory Intent Data is not valid";
+                                byteread++;
+                            }
+                            if (secondsubfield == 1)
+                            { 
+                                //Second subfield
+                                for(j = 6; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                }
+                                double valueint = eightbits[0] * Math.Pow(2,7) + eightbits[1] * Math.Pow(2,6) + eightbits[2] * Math.Pow(2,5) + eightbits[3] * Math.Pow(2,4) + eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                trajectoryIntent[2] = "Repetitive Factor: " + valueint.ToString();
+                                for(j = 6; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread+1], j);
+                                }
+                                if (eightbits[0] == 0)
+                                    trajectoryIntent[3] = "TCA: TCP number available";
+                                else
+                                    trajectoryIntent[3] = "TCA: TCP number not available";
+                                if (eightbits[1] == 0)
+                                    trajectoryIntent[4] = "NC: TCP compliance";
+                                else
+                                    trajectoryIntent[4] = "NC: TCP non-compliance";
+                                double valuedouble = eightbits[2] * Math.Pow(2,5) + eightbits[3] * Math.Pow(2,4) + eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                trajectoryIntent[5] = "Trajectory Change Point number: " + valuedouble.ToString();
+                                valuedouble = 0;
+                                twobytes[1] = arraymessage[byteread+2];
+                                twobytes[0] = arraymessage[byteread+3];
+                                bytestogether1 = new BitArray(twobytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    bytestogether1 = complement2(bytestogether1);
+                                for (j=0; j < bytestogether1.Length; j++)
+                                {
+                                    if (bytestogether1[j] == true)
+                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                }
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    trajectoryIntentAltitude = valuedouble * -1;
+                                else
+                                    trajectoryIntentAltitude = valuedouble;
+                                valuedouble = 0;
+                                threebytes[2] = arraymessage[byteread+4];
+                                threebytes[1] = arraymessage[byteread+5];
+                                threebytes[0] = arraymessage[byteread+6];
+                                bytestogether1 = new BitArray(twobytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    bytestogether1 = complement2(bytestogether1);
+                                for (j=0; j < bytestogether1.Length; j++)
+                                {
+                                    if (bytestogether1[j] == true)
+                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                }
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    trajectoryIntentLongitude = valuedouble * -1;
+                                else
+                                    trajectoryIntentLongitude = valuedouble;
+                                valuedouble = 0;
+                                threebytes[2] = arraymessage[byteread+7];
+                                threebytes[1] = arraymessage[byteread+8];
+                                threebytes[0] = arraymessage[byteread+9];
+                                bytestogether1 = new BitArray(twobytes);
+                                bytestogether1 = Reverse(bytestogether1);
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    bytestogether1 = complement2(bytestogether1);
+                                for (j=0; j < bytestogether1.Length; j++)
+                                {
+                                    if (bytestogether1[j] == true)
+                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                }
+                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                    trajectoryIntentLatitude = valuedouble * -1;
+                                else
+                                    trajectoryIntentLatitude = valuedouble;
+                                for(j = 0; j < 8; j++) 
+                                {
+                                    eightbits[7-j] = getBit(arraymessage[byteread+10], j);
+                                }
+                                double pointType = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                if (pointType == 0)
+                                    trajectoryIntent[5] = "Point Type: Unknown";
+                                else if (pointType == 1)
+                                    trajectoryIntent[5] = "Point Type: Fly by waypoint (LT)";
+                                else if (pointType == 2)
+                                    trajectoryIntent[5] = "Point Type: Fly over waypoint (LT)";
+                                else if (pointType == 3)
+                                    trajectoryIntent[5] = "Point Type: Hold pattern (LT)";
+                                else if (pointType == 4)
+                                    trajectoryIntent[5] = "Point Type: Procedure hold (LT)";
+                                else if (pointType == 5)
+                                    trajectoryIntent[5] = "Point Type: Procedure turn (LT)";
+                                else if (pointType == 6)
+                                    trajectoryIntent[5] = "Point Type: RF leg (LT)";
+                                else if (pointType == 7)
+                                    trajectoryIntent[5] = "Point Type: Top of climb (LT)";
+                                else if (pointType == 8)
+                                    trajectoryIntent[5] = "Point Type: Top of descent (LT)";
+                                else if (pointType == 9)
+                                    trajectoryIntent[5] = "Point Type: Start of level (LT)";
+                                else if (pointType == 10)
+                                    trajectoryIntent[5] = "Point Type: Cross-over altitude (LT)";
+                                else
+                                    trajectoryIntent[5] = "Point Type: Transition altitude (LT)";
+                                if (eightbits[4] == 0 && eightbits[5] == 0)
+                                    trajectoryIntent[6] = "TD: N/A";
+                                else if (eightbits[4] == 0 && eightbits[5] == 1)
+                                    trajectoryIntent[6] = "TD: Turn right";
+                                else if (eightbits[4] == 1 && eightbits[5] == 0)
+                                    trajectoryIntent[6] = "TD: Turn left";
+                                else
+                                    trajectoryIntent[6] = "TD: No turn";
+                                if (eightbits[6] == 0)
+                                    trajectoryIntent[7] = "Turn Radius Availability: TTR no available";
+                                else
+                                    trajectoryIntent[7] = "Turn Radius Availability: TTR available";
+                                if (eightbits[7] == 0)
+                                    trajectoryIntent[8] = "TOA: TOV available";
+                                else
+                                    trajectoryIntent[8] = "TOA: TOV not available";
+                                trajectoryIntentTimeOverPoint = 0;
+                                int tov = 0;
+                                while (tov < 3)
+                                {
+                                    for(j = 0; j < 8; j++) 
+                                    {
+                                        eightbits[7-j] = getBit(arraymessage[byteread + 11 + tov], j);
+                                        trajectoryIntentTimeOverPoint = trajectoryIntentTimeOverPoint + eightbits[7-j] * Math.Pow(2,j);
+                                    }
+                                    tov++;
+                                }
+                                trajectoryIntentTCPTurnRadius = 0;
+                                int ttr = 0;
+                                while (ttr < 2)
+                                {
+                                    for(j = 0; j < 8; j++) 
+                                    {
+                                        eightbits[7-j] = getBit(arraymessage[byteread + 14 + ttr], j);
+                                        trajectoryIntentTCPTurnRadius = trajectoryIntentTCPTurnRadius + eightbits[7-j] * Math.Pow(2,j);
+                                    }
+                                    ttr++;
+                                }
+                                trajectoryIntentTCPTurnRadius = trajectoryIntentTCPTurnRadius * 0.01;
+                                byteread = byteread + 16;
+                            }
                         break;
 
                         case 38:
@@ -844,7 +1131,8 @@ namespace ClassLibrary
                                 {
                                     eightbits[7-j] = getBit(arraymessage[byteread], j);
                                 }
-                                double value = eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                value = 0;
+                                value = eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
                                 if (value == 0)
                                 {
                                     lengthAircraft = 15;
@@ -958,6 +1246,30 @@ namespace ClassLibrary
 
                         case 44:
                             // I021/260
+                            /*
+                            for(j = 0; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                            }
+                            double value = eightbits[0] * Math.Pow(2,4) + eightbits[1] * Math.Pow(2,3) + eightbits[2] * Math.Pow(2,2) + eightbits[3] * Math.Pow(2,1) + eightbits[4] * Math.Pow(2,0);
+                            acasResolutionReport[0] = "Message Type: " + value.ToString();
+                            acasResolutionReportValues[0] = value;
+                            value = eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                            acasResolutionReport[1] = "Message Sub-type: " + value.ToString();
+                            acasResolutionReportValues[1] = value;
+                            for(j = 0; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread+1], j);
+                            }
+                            value = eightbits[0] * Math.Pow(2,13) + eightbits[1] * Math.Pow(2,12) + eightbits[2] * Math.Pow(2,11) + eightbits[3] * Math.Pow(2,10) + eightbits[4] * Math.Pow(2,9) + eightbits[5] * Math.Pow(2,8) + eightbits[6] * Math.Pow(2,7) + eightbits[7] * Math.Pow(2,6);
+                            for(j = 0; j < 8; j++) 
+                            {
+                                eightbits[7-j] = getBit(arraymessage[byteread+2], j);
+                            }
+                            value = value + eightbits[0] * Math.Pow(2,5) + eightbits[1] * Math.Pow(2,4) + eightbits[2] * Math.Pow(2,3) + eightbits[3] * Math.Pow(2,2) + eightbits[4] * Math.Pow(2,1) + eightbits[5] * Math.Pow(2,0);
+                            acasResolutionReport[2] = "Active Resolution Advisories: "
+                            */
+
                         break;
 
                         case 45:
