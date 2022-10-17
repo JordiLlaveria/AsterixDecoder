@@ -89,6 +89,12 @@ namespace ClassLibrary
         // 20 Mode 3/A Code in Octal Representation
         string mode3A;
 
+        // 21 Roll Angle
+        double rollAngle;
+
+        // 22 Flight Level
+        double flightLevel;
+
         // 24 Magnetic Heading
         double magneticHeading;
 
@@ -819,11 +825,51 @@ namespace ClassLibrary
 
                         case 21:
                             // I021/230
+
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+
+                            bool[] octetRoll = getOctet(arraymessage[byteread]);
+
+                            BitArray rollBits = new BitArray(twobytes);
+
+                            if (octetRoll[0])
+                            {
+                                BitArray rollbitsComplement = complement2(Reverse(rollBits));
+
+                                rollAngle = convertToInt32(Reverse(rollbitsComplement)) * 0.01;
+                                rollAngle = rollAngle * (-1);
+                            }
+                            else
+                            {
+                                rollAngle = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]) * 0.01;
+                            }
+
                             byteread = byteread + 2;
                         break;
 
                         case 22:
                             // I021/145
+
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+
+                            bool[] octetFL = getOctet(arraymessage[byteread]);
+
+                            BitArray flBits = new BitArray(twobytes);
+
+                            if (octetFL[0])
+                            {
+                                BitArray rollbitsComplement = complement2(Reverse(flBits));
+
+                                flightLevel = convertToInt32(Reverse(rollbitsComplement))/4.0;
+                                flightLevel = flightLevel * (-1);
+                            }
+                            else
+                            {
+                                flightLevel = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1])/4.0;
+                            }
+
                             byteread = byteread + 2;
                         break;
 
