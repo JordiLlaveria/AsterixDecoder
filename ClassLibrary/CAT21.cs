@@ -105,6 +105,16 @@ namespace ClassLibrary
         string rangeExceeded;
         double barometricVerticalRate;
 
+        // 27 Geometric Vertical Rate
+        string rangeExceededVert;
+        double geometricVerticalRate;
+
+        // 28 Airborne Ground Vector
+
+        double groundSpeed; // knots
+        double trackAngle;
+        string rangeExceededAirborne;
+
         // 35 Selected Altitude
         string[] selectedAltitudeInfo = new string[2];
         double selectedAltitude;
@@ -860,9 +870,9 @@ namespace ClassLibrary
 
                             if (octetFL[0])
                             {
-                                BitArray rollbitsComplement = complement2(Reverse(flBits));
+                                BitArray flbitsComplement = complement2(Reverse(flBits));
 
-                                flightLevel = convertToInt32(Reverse(rollbitsComplement))/4.0;
+                                flightLevel = convertToInt32(Reverse(flbitsComplement))/4.0;
                                 flightLevel = flightLevel * (-1);
                             }
                             else
@@ -947,7 +957,7 @@ namespace ClassLibrary
 
                             bool[] octet2bar = getOctet(arraymessage[byteread + 1]);
                             bool[] z = new bool[15];
-                            bool[] octet1Bar = new bool[] { octetBar[7], octetBar[6], octetBar[5], octetBar[4], octetBar[3], octetBar[2], octetBar[1] };
+                            bool[] octet1Bar = new bool[] { octetBar[1], octetBar[2], octetBar[3], octetBar[4], octetBar[5], octetBar[6], octetBar[7] };
                             octet1Bar.CopyTo(z, 0);
                             octet2bar.CopyTo(z, 7);
                             BitArray firstBits = new BitArray(z);
@@ -973,11 +983,89 @@ namespace ClassLibrary
 
                         case 27:
                             // I021/157
-                        break;
+
+                            bool[] octetVert = getOctet(arraymessage[byteread]);
+                            rangeExceededVert = octetVert[0] ? "Value exceeds defined range" : "Value in defined range";
+
+                            bool[] octet2Vert = getOctet(arraymessage[byteread + 1]);
+                            bool[] vertJunts = new bool[15];
+                            bool[] octet1Vert = new bool[] { octetVert[1], octetVert[2], octetVert[3], octetVert[4], octetVert[5], octetVert[6], octetVert[7] };
+                            octet1Vert.CopyTo(vertJunts, 0);
+                            octet2Vert.CopyTo(vertJunts, 7);
+                            BitArray firstBitsVert = new BitArray(vertJunts);
+
+                            if (octetVert[1])
+                            {
+                                BitArray firstBitsCompVert = complement2(firstBitsVert);
+                                bool[] geometric = new bool[16];
+                                geometric[0] = false;
+                                firstBitsCompVert.CopyTo(geometric, 1);
+                                BitArray geometricBit = new BitArray(geometric);
+                                geometricVerticalRate = convertToInt32(Reverse(geometricBit)) * (-1) * 6.25;
+
+                            }
+                            else
+                            {
+                                geometricVerticalRate = convertToInt32(Reverse(firstBitsVert)) * 6.25;
+                            }
+                            byteread = byteread + 2;
+
+                            break;
 
                         case 28:
                             // I021/160
-                        break;
+
+                            // ground speed
+
+                            bool[] octetGround = getOctet(arraymessage[byteread]);
+                            rangeExceededAirborne = octetGround[0] ? "Value exceeds defined range" : "Value in defined range";
+
+                            bool[] octet2Ground = getOctet(arraymessage[byteread + 1]);
+                            bool[] groundJunts = new bool[15];
+                            bool[] octet1Ground = new bool[] { octetGround[1], octetGround[2], octetGround[3], octetGround[4], octetGround[5], octetGround[6], octetGround[7] };
+                            octet1Ground.CopyTo(groundJunts, 0);
+                            octet2Ground.CopyTo(groundJunts, 7);
+                            BitArray firstBitsGround = new BitArray(groundJunts);
+
+                            if (octetGround[1])
+                            {
+                                BitArray firstBitsCompGround = complement2(firstBitsGround);
+                                bool[] ground = new bool[16];
+                                ground[0] = false;
+                                firstBitsCompGround.CopyTo(ground, 1);
+                                BitArray groundBit = new BitArray(ground);
+                                groundSpeed = convertToInt32(Reverse(groundBit)) * (-1) * Math.Pow(2,-14); 
+
+                            }
+                            else
+                            {
+                                groundSpeed = convertToInt32(Reverse(firstBitsGround)) * Math.Pow(2, -14);
+                            }
+
+                            // Track Angle
+
+                            twobytes[1] = arraymessage[byteread + 2];
+                            twobytes[0] = arraymessage[byteread + 3];
+
+                            bool[] octetTrack = getOctet(arraymessage[byteread]);
+
+                            BitArray trackAngleBits = new BitArray(twobytes);
+
+                            if (octetTrack[0])
+                            {
+                                BitArray trackAnglebitsComplement = complement2(Reverse(trackAngleBits));
+
+                                trackAngle = convertToInt32(Reverse(trackAnglebitsComplement)) * 360.0 / Math.Pow(2,16);
+                                trackAngle = trackAngle * (-1);
+                            }
+                            else
+                            {
+                                trackAngle = getInt32FromBytes(0, 0, arraymessage[byteread+2], arraymessage[byteread + 3]) * 360.0 / Math.Pow(2, 16);
+                            }
+
+                            byteread = byteread + 4;
+
+                            break;
 
                         case 29:
                             // I021/165
