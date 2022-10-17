@@ -301,7 +301,7 @@ namespace ClassLibrary
                         break;
 
                         case 5:
-                            // I021/130
+                            // I021/130 NO FUNCIONA, cambiar el 2 complement
                             
                             bool[] octetlat = getOctet(arraymessage[byteread]);
                             bool[] octetlong = getOctet(arraymessage[byteread + 3]);
