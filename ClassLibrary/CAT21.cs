@@ -83,6 +83,12 @@ namespace ClassLibrary
         // 18 Quality Indicators
         string[] qualityIndicators = new string[12];
 
+        // 19 MOPS Version
+        string[] MOPSversion = new string[3];
+
+        // 20 Mode 3/A Code in Octal Representation
+        string mode3A;
+
         // 24 Magnetic Heading
         double magneticHeading;
 
@@ -740,15 +746,74 @@ namespace ClassLibrary
                                     }
                                 }
                             }
+                            byteread = byteread + 1; //No quadren les posicions, falta una
                         break;
 
                         case 19:
-                            // I021/210
+                            // I021/210 
+                            
+                            bool[] octetMOPS = getOctet(arraymessage[byteread]);
+
+                            MOPSversion[0] = octetMOPS[1] ? "MOPS Version is not supported by the GS" : "MOPS Version is supported by the GS";
+
+                            if (octetMOPS[2] == false && octetMOPS[3] == false && octetMOPS[4] == false)
+                            {
+                                MOPSversion[1] = "Version: ED102/DO-260";
+                            }
+                            else if (octetMOPS[2] == false && octetMOPS[3] == false && octetMOPS[4] == true)
+                            {
+                                MOPSversion[1] = "Version: DO-260A";
+                            }
+                            else if (octetMOPS[2] == false && octetMOPS[3] == true && octetMOPS[4] == false)
+                            {
+                                MOPSversion[1] = "ED102A/DO-260B";
+                            }
+
+                            BitArray lttBits = new BitArray(new bool[] { octetMOPS[7], octetMOPS[6], octetMOPS[5] }); 
+                            int ltt = convertToInt32(lttBits);
+
+                            if(ltt == 0)
+                            {
+                                MOPSversion[2] = "Link Technology Type: Other";
+                            }
+                            else if (ltt == 1)
+                            {
+                                MOPSversion[2] = "Link Technology Type: UAT";
+                            }
+                            else if (ltt == 2)
+                            {
+                                MOPSversion[2] = "Link Technology Type: 1090 ES";
+                            }
+                            else if (ltt == 3)
+                            {
+                                MOPSversion[2] = "Link Technology Type: VDL 4";
+                            }
+                            if (ltt == 0)
+                            {
+                                MOPSversion[2] = "Link Technology Type: Not Assigned";
+                            }
+
                             byteread = byteread + 1;
                         break;
 
                         case 20:
                             // I021/070
+
+                            bool[] octet1 = getOctet(arraymessage[byteread]);
+                            bool[] octet2 = getOctet(arraymessage[byteread + 1]);
+
+                            BitArray Abits = new BitArray(new bool[] { octet1[6], octet1[5], octet1[4] });
+                            BitArray Bbits = new BitArray(new bool[] { octet2[1], octet2[0], octet1[7] });
+                            BitArray Cbits = new BitArray(new bool[] { octet2[4], octet2[3], octet2[2] });
+                            BitArray Dbits = new BitArray(new bool[] { octet2[7], octet2[6], octet2[5] });
+
+                            int A = convertToInt32(Abits);
+                            int B = convertToInt32(Bbits);
+                            int C = convertToInt32(Cbits);
+                            int D = convertToInt32(Dbits);
+
+                            mode3A = A.ToString() + B.ToString() + C.ToString() + D.ToString();
+
                             byteread = byteread + 2;
                         break;
 
