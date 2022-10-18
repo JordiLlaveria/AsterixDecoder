@@ -1378,6 +1378,22 @@ namespace ClassLibrary
 
                         case 34:
                             // I021/220
+
+                            bool[] octetMet = getOctet(arraymessage[byteread]);
+                            int pos = 0;
+                            while (pos < 8)
+                            {
+                                if (octetMet[pos] == true && pos == 0)
+                                {
+                                    // Wind speed
+
+                                    windspeed
+
+                                }
+
+                                pos++;
+                            }
+
                         break;
 
                         case 35:
