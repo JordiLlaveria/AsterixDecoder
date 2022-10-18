@@ -1294,8 +1294,84 @@ namespace ClassLibrary
 
                         case 33:
                             // I021/020
+                            int category = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
+                            if(category == 0)
+                            {
+                                emitterCategory = "No ADS-B Emitter Category Information";
+                            }
+                            else if(category == 1)
+                            {
+                                emitterCategory = "light aircraft <= 15500 lbs";
+                            }
+                            else if(category == 2)
+                            {
+                                emitterCategory = "15500 lbs < small aircraft <75000 lbs";
+                            }
+                            else if(category == 3)
+                            {
+                                emitterCategory = "75000 lbs < medium a/c < 300000 lbs";
+                            }
+                            else if(category == 4)
+                            {
+                                emitterCategory = "High Vortex Large";
+                            }
+                            else if(category == 5)
+                            {
+                                emitterCategory = "300000 lbs <= heavy aircraft";
+                            }
+                            else if(category == 6)
+                            {
+                                emitterCategory = "highly manoeuvrable (5g acceleration capability) and high speed (>400 knots cruise)";
+                            }                            
+                            else if(category == 10)
+                            {
+                                emitterCategory = "rotocraft";
+                            }
+                            else if(category == 11)
+                            {
+                                emitterCategory = "glider / sailplane";
+                            }
+                            else if(category == 12)
+                            {
+                                emitterCategory = "lighter-than-air";
+                            }
+                            else if(category == 13)
+                            {
+                                emitterCategory = "unmanned aerial vehicle";
+                            }
+                            else if(category == 14)
+                            {
+                                emitterCategory = "space / transatmospheric vehicle";
+                            }
+                            else if(category == 15)
+                            {
+                                emitterCategory = "ultralight / handglider / paraglider";
+                            }
+                            else if(category == 16)
+                            {
+                                emitterCategory = "parachutist / skydiver";
+                            }
+                            else if(category == 20)
+                            {
+                                emitterCategory = "surface emergency vehicle";
+                            }
+                            else if(category == 21)
+                            {
+                                emitterCategory = "surface service vehicle";
+                            }
+                            else if(category == 22)
+                            {
+                                emitterCategory = "fixed ground or tethered obstruction";
+                            }
+                            else if(category == 23)
+                            {
+                                emitterCategory = "cluster obstacle";
+                            }
+                            else if(category == 24)
+                            {
+                                emitterCategory = "line obstacle";
 
-
+                            }
 
                             byteread = byteread + 1;
                         break;
