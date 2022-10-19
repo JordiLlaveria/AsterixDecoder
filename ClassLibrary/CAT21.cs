@@ -127,6 +127,12 @@ namespace ClassLibrary
         // 33 Emitter Category
         string emitterCategory;
 
+        // 34 Met Information
+        double windSpeed;
+        double windDirection;
+        double temperature;
+        byte turbulence;
+
         // 35 Selected Altitude
         string[] selectedAltitudeInfo = new string[2];
         double selectedAltitude;
@@ -1370,7 +1376,6 @@ namespace ClassLibrary
                             else if(category == 24)
                             {
                                 emitterCategory = "line obstacle";
-
                             }
 
                             byteread = byteread + 1;
@@ -1381,14 +1386,44 @@ namespace ClassLibrary
 
                             bool[] octetMet = getOctet(arraymessage[byteread]);
                             int pos = 0;
+                            byteread = byteread + 1;
                             while (pos < 8)
                             {
                                 if (octetMet[pos] == true && pos == 0)
                                 {
                                     // Wind speed
+                                    windSpeed = getInt32FromBytes(0 ,0, arraymessage[byteread], arraymessage[byteread + 1]);
+                                    byteread = byteread + 2;
+                                }
+                                else if (octetMet[pos] == true && pos == 1)
+                                {
+                                    // Wind direction
+                                    windDirection = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
+                                    byteread = byteread + 2;
+                                }
+                                else if (octetMet[pos] == true && pos == 2)
+                                {
+                                    // Temperature
+                                    bool[] octetMetTemp = getOctet(arraymessage[byteread]);
+                                    if (octetMetTemp[0])
+                                    {
+                                        twobytes[1] = arraymessage[byteread];
+                                        twobytes[0] = arraymessage[byteread + 1];
+                                        BitArray temperatureBits = new BitArray(twobytes);
+                                        BitArray temperatureBitsComp = complement2(Reverse(temperatureBits));
+                                        temperature = convertToInt32(Reverse(temperatureBitsComp))*0.25*(-1);
+                                    }
+                                    else
+                                    {
+                                        temperature = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
+                                    }                                    
 
-                                    windspeed
-
+                                    byteread = byteread + 2;
+                                }
+                                else if(octetMet[pos] == true && pos == 3)
+                                {
+                                    turbulence = arraymessage[byteread];
+                                    byteread = byteread + 1;
                                 }
 
                                 pos++;
@@ -1399,6 +1434,7 @@ namespace ClassLibrary
                         case 35:
                             // I021/146
                             //byteread = 69;
+                            Console.Write(byteread);
                             eightbits[0] = getBit(arraymessage[byteread], 7);
                             if (eightbits[0] == 0)
                                 selectedAltitudeInfo[0] = "Source Availability: No source information provided";
