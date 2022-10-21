@@ -27,8 +27,6 @@ namespace ClassLibrary
                     arraymessage[j] = messages[i];
                     i++;
                 }
-                //Array.Copy(messages, i, arraymessage, 0, lenmessage);
-                //i = i + lenmessage - 1;
                 if (arraymessage[0] == 10)
                 {
                     CAT10 cat10 = new CAT10(arraymessage);
@@ -41,6 +39,16 @@ namespace ClassLibrary
                 }
             }
             Console.WriteLine("Hola");
+        }
+
+        public List<CAT10> getCAT10List()
+        {
+            return CAT10list;
+        }
+
+        public List<CAT21> getCAT21List()
+        {
+            return CAT21list;
         }
 
     }

@@ -17,7 +17,6 @@ namespace ClassLibrary
         // 1 I010/010 Data Source Identifier
         byte sac;
         byte sic;
-
         // 2 I010/000 Message Type
         string messageType;
 
@@ -36,6 +35,10 @@ namespace ClassLibrary
 
         // 4 I010/140 Time of the Day
         double timeOfTheDay;
+        int hores;
+        int minuts;
+        int segons;
+        double ms;
 
         // 6 I010/040 Measured Position in Polar Co-ordinates
         double rho;
@@ -291,17 +294,52 @@ namespace ClassLibrary
                         case 3:
                             // 4 I010/140 Time of the Day
                             this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / (double)128; // segons
+                            double segonsprov = timeOfTheDay;
+                            double minutsprov = segonsprov / 60;
+                            double horesprov = minutsprov / 60;
+                            double horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            hores = Convert.ToInt32(horesfinals);
+                            double minutsfinalsprov;
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minuts = Convert.ToInt32(minutsfinalsprov);
+                            double segonsfinalsprov;
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                ms = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                ms = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            ms = Math.Truncate(ms * 1) / 1;
+                            segons = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
                             break;
 
                         case 4:
-
+                            //WGS-Co-ordinates
+                            //
+                            //
+                            //
                             break;
 
                         case 5:
                             // 6 I010/040 Measured Position in Polar Co-ordinates                            
                             rho = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
                             theta = getInt32FromBytes(0, 0, arraymessage[byteread + 2], arraymessage[byteread + 3]) * 0.0055;
+                            theta = Math.Truncate(theta * 100) / 100;
                             byteread = byteread + 4;
                             break;
 
@@ -322,16 +360,16 @@ namespace ClassLibrary
                             {
                                 onebyte[0] = arraymessage[byteread];
                                 BitArray xbits1 = new BitArray(onebyte);
-                                BitArray xbits1Complement = complement2(xbits1);
+                                BitArray xbits1Complement = complement2xy(xbits1);
                                 onebyte[0] = arraymessage[byteread+1];
                                 BitArray xbits2 = new BitArray(onebyte);
-                                BitArray xbits2Complement = complement2(xbits2);
+                                BitArray xbits2Complement = complement2xy(xbits2);
                                 
                                 xbits1Complement.CopyTo(x1Array,0);                                
                                 xbits2Complement.CopyTo(x2Array,0);
 
                                 x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
-                                x = x*(-1);
+                                x = x*(-1) -1;
                             }
                             else
                             {
@@ -343,10 +381,10 @@ namespace ClassLibrary
                             {
                                 onebyte[0] = arraymessage[byteread+2];
                                 BitArray ybits1 = new BitArray(onebyte);
-                                BitArray ybits1Complement = complement2(ybits1);
+                                BitArray ybits1Complement = complement2xy(ybits1);
                                 onebyte[0] = arraymessage[byteread+3];
                                 BitArray ybits2 = new BitArray(onebyte);
-                                BitArray ybits2Complement = complement2(ybits2);
+                                BitArray ybits2Complement = complement2xy(ybits2);
                                 
                                 ybits1Complement.CopyTo(y1Array,0);                                
                                 ybits2Complement.CopyTo(y2Array,0);
@@ -377,7 +415,8 @@ namespace ClassLibrary
                                             groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,p);
                                         }
                                     }
-                                    groundspeed_polar_coordinates = groundspeed_polar_coordinates * 0.22;
+                                    groundspeed_polar_coordinates = groundspeed_polar_coordinates * Math.Pow(2, -14) * 1852;
+                                    groundspeed_polar_coordinates = Math.Truncate(groundspeed_polar_coordinates * 100) / 100;
                                 }
                                 else
                                 {
@@ -388,6 +427,7 @@ namespace ClassLibrary
                                         }
                                     }
                                     trackangle_polar_coordinates = trackangle_polar_coordinates * (360/Math.Pow(2,16));
+                                    trackangle_polar_coordinates = Math.Truncate(trackangle_polar_coordinates * 100) / 100;
                                 }
                             }
                             byteread = byteread + 4;
@@ -401,6 +441,7 @@ namespace ClassLibrary
                                 twobytes[1] = arraymessage[byteread + j * 2];
                                 twobytes[0] = arraymessage[byteread + j * 2 + 1];
                                 bytestogether1 = new BitArray(twobytes);
+                                bytestogether1 = Reverse(bytestogether1);
                                 onebyte[0] = getBit(twobytes[1], 7);
                                 if (onebyte[0] == 1)
                                 {
@@ -412,7 +453,7 @@ namespace ClassLibrary
                                     for (int s = 0; s < bytestogether1.Length; s++)
                                     {
                                         if (bytestogether1[s] == true) { 
-                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,s);
+                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,bytestogether1.Length - 1 - s);
                                         }
                                     }
                                     if (complement2done == true)
@@ -429,7 +470,7 @@ namespace ClassLibrary
                                     for (int q = 0; q < bytestogether1.Length; q++)
                                     {
                                         if (bytestogether1[q] == true) { 
-                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,q);
+                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,bytestogether1.Length - 1 - q);
                                         }
                                     }
                                     if (complement2done == true)
@@ -1142,6 +1183,7 @@ namespace ClassLibrary
                             {
                                 onebyte[0] = arraymessage[byteread + j];
                                 simplebyte = new BitArray(onebyte);
+                                simplebyte = Reverse(simplebyte);
                                 onebyte1[0] = getBit(onebyte[0], 7);
                                 if (onebyte1[0] == 1)
                                 {
@@ -1153,7 +1195,7 @@ namespace ClassLibrary
                                     for ( k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
-                                            Ax = Ax + Math.Pow(2,k);
+                                            Ax = Ax + Math.Pow(2,simplebyte.Length - 1 - k);
                                         }
                                     }
                                     if (complement2done == true)
@@ -1170,7 +1212,7 @@ namespace ClassLibrary
                                     for (k = 0; k < simplebyte.Length; k++)
                                     {
                                         if (simplebyte[k] == true) { 
-                                            Ay = Ay + Math.Pow(2,k);
+                                            Ay = Ay + Math.Pow(2,simplebyte.Length - 1 - k);
                                         }
                                     }
                                     if (complement2done == true)
@@ -1189,6 +1231,115 @@ namespace ClassLibrary
             }
         }
 
+        public string[] getInformation(int j)
+        {
+            string[] values = new string[28];
+            values[0] = j.ToString();
+            values[1] = "10";
+            for (int k = 2; k < values.Length; k++)
+            {
+                values[k] = "No data";
+            }
+            for (int i = 0; i < UAP.Length; i++)
+            {
+                if (UAP[i] == 1)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            values[2] = sac.ToString();
+                            values[3] = sic.ToString();
+                            break;
+                        case 1:
+                            values[4] = messageType;
+                            break;
+                        case 2:
+                            values[5] = "Click to expand";
+                            break;
+                        case 3:
+                            if (hores > 9)
+                                values[6] = hores.ToString();
+                            else
+                                values[6] = "0" + hores.ToString();
+                            if (minuts > 9)
+                                values[6] = values[6] + ":" + minuts.ToString();
+                            else
+                                values[6] = values[6] + ":0" + minuts.ToString();
+                            if (segons > 9)
+                                values[6] = values[6] + ":" + segons.ToString();
+                            else
+                                values[6] = values[6] + ":0" + segons.ToString();
+                            values[6] = values[6] + ":" + ms.ToString();
+                            break;
+                        case 4:
+                            //WGS
+                            break;
+                        case 5:
+                            values[8] = "ρ: " + rho.ToString() + " m, θ: " + theta.ToString() + "º";
+                            break;
+                        case 6:
+                            values[9] = "X: " + x.ToString() + ", Y: " + y.ToString();
+                            break;
+                        case 8:
+                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString() + " m/s, TA: " + trackangle_polar_coordinates.ToString() + "º";
+                            break;
+                        case 9:
+                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString() + " m/s, Vy: " + vy_cartesian_coordinates.ToString() + " m/s";
+                            break;
+                        case 10:
+                            values[12] = tracknumber.ToString();
+                            break;
+                        case 11:
+                            values[13] = "Click to expand";
+                            break;
+                        case 12:
+                            values[14] = "Click to expand";
+                            break;
+                        case 13:
+                            values[15] = targetaddress;
+                            break;
+                        case 14:
+                            values[16] = targetIdentification;
+                            break;
+                        case 15:
+                            break;
+                        case 16:
+                            //MODE S MB
+                            break;
+                        case 17:
+                            values[18] = vfi;
+                            break;
+                        case 18:
+                            values[19] = FL.ToString();
+                            break;
+                        case 19:
+                            values[20] = height.ToString();
+                            break;
+                        case 20:
+                            values[21] = "Length: " + length.ToString() + " m, Orientation: " + orientation.ToString() + ", Width: " + width.ToString() + " m";
+                            break;
+                        case 21:
+                            values[22] = "Click to expand";
+                            break;
+                        case 22:
+                            values[23] = "Click to expand";
+                            break;
+                        case 23:
+                            break;
+                        case 24:
+                            values[24] = "σx = " + x_standard_deviation.ToString() + ", σy = " + y_standard_deviation.ToString() + " σxy = " + covariance.ToString();
+                            break;
+                        case 26:
+                            values[26] = amplitudeOfPrimaryPlot.ToString();
+                            break;
+                        case 27:
+                            values[27] = "Ax: " + Ax.ToString() + " m/s^2, Ay: " + Ay.ToString() + " m/s^2";
+                            break;
+                    }
+                }
+            }
+            return values;
+        }
         public byte getBit(byte b, int bitNumber)
         {
             int valueint = (b >> bitNumber) & 0x01;
@@ -1249,7 +1400,7 @@ namespace ClassLibrary
             return array;
         }
 
-        public BitArray complement2(BitArray b)
+        public BitArray complement2xy(BitArray b)
         {
             //Complemento a 1
             for(int i = 0; i < b.Length; i++)
@@ -1282,6 +1433,47 @@ namespace ClassLibrary
                     b[j]=false;
                 }
                 j++;
+            }
+            return b;
+        }
+
+        public BitArray complement2(BitArray b)
+        {
+            //Complemento a 1
+            for (int i = 0; i < b.Length; i++)
+            {
+                if (b[i] == true)
+                {
+                    b[i] = false;
+                }
+                else
+                {
+                    b[i] = true;
+                }
+            }
+            bool mellevoununo = false;
+            int j = b.Length-2;
+            if (b[b.Length-1] == true)
+            {
+                b[b.Length-1] = false;
+                mellevoununo = true;
+            }
+            else
+            {
+                b[b.Length-1] = true;
+            }
+            while (mellevoununo == true && j > 0)
+            {
+                if (b[j] == false)
+                {
+                    b[j] = true;
+                    mellevoununo = false;
+                }
+                else
+                {
+                    b[j] = false;
+                }
+                j = j-1;
             }
             return b;
         }
