@@ -716,7 +716,7 @@ namespace ClassLibrary
                                 string decimalNumber = fourbits[0].ToString();
                                 int number = int.Parse(decimalNumber);
                                 stringbits = number.ToString("x");
-                                targetaddress = targetaddress + stringbits;
+                                targetaddress = targetaddress + stringbits.ToUpper();
                                 positionfourbits = 0;
                                 fourbits[0] = 0;
                             }
@@ -1293,7 +1293,7 @@ namespace ClassLibrary
                             values[13] = "Click to expand";
                             break;
                         case 12:
-                            values[14] = "Click to expand";
+                            values[14] = code3A.ToString();
                             break;
                         case 13:
                             values[15] = targetaddress;

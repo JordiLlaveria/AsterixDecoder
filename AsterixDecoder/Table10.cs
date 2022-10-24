@@ -68,9 +68,9 @@ namespace AsterixDecoder
             CAT10Grid.Columns[21].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             CAT10Grid.Columns[27].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             CAT10Grid.Columns[0].Width = 50;
-            CAT10Grid.Columns[1].Width = 75;
-            CAT10Grid.Columns[2].Width = 50;
-            CAT10Grid.Columns[3].Width = 50;
+            CAT10Grid.Columns[1].Width = 65;
+            CAT10Grid.Columns[2].Width = 35;
+            CAT10Grid.Columns[3].Width = 35;
             CAT10Grid.RowHeadersVisible = false;
         }
     }
