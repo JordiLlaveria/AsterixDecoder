@@ -62,6 +62,18 @@ namespace AsterixDecoder
             table10.Show();
             table10.BringToFront();
         }
+
+        private void CAT21TableButton_Click(object sender, EventArgs e)
+        {
+            Table21 table21 = new Table21(CAT21list);
+            table21.TopLevel = false;
+            table21.FormBorderStyle = FormBorderStyle.None;
+            table21.Dock = DockStyle.Fill;
+            panelMenu.Controls.Add(table21);
+            panelMenu.Tag = table21;
+            table21.Show();
+            table21.BringToFront();
+        }
     }
 
 }

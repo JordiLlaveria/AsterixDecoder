@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace ClassLibrary
 {
@@ -11,6 +12,7 @@ namespace ClassLibrary
     {
         List<CAT10> CAT10list = new List<CAT10>();
         List<CAT21> CAT21list = new List<CAT21>();
+        ArrayList CATBothlist = new ArrayList();
         public AsterixFile(string path)
         {
             byte[] messages = File.ReadAllBytes(path);
@@ -31,11 +33,13 @@ namespace ClassLibrary
                 {
                     CAT10 cat10 = new CAT10(arraymessage);
                     CAT10list.Add(cat10);
+                    CATBothlist.Add(cat10);
                 }
                 else if(arraymessage[0] == 21)
                 {
                     CAT21 cat21 = new CAT21(arraymessage);
                     CAT21list.Add(cat21);
+                    CATBothlist.Add(cat21);
                 }
             }
             Console.WriteLine("Hola");

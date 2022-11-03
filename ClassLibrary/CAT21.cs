@@ -24,7 +24,7 @@ namespace ClassLibrary
         byte[] fourbytes = new byte[4];
         byte[] eightbits = new byte[8];
         bool[] octet;
-        
+
         // 0 Data Source identification
         byte sac;
         byte sic;
@@ -40,6 +40,10 @@ namespace ClassLibrary
 
         // 4 Time of Applicability for Position
         double timeOfApplicabilityForPosition;
+        int horesApplicabilityPosition;
+        int minutsApplicabilityPosition;
+        int segonsApplicabilityPosition;
+        double msApplicabilityPosition;
 
         // 5 Position in WGS-84 Co-ordinates
         double latitude;
@@ -47,10 +51,14 @@ namespace ClassLibrary
 
         // 6 High-Resolution Position inf WGS-84 Co-cordinates
         double highResLatitude;
-        double  highResLongitude;
+        double highResLongitude;
 
         // 8 Time of Applicability for Velocity
-        int timeOfApplicabilityVelocity;
+        double timeOfApplicabilityVelocity;
+        int horesApplicabilityVelocity;
+        int minutsApplicabilityVelocity;
+        int segonsApplicabilityVelocity;
+        double msApplicabilityVelocity;
 
         // 9 Air Speed
         string airSpeedUnits;
@@ -65,16 +73,32 @@ namespace ClassLibrary
 
         // 12 Time of Message Reception for Position
         double tomrp;
+        int horestomrp;
+        int minutstomrp;
+        int segonstomrp;
+        double mstomrp;
 
 
         // 13 Time of Message Reception of Position-High Precision
         double tomrphp;
+        int horestomrphp;
+        int minutstomrphp;
+        int segonstomrphp;
+        double mstomrphp;
 
         // 14 Time of Message Reception for Velocity
         double tomrv;
+        int horestomrv;
+        int minutstomrv;
+        int segonstomrv;
+        double mstomrv;
 
         // 15 Time of Message Reception of Velocity-High Precision
         double tomrvhp;
+        int horestomrvhp;
+        int minutstomrvhp;
+        int segonstomrvhp;
+        double mstomrvhp;
 
         // 17 Geometric Height
         double geometricHeight;
@@ -120,6 +144,10 @@ namespace ClassLibrary
 
         // 30 Time of ASTERIX Report Transmission
         double timeOfAsterixReportTransmission;
+        int horestort;
+        int minutstort;
+        int segonstort;
+        double mstort;
 
         // 32 Target Identification
         string targetIdentification;
@@ -183,12 +211,12 @@ namespace ClassLibrary
             this.flightinformation = arraymessage;
             for (int i = 0; i < 8; i++)
             {
-                byte byteobtained = getBit(arraymessage[byteread], 7-i);
+                byte byteobtained = getBit(arraymessage[byteread], 7 - i);
                 UAP[j] = byteobtained;
                 j++;
             }
-            
-            while (UAP[j-1] == 1)
+
+            while (UAP[j - 1] == 1)
             {
                 byteread++;
                 for (int i = 0; i < 8; i++)
@@ -204,20 +232,20 @@ namespace ClassLibrary
             {
                 if (UAP[i] == 1)
                 {
-                    switch(i)
+                    switch (i)
                     {
-                        case 0: 
+                        case 0:
                             // I021/010
                             sac = arraymessage[byteread];
                             sic = arraymessage[byteread + 1];
                             byteread = byteread + 2;
                             break;
 
-                        case 1: 
+                        case 1:
                             // I021/040
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             byteread++;
                             if (eightbits[0] == 0 && eightbits[1] == 0 && eightbits[2] == 0)
@@ -248,9 +276,9 @@ namespace ClassLibrary
                                 targetReportDescriptor[3] = "Report Type: Report from field monitor (fixed transponder)";
                             if (eightbits[7] == 1)
                             {
-                                for(j = 0; j < 8; j++) 
+                                for (j = 0; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 byteread++;
                                 if (eightbits[0] == 0)
@@ -283,9 +311,9 @@ namespace ClassLibrary
                                     targetReportDescriptor[9] = "Confidence Level: Reserved for future use";
                                 if (eightbits[7] == 1)
                                 {
-                                    for(j = 0; j < 8; j++) 
+                                    for (j = 0; j < 8; j++)
                                     {
-                                        eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                        eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                     }
                                     byteread++;
                                     if (eightbits[2] == 0)
@@ -310,39 +338,70 @@ namespace ClassLibrary
                                         targetReportDescriptor[14] = "Range Check: Range Check failed";
                                 }
                             }
-                            
-                        break;
+
+                            break;
 
                         case 2:
                             // I021/161 Track Number
                             trackNumber = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 3:
                             // I021/015
-                            serviceIdentification = getInt32FromBytes(0,0,0,arraymessage[byteread]);
+                            serviceIdentification = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
                             byteread++;
-                        break;
+                            break;
 
-                        case 4: 
+                        case 4:
                             // I021/071
                             threebytes[2] = arraymessage[byteread];
                             threebytes[1] = arraymessage[byteread + 1];
                             threebytes[0] = arraymessage[byteread + 2];
                             bytestogether1 = new BitArray(threebytes);
                             bytestogether1 = Reverse(bytestogether1);
-                            for(int k = 0; k < threebytes.Length; k++)
+                            timeOfApplicabilityForPosition = 0;
+                            for (int k = 0; k < bytestogether1.Length; k++)
                             {
-                                timeOfApplicabilityForPosition = 0;
                                 if (bytestogether1[k] == true)
                                 {
-                                    timeOfApplicabilityForPosition = timeOfApplicabilityForPosition + Math.Pow(2, threebytes.Length - k);
+                                    timeOfApplicabilityForPosition = timeOfApplicabilityForPosition + Math.Pow(2, bytestogether1.Length - 1 - k);
                                 }
                             }
-                            timeOfApplicabilityForPosition = timeOfApplicabilityForPosition * Math.Pow(2,-7);
+                            timeOfApplicabilityForPosition = timeOfApplicabilityForPosition * Math.Pow(2, -7);
+                            double segonsprov = timeOfApplicabilityForPosition;
+                            double minutsprov = segonsprov / 60;
+                            double horesprov = minutsprov / 60;
+                            double horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            horesApplicabilityPosition = Convert.ToInt32(horesfinals);
+                            double minutsfinalsprov;
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minutsApplicabilityPosition = Convert.ToInt32(minutsfinalsprov);
+                            double segonsfinalsprov;
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                msApplicabilityPosition = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                msApplicabilityPosition = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            msApplicabilityPosition = Math.Truncate(msApplicabilityPosition * 1) / 1;
+                            segonsApplicabilityPosition = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
-                        break;
+                            break;
 
                         case 5:
                             // I021/130 NO FUNCIONA, cambiar el 2 complement
@@ -367,7 +426,7 @@ namespace ClassLibrary
                                 threebytes[1] = arraymessage[byteread + 1];
                                 threebytes[0] = arraymessage[byteread + 2];
                                 BitArray latbits = new BitArray(onebyte);
-                                BitArray latbitsComplement = complement2(Reverse(latbits));                              
+                                BitArray latbitsComplement = complement2(Reverse(latbits));
 
                                 latitude = convertToInt32(Reverse(latbitsComplement)) * 180 / (Math.Pow(2, 23));
                                 latitude = latitude * (-1);
@@ -377,7 +436,7 @@ namespace ClassLibrary
                                 lat1Array[0] = arraymessage[byteread];
                                 lat2Array[0] = arraymessage[byteread + 1];
                                 lat3Array[0] = arraymessage[byteread + 2];
-                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0])*180/(Math.Pow(2,23));
+                                latitude = getInt32FromBytes(0, lat1Array[0], lat2Array[0], lat3Array[0]) * 180 / (Math.Pow(2, 23));
                             }
                             if (longComp)
                             {
@@ -387,7 +446,7 @@ namespace ClassLibrary
                                 BitArray longbits = new BitArray(threebytes);
                                 BitArray longbitsComplement = complement2(Reverse(longbits));
 
-                                longitude =  convertToInt32(Reverse(longbitsComplement))* 180 / (Math.Pow(2, 23));
+                                longitude = convertToInt32(Reverse(longbitsComplement)) * 180 / (Math.Pow(2, 23));
                                 longitude = longitude * (-1);
                             }
                             else
@@ -398,15 +457,15 @@ namespace ClassLibrary
                                 longitude = getInt32FromBytes(0, long1Array[0], long2Array[0], long3Array[0]) * 180 / (Math.Pow(2, 23));
                             }
                             byteread = byteread + 6;
-                        break;
+                            break;
 
                         case 6:
                             // I021/131
                             Console.Write(byteread);
                             fourbytes[3] = arraymessage[byteread];
-                            fourbytes[2] = arraymessage[byteread+1];
-                            fourbytes[1] = arraymessage[byteread+2];
-                            fourbytes[0] = arraymessage[byteread+3];
+                            fourbytes[2] = arraymessage[byteread + 1];
+                            fourbytes[1] = arraymessage[byteread + 2];
+                            fourbytes[0] = arraymessage[byteread + 3];
                             byte complement2check = getBit(fourbytes[3], 7);
                             highResLatitude = 0;
                             if (complement2check == 1)
@@ -414,21 +473,21 @@ namespace ClassLibrary
                                 bytestogether1 = new BitArray(fourbytes);
                                 bytestogether1 = Reverse(bytestogether1);
                                 bytestogether1 = complement2(bytestogether1);
-                                for(int k = 0; k < bytestogether1.Length; k++)
+                                for (int k = 0; k < bytestogether1.Length; k++)
                                 {
                                     if (bytestogether1[k] == true)
-                                        highResLatitude = highResLatitude + Math.Pow(2,bytestogether1.Length - 1 - k);
+                                        highResLatitude = highResLatitude + Math.Pow(2, bytestogether1.Length - 1 - k);
                                 }
-                                highResLatitude =  highResLatitude * (180/(Math.Pow(2,30))) * -1;
+                                highResLatitude = highResLatitude * (180 / (Math.Pow(2, 30))) * -1;
                             }
                             else
                             {
-                                highResLatitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180/(Math.Pow(2,30)));
+                                highResLatitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180 / (Math.Pow(2, 30)));
                             }
-                            fourbytes[3] = arraymessage[byteread+4];
-                            fourbytes[2] = arraymessage[byteread+5];
-                            fourbytes[1] = arraymessage[byteread+6];
-                            fourbytes[0] = arraymessage[byteread+7];
+                            fourbytes[3] = arraymessage[byteread + 4];
+                            fourbytes[2] = arraymessage[byteread + 5];
+                            fourbytes[1] = arraymessage[byteread + 6];
+                            fourbytes[0] = arraymessage[byteread + 7];
                             complement2check = getBit(fourbytes[3], 7);
                             highResLongitude = 0;
                             if (complement2check == 1)
@@ -436,71 +495,99 @@ namespace ClassLibrary
                                 bytestogether1 = new BitArray(fourbytes);
                                 bytestogether1 = Reverse(bytestogether1);
                                 bytestogether1 = complement2(bytestogether1);
-                                for(int k = 0; k < bytestogether1.Length; k++)
+                                for (int k = 0; k < bytestogether1.Length; k++)
                                 {
                                     if (bytestogether1[k] == true)
-                                        highResLongitude = highResLongitude + Math.Pow(2,bytestogether1.Length - 1 - k);
+                                        highResLongitude = highResLongitude + Math.Pow(2, bytestogether1.Length - 1 - k);
                                 }
-                                highResLongitude = highResLongitude * (180/(Math.Pow(2,30))) * -1;
+                                highResLongitude = highResLongitude * (180 / (Math.Pow(2, 30))) * -1;
                             }
                             else
                             {
-                                highResLongitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180/(Math.Pow(2,30)));
+                                highResLongitude = getInt32FromBytes(fourbytes[3], fourbytes[2], fourbytes[1], fourbytes[0]) * (180 / (Math.Pow(2, 30)));
                             }
                             byteread = byteread + 8;
-                        break;
+                            break;
 
                         case 8:
                             // I021/072
-                            timeOfApplicabilityVelocity = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread+1], arraymessage[byteread+2]);
+                            timeOfApplicabilityVelocity = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]);
+                            segonsprov = timeOfApplicabilityVelocity;
+                            minutsprov = segonsprov / 60;
+                            horesprov = minutsprov / 60;
+                            horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            horesApplicabilityVelocity = Convert.ToInt32(horesfinals);
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minutsApplicabilityVelocity = Convert.ToInt32(minutsfinalsprov);
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                msApplicabilityVelocity = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                msApplicabilityVelocity = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            msApplicabilityVelocity = Math.Truncate(msApplicabilityVelocity * 1) / 1;
+                            segonsApplicabilityVelocity = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
-                            
-                        break;
+                            break;
 
-                        case 9: 
+                        case 9:
                             // I021/150
                             twobytes[1] = arraymessage[byteread];
-                            twobytes[0] = arraymessage[byteread+1];
-                            eightbits[0] = getBit(twobytes[1],7);
+                            twobytes[0] = arraymessage[byteread + 1];
+                            eightbits[0] = getBit(twobytes[1], 7);
                             bytestogether1 = new BitArray(twobytes);
                             bytestogether1 = Reverse(bytestogether1);
                             airSpeed = 0;
-                            for (int m = 1; m<bytestogether1.Length; m++)
+                            for (int m = 1; m < bytestogether1.Length; m++)
                             {
-                                airSpeed = airSpeed + Math.Pow(2,bytestogether1.Length - 2 - m);
+                                airSpeed = airSpeed + Math.Pow(2, bytestogether1.Length - 2 - m);
                             }
                             if (bytestogether1[0] == true)
-                            { 
+                            {
                                 airSpeedUnits = "Mach";
                                 airSpeed = airSpeed * 0.001;
                             }
                             else
-                            { 
+                            {
                                 airSpeedUnits = "IAS";
-                                airSpeed = airSpeed * Math.Pow(2,-14);
+                                airSpeed = airSpeed * Math.Pow(2, -14);
                             }
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 10:
                             // I021/151
                             twobytes[1] = arraymessage[byteread];
-                            twobytes[0] = arraymessage[byteread+1];
-                            eightbits[0] = getBit(twobytes[1],7);
+                            twobytes[0] = arraymessage[byteread + 1];
+                            eightbits[0] = getBit(twobytes[1], 7);
                             bytestogether1 = new BitArray(twobytes);
                             bytestogether1 = Reverse(bytestogether1);
                             trueAirspeed = 0;
-                            for (int m = 1; m<bytestogether1.Length; m++)
+                            for (int m = 1; m < bytestogether1.Length; m++)
                             {
-                                trueAirspeed = trueAirspeed + Math.Pow(2,bytestogether1.Length - 2 - m);
+                                trueAirspeed = trueAirspeed + Math.Pow(2, bytestogether1.Length - 2 - m);
                             }
                             if (bytestogether1[0] == true)
                                 rangeTrueAirspeed = "Value exceeds defined range";
                             else
                                 rangeTrueAirspeed = "Value in defined range";
                             byteread = byteread + 2;
-;
-                        break;
+                            ;
+                            break;
 
                         case 11:
                             // I021/080
@@ -528,7 +615,7 @@ namespace ClassLibrary
                                 string decimalNumber = fourbits[0].ToString();
                                 int number = int.Parse(decimalNumber);
                                 stringbits = number.ToString("x");
-                                targetAddress = targetAddress + stringbits;
+                                targetAddress = targetAddress + stringbits.ToUpper();
                                 positionfourbits = 0;
                                 fourbits[0] = 0;
                             }
@@ -538,6 +625,35 @@ namespace ClassLibrary
                         case 12:
                             // I021/073
                             tomrp = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) * Math.Pow(2, -7);
+                            segonsprov = tomrp;
+                            minutsprov = segonsprov / 60;
+                            horesprov = minutsprov / 60;
+                            horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            horestomrp = Convert.ToInt32(horesfinals);
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minutstomrp = Convert.ToInt32(minutsfinalsprov);
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                mstomrp = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                mstomrp = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            mstomrp = Math.Truncate(mstomrp * 1) / 1;
+                            segonstomrp = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
                             break;
 
@@ -566,6 +682,35 @@ namespace ClassLibrary
                         case 14:
                             // I021/075
                             tomrv = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) * Math.Pow(2, -7);
+                            segonsprov = tomrv;
+                            minutsprov = segonsprov / 60;
+                            horesprov = minutsprov / 60;
+                            horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            horestomrv = Convert.ToInt32(horesfinals);
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minutstomrv = Convert.ToInt32(minutsfinalsprov);
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                mstomrv = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                mstomrv = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            mstomrv = Math.Truncate(mstomrv * 1) / 1;
+                            segonstomrv = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
                             break;
 
@@ -622,13 +767,13 @@ namespace ClassLibrary
                             Console.Write(byteread);
                             // I021/090
                             double value;
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
                                 eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
-                            value = eightbits[0] * Math.Pow(2,2) + eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                            value = eightbits[0] * Math.Pow(2, 2) + eightbits[1] * Math.Pow(2, 1) + eightbits[2] * Math.Pow(2, 0);
                             qualityIndicators[0] = "NUCr or NACv: " + value.ToString();
-                            value = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                            value = eightbits[3] * Math.Pow(2, 3) + eightbits[4] * Math.Pow(2, 2) + eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                             qualityIndicators[1] = "NUCp or NIC: " + value.ToString();
                             byteread++;
                             if (eightbits[7] == 1)
@@ -638,9 +783,9 @@ namespace ClassLibrary
                                     eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 qualityIndicators[2] = "Navigation Integrity Category for Barometric Altitude: " + eightbits[0].ToString();
-                                value = eightbits[1] * Math.Pow(2,1) + eightbits[2] * Math.Pow(2,0);
+                                value = eightbits[1] * Math.Pow(2, 1) + eightbits[2] * Math.Pow(2, 0);
                                 qualityIndicators[3] = "Surveillance of Source Integrity Level: " + value.ToString();
-                                value = eightbits[3] * Math.Pow(2,3) + eightbits[4] * Math.Pow(2,2) + eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                                value = eightbits[3] * Math.Pow(2, 3) + eightbits[4] * Math.Pow(2, 2) + eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                                 qualityIndicators[4] = "Navigation Accuracy Category for Position: " + value.ToString();
                                 byteread++;
                                 if (eightbits[7] == 1)
@@ -653,9 +798,9 @@ namespace ClassLibrary
                                         qualityIndicators[5] = "SIL-Supplement: Measured per Flight-hour";
                                     else
                                         qualityIndicators[5] = "SIL-Supplement: Measured per sample";
-                                    value = eightbits[3] * Math.Pow(2,1) + eightbits[4] * Math.Pow(2,0);
+                                    value = eightbits[3] * Math.Pow(2, 1) + eightbits[4] * Math.Pow(2, 0);
                                     qualityIndicators[6] = "Horizontal Position System Design Assurance Level: " + value.ToString();
-                                    value = eightbits[5] * Math.Pow(2,1) + eightbits[6] * Math.Pow(2,0);
+                                    value = eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                                     qualityIndicators[7] = "Geometric Altitude Accuracy: " + value.ToString();
                                     byteread++;
                                     if (eightbits[7] == 1)
@@ -664,7 +809,7 @@ namespace ClassLibrary
                                         {
                                             eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                         }
-                                        value = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                        value = eightbits[0] * Math.Pow(2, 3) + eightbits[1] * Math.Pow(2, 2) + eightbits[2] * Math.Pow(2, 1) + eightbits[3] * Math.Pow(2, 0);
                                         if (value == 15)
                                         {
                                             qualityIndicators[8] = "Integrity Containment Bound: not defined";
@@ -781,11 +926,11 @@ namespace ClassLibrary
                                 }
                             }
                             byteread = byteread + 1; //No quadren les posicions, falta una
-                        break;
+                            break;
 
                         case 19:
                             // I021/210 
-                            
+
                             bool[] octetMOPS = getOctet(arraymessage[byteread]);
 
                             MOPSversion[0] = octetMOPS[1] ? "MOPS Version is not supported by the GS" : "MOPS Version is supported by the GS";
@@ -803,10 +948,10 @@ namespace ClassLibrary
                                 MOPSversion[1] = "ED102A/DO-260B";
                             }
 
-                            BitArray lttBits = new BitArray(new bool[] { octetMOPS[7], octetMOPS[6], octetMOPS[5] }); 
+                            BitArray lttBits = new BitArray(new bool[] { octetMOPS[7], octetMOPS[6], octetMOPS[5] });
                             int ltt = convertToInt32(lttBits);
 
-                            if(ltt == 0)
+                            if (ltt == 0)
                             {
                                 MOPSversion[2] = "Link Technology Type: Other";
                             }
@@ -828,7 +973,7 @@ namespace ClassLibrary
                             }
 
                             byteread = byteread + 1;
-                        break;
+                            break;
 
                         case 20:
                             // I021/070
@@ -849,7 +994,7 @@ namespace ClassLibrary
                             mode3A = A.ToString() + B.ToString() + C.ToString() + D.ToString();
 
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 21:
                             // I021/230
@@ -874,7 +1019,7 @@ namespace ClassLibrary
                             }
 
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 22:
                             // I021/145
@@ -890,36 +1035,36 @@ namespace ClassLibrary
                             {
                                 BitArray flbitsComplement = complement2(Reverse(flBits));
 
-                                flightLevel = convertToInt32(Reverse(flbitsComplement))/4.0;
+                                flightLevel = convertToInt32(Reverse(flbitsComplement)) / 4.0;
                                 flightLevel = flightLevel * (-1);
                             }
                             else
                             {
-                                flightLevel = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1])/4.0;
+                                flightLevel = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]) / 4.0;
                             }
 
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 24:
                             // I021/152 Magnetic Heading
-                            magneticHeading = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1])*360/(Math.Pow(2,16));
-                            byteread = byteread + 2;                            
-                        break;
+                            magneticHeading = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]) * 360 / (Math.Pow(2, 16));
+                            byteread = byteread + 2;
+                            break;
 
                         case 25:
                             // I021/200 Target Status
                             bool[] octetStatus = getOctet(arraymessage[byteread]);
                             targetStatus[0] = octetStatus[0] ? "Intent change flag raised" : "No intent change active";
                             targetStatus[1] = octetStatus[1] ? "LNAV Mode not engaged" : "LNAV Mode engaged";
-                            BitArray priorityStatusBits = new BitArray(new bool[] { octetStatus[5], octetStatus[4], octetStatus[3], false, false, false,false, false });
+                            BitArray priorityStatusBits = new BitArray(new bool[] { octetStatus[5], octetStatus[4], octetStatus[3], false, false, false, false, false });
                             byte priorityStatus = convertToByte(priorityStatusBits);
 
                             if (priorityStatus == 0)
                             {
                                 targetStatus[2] = "No emergency / not reported";
                             }
-                            else if(priorityStatus == 1)
+                            else if (priorityStatus == 1)
                             {
                                 targetStatus[2] = "General emergency";
                             }
@@ -947,7 +1092,7 @@ namespace ClassLibrary
                             BitArray surveillanceStatusBits = new BitArray(new bool[] { octetStatus[7], octetStatus[6], false, false, false, false, false, false });
                             byte surveillanceStatus = convertToByte(surveillanceStatusBits);
 
-                            if(surveillanceStatus == 0)
+                            if (surveillanceStatus == 0)
                             {
                                 targetStatus[3] = "No condition reported";
                             }
@@ -965,7 +1110,7 @@ namespace ClassLibrary
                             }
 
                             byteread++;
-                        break;
+                            break;
 
                         case 26:
                             // I021/155
@@ -979,7 +1124,7 @@ namespace ClassLibrary
                             octet1Bar.CopyTo(z, 0);
                             octet2bar.CopyTo(z, 7);
                             BitArray firstBits = new BitArray(z);
-                            
+
                             if (octetBar[1])
                             {
                                 BitArray firstBitsComp = complement2(firstBits);
@@ -987,17 +1132,17 @@ namespace ClassLibrary
                                 barometric[0] = false;
                                 firstBitsComp.CopyTo(barometric, 1);
                                 BitArray barometricBit = new BitArray(barometric);
-                                barometricVerticalRate = convertToInt32(Reverse(barometricBit))*(-1)* 6.25;
+                                barometricVerticalRate = convertToInt32(Reverse(barometricBit)) * (-1) * 6.25;
 
                             }
                             else
                             {
-                                barometricVerticalRate = convertToInt32(Reverse(firstBits))* 6.25;
+                                barometricVerticalRate = convertToInt32(Reverse(firstBits)) * 6.25;
                             }
                             byteread = byteread + 2;
-                            
 
-                        break;
+
+                            break;
 
                         case 27:
                             // I021/157
@@ -1052,7 +1197,7 @@ namespace ClassLibrary
                                 ground[0] = false;
                                 firstBitsCompGround.CopyTo(ground, 1);
                                 BitArray groundBit = new BitArray(ground);
-                                groundSpeed = convertToInt32(Reverse(groundBit)) * (-1) * Math.Pow(2,-14); 
+                                groundSpeed = convertToInt32(Reverse(groundBit)) * (-1) * Math.Pow(2, -14);
 
                             }
                             else
@@ -1073,12 +1218,12 @@ namespace ClassLibrary
                             {
                                 BitArray trackAnglebitsComplement = complement2(Reverse(trackAngleBits));
 
-                                trackAngle = convertToInt32(Reverse(trackAnglebitsComplement)) * 360.0 / Math.Pow(2,16);
+                                trackAngle = convertToInt32(Reverse(trackAnglebitsComplement)) * 360.0 / Math.Pow(2, 16);
                                 trackAngle = trackAngle * (-1);
                             }
                             else
                             {
-                                trackAngle = getInt32FromBytes(0, 0, arraymessage[byteread+2], arraymessage[byteread + 3]) * 360.0 / Math.Pow(2, 16);
+                                trackAngle = getInt32FromBytes(0, 0, arraymessage[byteread + 2], arraymessage[byteread + 3]) * 360.0 / Math.Pow(2, 16);
                             }
 
                             byteread = byteread + 4;
@@ -1104,23 +1249,51 @@ namespace ClassLibrary
                                 trackRate[0] = false;
                                 firstBitsCompTrackAngleRate.CopyTo(trackRate, 1);
                                 BitArray trackAngleRateBit = new BitArray(trackRate);
-                                trackAngleRate = convertToInt32(Reverse(trackAngleRateBit)) * (-1)/32.0;
+                                trackAngleRate = convertToInt32(Reverse(trackAngleRateBit)) * (-1) / 32.0;
 
                             }
                             else
                             {
-                                trackAngleRate = convertToInt32(Reverse(firstBitsTrackAngleRate))/32.0;
+                                trackAngleRate = convertToInt32(Reverse(firstBitsTrackAngleRate)) / 32.0;
                             }
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 30:
                             // I021/077
 
-                            timeOfAsterixReportTransmission = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2])/128.0;
-
+                            timeOfAsterixReportTransmission = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / 128.0;
+                            segonsprov = timeOfAsterixReportTransmission;
+                            minutsprov = segonsprov / 60;
+                            horesprov = minutsprov / 60;
+                            horesfinals = Math.Truncate(horesprov * 1) / 1;
+                            minutsprov = (horesprov - horesfinals) * 60;
+                            horestort = Convert.ToInt32(horesfinals);
+                            if (minutsprov > 0)
+                            {
+                                minutsfinalsprov = Math.Truncate(minutsprov * 1) / 1;
+                                segonsprov = (minutsprov - minutsfinalsprov) * 60;
+                            }
+                            else
+                            {
+                                segonsprov = minutsprov * 60;
+                                minutsfinalsprov = 0;
+                            }
+                            minutstort = Convert.ToInt32(minutsfinalsprov);
+                            if (segonsprov > 0)
+                            {
+                                segonsfinalsprov = Math.Truncate(segonsprov * 1) / 1;
+                                mstort = (segonsprov - segonsfinalsprov) * 1000;
+                            }
+                            else
+                            {
+                                mstort = minutsprov * 1000;
+                                segonsfinalsprov = 0;
+                            }
+                            mstort = Math.Truncate(mstort * 1) / 1;
+                            segonstort = Convert.ToInt32(segonsfinalsprov);
                             byteread = byteread + 3;
-                        break;
+                            break;
 
                         case 32:
                             // I021/170
@@ -1296,90 +1469,90 @@ namespace ClassLibrary
                                 numchar = numchar + 6;
                             }
                             byteread = byteread + 6;
-                        break;
+                            break;
 
                         case 33:
                             // I021/020
                             int category = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
-                            if(category == 0)
+                            if (category == 0)
                             {
                                 emitterCategory = "No ADS-B Emitter Category Information";
                             }
-                            else if(category == 1)
+                            else if (category == 1)
                             {
                                 emitterCategory = "light aircraft <= 15500 lbs";
                             }
-                            else if(category == 2)
+                            else if (category == 2)
                             {
                                 emitterCategory = "15500 lbs < small aircraft <75000 lbs";
                             }
-                            else if(category == 3)
+                            else if (category == 3)
                             {
                                 emitterCategory = "75000 lbs < medium a/c < 300000 lbs";
                             }
-                            else if(category == 4)
+                            else if (category == 4)
                             {
                                 emitterCategory = "High Vortex Large";
                             }
-                            else if(category == 5)
+                            else if (category == 5)
                             {
                                 emitterCategory = "300000 lbs <= heavy aircraft";
                             }
-                            else if(category == 6)
+                            else if (category == 6)
                             {
                                 emitterCategory = "highly manoeuvrable (5g acceleration capability) and high speed (>400 knots cruise)";
-                            }                            
-                            else if(category == 10)
+                            }
+                            else if (category == 10)
                             {
                                 emitterCategory = "rotocraft";
                             }
-                            else if(category == 11)
+                            else if (category == 11)
                             {
                                 emitterCategory = "glider / sailplane";
                             }
-                            else if(category == 12)
+                            else if (category == 12)
                             {
                                 emitterCategory = "lighter-than-air";
                             }
-                            else if(category == 13)
+                            else if (category == 13)
                             {
                                 emitterCategory = "unmanned aerial vehicle";
                             }
-                            else if(category == 14)
+                            else if (category == 14)
                             {
                                 emitterCategory = "space / transatmospheric vehicle";
                             }
-                            else if(category == 15)
+                            else if (category == 15)
                             {
                                 emitterCategory = "ultralight / handglider / paraglider";
                             }
-                            else if(category == 16)
+                            else if (category == 16)
                             {
                                 emitterCategory = "parachutist / skydiver";
                             }
-                            else if(category == 20)
+                            else if (category == 20)
                             {
                                 emitterCategory = "surface emergency vehicle";
                             }
-                            else if(category == 21)
+                            else if (category == 21)
                             {
                                 emitterCategory = "surface service vehicle";
                             }
-                            else if(category == 22)
+                            else if (category == 22)
                             {
                                 emitterCategory = "fixed ground or tethered obstruction";
                             }
-                            else if(category == 23)
+                            else if (category == 23)
                             {
                                 emitterCategory = "cluster obstacle";
                             }
-                            else if(category == 24)
+                            else if (category == 24)
                             {
                                 emitterCategory = "line obstacle";
                             }
 
                             byteread = byteread + 1;
-                        break;
+                            break;
 
                         case 34:
                             // I021/220
@@ -1392,7 +1565,7 @@ namespace ClassLibrary
                                 if (octetMet[pos] == true && pos == 0)
                                 {
                                     // Wind speed
-                                    windSpeed = getInt32FromBytes(0 ,0, arraymessage[byteread], arraymessage[byteread + 1]);
+                                    windSpeed = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
                                     byteread = byteread + 2;
                                 }
                                 else if (octetMet[pos] == true && pos == 1)
@@ -1411,16 +1584,16 @@ namespace ClassLibrary
                                         twobytes[0] = arraymessage[byteread + 1];
                                         BitArray temperatureBits = new BitArray(twobytes);
                                         BitArray temperatureBitsComp = complement2(Reverse(temperatureBits));
-                                        temperature = convertToInt32(Reverse(temperatureBitsComp))*0.25*(-1);
+                                        temperature = convertToInt32(Reverse(temperatureBitsComp)) * 0.25 * (-1);
                                     }
                                     else
                                     {
                                         temperature = getInt32FromBytes(0, 0, arraymessage[byteread], arraymessage[byteread + 1]);
-                                    }                                    
+                                    }
 
                                     byteread = byteread + 2;
                                 }
-                                else if(octetMet[pos] == true && pos == 3)
+                                else if (octetMet[pos] == true && pos == 3)
                                 {
                                     turbulence = arraymessage[byteread];
                                     byteread = byteread + 1;
@@ -1429,7 +1602,7 @@ namespace ClassLibrary
                                 pos++;
                             }
 
-                        break;
+                            break;
 
                         case 35:
                             // I021/146
@@ -1451,7 +1624,7 @@ namespace ClassLibrary
                             else
                                 selectedAltitudeInfo[1] = "FMS Selected Altitude";
                             twobytes[1] = arraymessage[byteread];
-                            twobytes[0] = arraymessage[byteread+1];
+                            twobytes[0] = arraymessage[byteread + 1];
                             bytestogether1 = new BitArray(twobytes);
                             bytestogether1 = Reverse(bytestogether1);
                             eightbits[3] = getBit(arraymessage[byteread + 1], 7);
@@ -1462,26 +1635,26 @@ namespace ClassLibrary
                                 for (int w = 3; w < bytestogether1.Length - 3; w++)
                                 {
                                     if (bytestogether1[w] == true)
-                                        selectedAltitude = selectedAltitude + Math.Pow(2,15 - w);
+                                        selectedAltitude = selectedAltitude + Math.Pow(2, 15 - w);
                                 }
                                 selectedAltitude = selectedAltitude * -25;
                             }
                             else
                                 selectedAltitude = 0;
-                                for (int w = 3; w < bytestogether1.Length - 3; w++)
-                                {
-                                    if (bytestogether1[w] == true)
-                                        selectedAltitude = selectedAltitude + Math.Pow(2,15 - w);
-                                }
-                                selectedAltitude = selectedAltitude * 25;
+                            for (int w = 3; w < bytestogether1.Length - 3; w++)
+                            {
+                                if (bytestogether1[w] == true)
+                                    selectedAltitude = selectedAltitude + Math.Pow(2, 15 - w);
+                            }
+                            selectedAltitude = selectedAltitude * 25;
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 36:
                             // I021/148
-                            eightbits[0] = getBit(arraymessage[byteread],0);
-                            eightbits[1] = getBit(arraymessage[byteread+1],1);
-                            eightbits[2] = getBit(arraymessage[byteread+2],2);
+                            eightbits[0] = getBit(arraymessage[byteread], 0);
+                            eightbits[1] = getBit(arraymessage[byteread + 1], 1);
+                            eightbits[2] = getBit(arraymessage[byteread + 2], 2);
                             if (eightbits[0] == 0)
                                 finalSelectedAltitudeInfo[0] = "Manage Vertical Mode: Not active of unknown";
                             else
@@ -1498,7 +1671,7 @@ namespace ClassLibrary
                             if (eightbits[3] == 1)
                             {
                                 twobytes[1] = arraymessage[byteread];
-                                twobytes[0] = arraymessage[byteread+1];
+                                twobytes[0] = arraymessage[byteread + 1];
                                 bytestogether1 = new BitArray(twobytes);
                                 bytestogether1 = Reverse(bytestogether1);
                                 bytestogether1 = complement2(bytestogether1);
@@ -1506,7 +1679,7 @@ namespace ClassLibrary
                                 for (int w = 3; w < bytestogether1.Length; w++)
                                 {
                                     if (bytestogether1[w] == true)
-                                        finalSelectedAltitude = finalSelectedAltitude + Math.Pow(2,15 - w);
+                                        finalSelectedAltitude = finalSelectedAltitude + Math.Pow(2, 15 - w);
                                 }
                                 finalSelectedAltitude = finalSelectedAltitude * -25;
                             }
@@ -1514,27 +1687,27 @@ namespace ClassLibrary
                                 for (int w = 3; w < bytestogether1.Length; w++)
                                 {
                                     if (bytestogether1[w] == true)
-                                        finalSelectedAltitude = finalSelectedAltitude + Math.Pow(2,15 - w);
+                                        finalSelectedAltitude = finalSelectedAltitude + Math.Pow(2, 15 - w);
                                 }
-                                finalSelectedAltitude = finalSelectedAltitude * 25;
+                            finalSelectedAltitude = finalSelectedAltitude * 25;
                             byteread = byteread + 2;
-                        break;
+                            break;
 
                         case 37:
                             // I021/110
-                            for(j = 6; j < 8; j++) 
+                            for (j = 6; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             byte firstsubfield = eightbits[0];
                             byte secondsubfield = eightbits[1];
                             byteread++;
-                            if(firstsubfield == 1)
+                            if (firstsubfield == 1)
                             {
                                 //First subfield
-                                for(j = 6; j < 8; j++) 
+                                for (j = 6; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 if (eightbits[0] == 0)
                                     trajectoryIntent[0] = "NAV: Trajectory Intent Data is available for this aircraft";
@@ -1547,17 +1720,17 @@ namespace ClassLibrary
                                 byteread++;
                             }
                             if (secondsubfield == 1)
-                            { 
+                            {
                                 //Second subfield
-                                for(j = 6; j < 8; j++) 
+                                for (j = 6; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
-                                double valueint = eightbits[0] * Math.Pow(2,7) + eightbits[1] * Math.Pow(2,6) + eightbits[2] * Math.Pow(2,5) + eightbits[3] * Math.Pow(2,4) + eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                double valueint = eightbits[0] * Math.Pow(2, 7) + eightbits[1] * Math.Pow(2, 6) + eightbits[2] * Math.Pow(2, 5) + eightbits[3] * Math.Pow(2, 4) + eightbits[4] * Math.Pow(2, 3) + eightbits[5] * Math.Pow(2, 2) + eightbits[6] * Math.Pow(2, 1) + eightbits[7] * Math.Pow(2, 0);
                                 trajectoryIntent[2] = "Repetitive Factor: " + valueint.ToString();
-                                for(j = 6; j < 8; j++) 
+                                for (j = 6; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread+1], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread + 1], j);
                                 }
                                 if (eightbits[0] == 0)
                                     trajectoryIntent[3] = "TCA: TCP number available";
@@ -1567,63 +1740,63 @@ namespace ClassLibrary
                                     trajectoryIntent[4] = "NC: TCP compliance";
                                 else
                                     trajectoryIntent[4] = "NC: TCP non-compliance";
-                                double valuedouble = eightbits[2] * Math.Pow(2,5) + eightbits[3] * Math.Pow(2,4) + eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                double valuedouble = eightbits[2] * Math.Pow(2, 5) + eightbits[3] * Math.Pow(2, 4) + eightbits[4] * Math.Pow(2, 3) + eightbits[5] * Math.Pow(2, 2) + eightbits[6] * Math.Pow(2, 1) + eightbits[7] * Math.Pow(2, 0);
                                 trajectoryIntent[5] = "Trajectory Change Point number: " + valuedouble.ToString();
                                 valuedouble = 0;
-                                twobytes[1] = arraymessage[byteread+2];
-                                twobytes[0] = arraymessage[byteread+3];
+                                twobytes[1] = arraymessage[byteread + 2];
+                                twobytes[0] = arraymessage[byteread + 3];
                                 bytestogether1 = new BitArray(twobytes);
                                 bytestogether1 = Reverse(bytestogether1);
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     bytestogether1 = complement2(bytestogether1);
-                                for (j=0; j < bytestogether1.Length; j++)
+                                for (j = 0; j < bytestogether1.Length; j++)
                                 {
                                     if (bytestogether1[j] == true)
-                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                        valuedouble = valuedouble + Math.Pow(2, bytestogether1.Length - 1 - j);
                                 }
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     trajectoryIntentAltitude = valuedouble * -1;
                                 else
                                     trajectoryIntentAltitude = valuedouble;
                                 valuedouble = 0;
-                                threebytes[2] = arraymessage[byteread+4];
-                                threebytes[1] = arraymessage[byteread+5];
-                                threebytes[0] = arraymessage[byteread+6];
+                                threebytes[2] = arraymessage[byteread + 4];
+                                threebytes[1] = arraymessage[byteread + 5];
+                                threebytes[0] = arraymessage[byteread + 6];
                                 bytestogether1 = new BitArray(twobytes);
                                 bytestogether1 = Reverse(bytestogether1);
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     bytestogether1 = complement2(bytestogether1);
-                                for (j=0; j < bytestogether1.Length; j++)
+                                for (j = 0; j < bytestogether1.Length; j++)
                                 {
                                     if (bytestogether1[j] == true)
-                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                        valuedouble = valuedouble + Math.Pow(2, bytestogether1.Length - 1 - j);
                                 }
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     trajectoryIntentLongitude = valuedouble * -1;
                                 else
                                     trajectoryIntentLongitude = valuedouble;
                                 valuedouble = 0;
-                                threebytes[2] = arraymessage[byteread+7];
-                                threebytes[1] = arraymessage[byteread+8];
-                                threebytes[0] = arraymessage[byteread+9];
+                                threebytes[2] = arraymessage[byteread + 7];
+                                threebytes[1] = arraymessage[byteread + 8];
+                                threebytes[0] = arraymessage[byteread + 9];
                                 bytestogether1 = new BitArray(twobytes);
                                 bytestogether1 = Reverse(bytestogether1);
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     bytestogether1 = complement2(bytestogether1);
-                                for (j=0; j < bytestogether1.Length; j++)
+                                for (j = 0; j < bytestogether1.Length; j++)
                                 {
                                     if (bytestogether1[j] == true)
-                                        valuedouble = valuedouble + Math.Pow(2,bytestogether1.Length - 1 - j);
+                                        valuedouble = valuedouble + Math.Pow(2, bytestogether1.Length - 1 - j);
                                 }
-                                if (bytestogether1[bytestogether1.Length-1] == true)
+                                if (bytestogether1[bytestogether1.Length - 1] == true)
                                     trajectoryIntentLatitude = valuedouble * -1;
                                 else
                                     trajectoryIntentLatitude = valuedouble;
-                                for(j = 0; j < 8; j++) 
+                                for (j = 0; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread+10], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread + 10], j);
                                 }
-                                double pointType = eightbits[0] * Math.Pow(2,3) + eightbits[1] * Math.Pow(2,2) + eightbits[2] * Math.Pow(2,1) + eightbits[3] * Math.Pow(2,0);
+                                double pointType = eightbits[0] * Math.Pow(2, 3) + eightbits[1] * Math.Pow(2, 2) + eightbits[2] * Math.Pow(2, 1) + eightbits[3] * Math.Pow(2, 0);
                                 if (pointType == 0)
                                     trajectoryIntent[5] = "Point Type: Unknown";
                                 else if (pointType == 1)
@@ -1668,10 +1841,10 @@ namespace ClassLibrary
                                 int tov = 0;
                                 while (tov < 3)
                                 {
-                                    for(j = 0; j < 8; j++) 
+                                    for (j = 0; j < 8; j++)
                                     {
-                                        eightbits[7-j] = getBit(arraymessage[byteread + 11 + tov], j);
-                                        trajectoryIntentTimeOverPoint = trajectoryIntentTimeOverPoint + eightbits[7-j] * Math.Pow(2,j);
+                                        eightbits[7 - j] = getBit(arraymessage[byteread + 11 + tov], j);
+                                        trajectoryIntentTimeOverPoint = trajectoryIntentTimeOverPoint + eightbits[7 - j] * Math.Pow(2, j);
                                     }
                                     tov++;
                                 }
@@ -1679,29 +1852,29 @@ namespace ClassLibrary
                                 int ttr = 0;
                                 while (ttr < 2)
                                 {
-                                    for(j = 0; j < 8; j++) 
+                                    for (j = 0; j < 8; j++)
                                     {
-                                        eightbits[7-j] = getBit(arraymessage[byteread + 14 + ttr], j);
-                                        trajectoryIntentTCPTurnRadius = trajectoryIntentTCPTurnRadius + eightbits[7-j] * Math.Pow(2,j);
+                                        eightbits[7 - j] = getBit(arraymessage[byteread + 14 + ttr], j);
+                                        trajectoryIntentTCPTurnRadius = trajectoryIntentTCPTurnRadius + eightbits[7 - j] * Math.Pow(2, j);
                                     }
                                     ttr++;
                                 }
                                 trajectoryIntentTCPTurnRadius = trajectoryIntentTCPTurnRadius * 0.01;
                                 byteread = byteread + 16;
                             }
-                        break;
+                            break;
 
                         case 38:
                             // I021/016
-                            serviceManagement = getInt32FromBytes(0,0,0,arraymessage[byteread]) * 0.5;
+                            serviceManagement = getInt32FromBytes(0, 0, 0, arraymessage[byteread]) * 0.5;
                             byteread++;
-                        break;
+                            break;
 
                         case 40:
                             // I021/008
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             if (eightbits[0] == 0)
                                 aircraftOperationalStatus[0] = "TCAS II or ACAS RA not active";
@@ -1736,13 +1909,13 @@ namespace ClassLibrary
                             else
                                 aircraftOperationalStatus[6] = "Single Antenna only";
                             byteread++;
-                        break;
+                            break;
 
                         case 41:
                             // I021/271
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             if (eightbits[2] == 0)
                                 surfaceCapabilities[0] = "Position Offset Applied: Position transmitted is not the ADS-B position reference point";
@@ -1767,12 +1940,12 @@ namespace ClassLibrary
                             byteread++;
                             if (eightbits[7] == 1)
                             {
-                                for(j = 3; j < 8; j++) 
+                                for (j = 3; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 value = 0;
-                                value = eightbits[4] * Math.Pow(2,3) + eightbits[5] * Math.Pow(2,2) + eightbits[6] * Math.Pow(2,1) + eightbits[7] * Math.Pow(2,0);
+                                value = eightbits[4] * Math.Pow(2, 3) + eightbits[5] * Math.Pow(2, 2) + eightbits[6] * Math.Pow(2, 1) + eightbits[7] * Math.Pow(2, 0);
                                 if (value == 0)
                                 {
                                     lengthAircraft = 15;
@@ -1857,7 +2030,7 @@ namespace ClassLibrary
                                 }
                                 byteread++;
                             }
-                        break;
+                            break;
 
                         case 42:
                             // I021/132
@@ -1871,18 +2044,18 @@ namespace ClassLibrary
                                 messageAmplitude = 0;
                                 for (j = 0; j < bytestogether1.Length; j++)
                                     if (bytestogether1[j] == true)
-                                        messageAmplitude = messageAmplitude - Math.Pow(2,bytestogether1.Length - 1 - j);
+                                        messageAmplitude = messageAmplitude - Math.Pow(2, bytestogether1.Length - 1 - j);
                             }
                             else
-                                messageAmplitude = getInt32FromBytes(0,0,0,arraymessage[byteread]);
+                                messageAmplitude = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
                             byteread++;
 
-                        break;
+                            break;
 
                         case 43:
                             // I021/250
                             // Mode S MB Data
-                        break;
+                            break;
 
                         case 44:
                             // I021/260
@@ -1910,41 +2083,41 @@ namespace ClassLibrary
                             acasResolutionReport[2] = "Active Resolution Advisories: "
                             */
 
-                        break;
+                            break;
 
                         case 45:
                             // I021/400
-                            receiverID = getInt32FromBytes(0,0,0,arraymessage[byteread]);
+                            receiverID = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
                             byteread++;
-                        break;
+                            break;
 
                         case 46:
                             // I021/295
                             byte[] dataAgesLength = new byte[32];
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                dataAgesLength[7-j] = getBit(arraymessage[byteread], j);
+                                dataAgesLength[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             byteread++;
                             if (dataAgesLength[7] == 1)
                             {
-                                for(j = 0; j < 8; j++) 
+                                for (j = 0; j < 8; j++)
                                 {
-                                    dataAgesLength[15-j] = getBit(arraymessage[byteread], j);
+                                    dataAgesLength[15 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 byteread++;
                                 if (dataAgesLength[15] == 1)
                                 {
-                                    for(j = 0; j < 8; j++) 
+                                    for (j = 0; j < 8; j++)
                                     {
-                                        dataAgesLength[23-j] = getBit(arraymessage[byteread], j);
+                                        dataAgesLength[23 - j] = getBit(arraymessage[byteread], j);
                                     }
                                     byteread++;
                                     if (dataAgesLength[23] == 1)
                                     {
-                                        for(j = 0; j < 8; j++) 
+                                        for (j = 0; j < 8; j++)
                                         {
-                                            dataAgesLength[31-j] = getBit(arraymessage[byteread], j);
+                                            dataAgesLength[31 - j] = getBit(arraymessage[byteread], j);
                                         }
                                         byteread++;
                                     }
@@ -1954,142 +2127,142 @@ namespace ClassLibrary
                             if (dataAgesLength[0] == 1)
                             {
                                 data = "Age of the latest received information transmitted in item IO21/008: ";
-                                getDataAge(arraymessage,byteread,0,data);
+                                getDataAge(arraymessage, byteread, 0, data);
                                 byteread++;
                             }
                             if (dataAgesLength[1] == 1)
                             {
                                 data = "Age of the last update of the Target Report Descriptor: ";
-                                getDataAge(arraymessage,byteread,1,data);
+                                getDataAge(arraymessage, byteread, 1, data);
                                 byteread++;
                             }
                             if (dataAgesLength[2] == 1)
                             {
                                 data = "Age of the last update of Mode 3/A Code: ";
-                                getDataAge(arraymessage,byteread,2,data);
+                                getDataAge(arraymessage, byteread, 2, data);
                                 byteread++;
                             }
                             if (dataAgesLength[3] == 1)
                             {
                                 data = "Age of the latest information received to update the Quality Indicators: ";
-                                getDataAge(arraymessage,byteread,3,data);
+                                getDataAge(arraymessage, byteread, 3, data);
                                 byteread++;
                             }
                             if (dataAgesLength[4] == 1)
                             {
                                 data = "Age of the last update of the Trajectory Intent information: ";
-                                getDataAge(arraymessage,byteread,4,data);
+                                getDataAge(arraymessage, byteread, 4, data);
                                 byteread++;
                             }
                             if (dataAgesLength[5] == 1)
                             {
                                 data = "Age of the latest measurement of the message amplitude: ";
-                                getDataAge(arraymessage,byteread,5,data);
+                                getDataAge(arraymessage, byteread, 5, data);
                                 byteread++;
                             }
                             if (dataAgesLength[6] == 1)
                             {
                                 data = "Age of the information contained in item 021/140: ";
-                                getDataAge(arraymessage,byteread,6,data);
+                                getDataAge(arraymessage, byteread, 6, data);
                                 byteread++;
                             }
                             if (dataAgesLength[8] == 1)
                             {
                                 data = "Age of the Flight Level information: ";
-                                getDataAge(arraymessage,byteread,7,data);
+                                getDataAge(arraymessage, byteread, 7, data);
                                 byteread++;
                             }
                             if (dataAgesLength[9] == 1)
                             {
                                 data = "Age of the Intermediate State Selected Altitude: ";
-                                getDataAge(arraymessage,byteread,8,data);
+                                getDataAge(arraymessage, byteread, 8, data);
                                 byteread++;
                             }
                             if (dataAgesLength[10] == 1)
                             {
                                 data = "Age of the Final State Selected Altitude: ";
-                                getDataAge(arraymessage,byteread,9,data);
+                                getDataAge(arraymessage, byteread, 9, data);
                                 byteread++;
                             }
                             if (dataAgesLength[11] == 1)
                             {
                                 data = "Age of the Air Speed: ";
-                                getDataAge(arraymessage,byteread,10,data);
+                                getDataAge(arraymessage, byteread, 10, data);
                                 byteread++;
                             }
                             if (dataAgesLength[12] == 1)
                             {
                                 data = "Age of the value for the True Air Speed: ";
-                                getDataAge(arraymessage,byteread,11,data);
+                                getDataAge(arraymessage, byteread, 11, data);
                                 byteread++;
                             }
                             if (dataAgesLength[13] == 1)
                             {
                                 data = "Age of the value for the Magnetic Heading: ";
-                                getDataAge(arraymessage,byteread,12,data);
+                                getDataAge(arraymessage, byteread, 12, data);
                                 byteread++;
                             }
                             if (dataAgesLength[14] == 1)
                             {
                                 data = "Age of the Barometric Vertical Rate: ";
-                                getDataAge(arraymessage,byteread,13,data);
+                                getDataAge(arraymessage, byteread, 13, data);
                                 byteread++;
                             }
                             if (dataAgesLength[16] == 1)
                             {
                                 data = "Age of the Geometric Vertical Rate: ";
-                                getDataAge(arraymessage,byteread,14,data);
+                                getDataAge(arraymessage, byteread, 14, data);
                                 byteread++;
                             }
                             if (dataAgesLength[17] == 1)
                             {
                                 data = "Age of the Ground Vector: ";
-                                getDataAge(arraymessage,byteread,15,data);
+                                getDataAge(arraymessage, byteread, 15, data);
                                 byteread++;
                             }
                             if (dataAgesLength[18] == 1)
                             {
                                 data = "Age of the Track Angle Rate: ";
-                                getDataAge(arraymessage,byteread,16,data);
+                                getDataAge(arraymessage, byteread, 16, data);
                                 byteread++;
                             }
                             if (dataAgesLength[19] == 1)
                             {
                                 data = "Age of the Target Identification: ";
-                                getDataAge(arraymessage,byteread,17,data);
+                                getDataAge(arraymessage, byteread, 17, data);
                                 byteread++;
                             }
                             if (dataAgesLength[20] == 1)
                             {
                                 data = "Age of the Target Status: ";
-                                getDataAge(arraymessage,byteread,18,data);
+                                getDataAge(arraymessage, byteread, 18, data);
                                 byteread++;
                             }
                             if (dataAgesLength[21] == 1)
                             {
                                 data = "Age of the Meteorological data: ";
-                                getDataAge(arraymessage,byteread,19,data);
+                                getDataAge(arraymessage, byteread, 19, data);
                                 byteread++;
                             }
                             if (dataAgesLength[22] == 1)
                             {
                                 data = "Age of the Roll Angle: ";
-                                getDataAge(arraymessage,byteread,20,data);
+                                getDataAge(arraymessage, byteread, 20, data);
                                 byteread++;
                             }
                             if (dataAgesLength[24] == 1)
                             {
                                 data = "Age of the latest update of an Active ACAS Resolution Advisory: ";
-                                getDataAge(arraymessage,byteread,21,data);
+                                getDataAge(arraymessage, byteread, 21, data);
                                 byteread++;
                             }
                             if (dataAgesLength[25] == 1)
                             {
                                 data = "Age of the latest information received on the surface capabilities and characteristics of the respective target: ";
-                                getDataAge(arraymessage,byteread,22,data);
+                                getDataAge(arraymessage, byteread, 22, data);
                                 byteread++;
                             }
-                        break;
+                            break;
                     }
                 }
             }
@@ -2098,7 +2271,7 @@ namespace ClassLibrary
         public void getDataAge(byte[] arraymessage, int byteToRead, int position, string information)
         {
             onebyte[0] = arraymessage[byteToRead];
-            double info = getInt32FromBytes(0,0,0,onebyte[0]) * 0.1;
+            double info = getInt32FromBytes(0, 0, 0, onebyte[0]) * 0.1;
             dataAges[position] = information + info.ToString() + " s";
             dataAgesValue[position] = info;
         }
@@ -2160,10 +2333,10 @@ namespace ClassLibrary
                 }
             }
             bool mellevoununo = false;
-            int j = b.Length-2;
-            if (b[b.Length-1] == true)
+            int j = b.Length - 2;
+            if (b[b.Length - 1] == true)
             {
-                b[b.Length-1] = false;
+                b[b.Length - 1] = false;
                 mellevoununo = true;
             }
             else
@@ -2181,7 +2354,7 @@ namespace ClassLibrary
                 {
                     b[j] = false;
                 }
-                j = j-1;
+                j = j - 1;
             }
             return b;
         }
@@ -2208,6 +2381,214 @@ namespace ClassLibrary
             return bytes[0];
         }
 
-        
+        public string[] getInformation(int j)
+        {
+            string[] values = new string[45];
+            values[0] = j.ToString();
+            values[1] = "10";
+            for (int k = 2; k < values.Length; k++)
+            {
+                values[k] = "No data";
+            }
+            for (int i = 0; i < UAP.Length; i++)
+            {
+                if (UAP[i] == 1)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            values[2] = sac.ToString();
+                            values[3] = sic.ToString();
+                            break;
+                        case 1:
+                            values[4] = "Click to expand";
+                            break;
+                        case 2:
+                            values[5] = trackNumber.ToString();
+                            break;
+                        case 3:
+                            values[6] = serviceIdentification.ToString();   
+                            break;
+                        case 4:
+                            if (horesApplicabilityPosition > 9)
+                                values[7] = horesApplicabilityPosition.ToString();
+                            else
+                                values[7] = "0" + horesApplicabilityPosition.ToString();
+                            if (minutsApplicabilityPosition > 9)
+                                values[7] = values[7] + ":" + minutsApplicabilityPosition.ToString();
+                            else
+                                values[7] = values[7] + ":0" + minutsApplicabilityPosition.ToString();
+                            if (segonsApplicabilityPosition > 9)
+                                values[7] = values[7] + ":" + segonsApplicabilityPosition.ToString();
+                            else
+                                values[7] = values[7] + ":0" + segonsApplicabilityPosition.ToString();
+                            values[7] = values[7] + ":" + msApplicabilityPosition.ToString();
+                            break;
+                        case 5:
+                            values[8] = "Lat: " + latitude.ToString() + ", Long: " + longitude.ToString();
+                            break;
+                        case 6:
+                            values[9] = "High res lat: " + highResLatitude.ToString() + ", High res long: " + highResLongitude.ToString();
+                            break;
+                        case 8:
+                            if (horesApplicabilityVelocity > 9)
+                                values[10] = horesApplicabilityVelocity.ToString();
+                            else
+                                values[10] = "0" + horesApplicabilityVelocity.ToString();
+                            if (minutsApplicabilityVelocity > 9)
+                                values[10] = values[10] + ":" + minutsApplicabilityVelocity.ToString();
+                            else
+                                values[10] = values[10] + ":0" + minutsApplicabilityVelocity.ToString();
+                            if (segonsApplicabilityVelocity > 9)
+                                values[10] = values[10] + ":" + segonsApplicabilityVelocity.ToString();
+                            else
+                                values[10] = values[10] + ":0" + segonsApplicabilityVelocity.ToString();
+                            values[10] = values[10] + ":" + msApplicabilityVelocity.ToString();
+                            break;
+                        case 9:
+                            values[11] = airSpeed.ToString();
+                            break;
+                        case 10:
+                            values[12] = trueAirspeed.ToString();
+                            break;
+                        case 11:
+                            values[13] = targetAddress.ToString();
+                            break;
+                        case 12:
+                            values[14] = tomrp.ToString();
+                            if (horestomrp > 9)
+                                values[14] = horestomrp.ToString();
+                            else
+                                values[14] = "0" + horestomrp.ToString();
+                            if (minutstomrp > 9)
+                                values[14] = values[14] + ":" + minutstomrp.ToString();
+                            else
+                                values[14] = values[14] + ":0" + minutstomrp.ToString();
+                            if (segonstomrp > 9)
+                                values[14] = values[14] + ":" + segonstomrp.ToString();
+                            else
+                                values[14] = values[14] + ":0" + segonstomrp.ToString();
+                            values[14] = values[14] + ":" + mstomrp.ToString();
+                            break;
+                        case 13:
+                            values[15] = tomrphp.ToString();
+                            break;
+                        case 14:
+                            values[16] = tomrv.ToString();
+                            if (horestomrv > 9)
+                                values[16] = horestomrv.ToString();
+                            else
+                                values[16] = "0" + horestomrv.ToString();
+                            if (minutstomrv > 9)
+                                values[16] = values[16] + ":" + minutstomrv.ToString();
+                            else
+                                values[16] = values[16] + ":0" + minutstomrv.ToString();
+                            if (segonstomrv > 9)
+                                values[16] = values[16] + ":" + segonstomrv.ToString();
+                            else
+                                values[16] = values[16] + ":0" + segonstomrv.ToString();
+                            values[16] = values[16] + ":" + mstomrv.ToString();
+                            break;
+                        case 16:
+                            values[17] = tomrvhp.ToString();
+                            break;
+                        case 17:
+                            values[18] = geometricHeight.ToString();
+                            break;
+                        case 18:
+                            values[19] = "Click to expand";
+                            break;
+                        case 19:
+                            values[20] = "Click to expand";
+                            break;
+                        case 20:
+                            values[21] = mode3A.ToString();
+                            break;
+                        case 21:
+                            values[22] = rollAngle.ToString();
+                            break;
+                        case 22:
+                            values[23] = flightLevel.ToString();
+                            break;
+                        case 24:
+                            values[24] = magneticHeading.ToString();
+                            break;
+                        case 25:
+                            values[25] = "Click to expand";
+                            break;
+                        case 26:
+                            values[26] = barometricVerticalRate.ToString();
+                            break;
+                        case 27:
+                            values[27] = geometricVerticalRate.ToString();
+                            break;
+                        case 28:
+                            values[28] = "GS: " + groundSpeed.ToString() + ", TA: " + trackAngle.ToString() + ", Range Exceeded: " + rangeExceededAirborne.ToString();
+                            break;
+                        case 29:
+                            values[29] = trackAngleRate.ToString();
+                            break;
+                        case 30:
+                            if (horestort > 9)
+                                values[30] = horestort.ToString();
+                            else
+                                values[30] = "0" + horestort.ToString();
+                            if (minutstort > 9)
+                                values[30] = values[30] + ":" + minutstort.ToString();
+                            else
+                                values[30] = values[30] + ":0" + minutstort.ToString();
+                            if (segonstort > 9)
+                                values[30] = values[30] + ":" + segonstort.ToString();
+                            else
+                                values[30] = values[30] + ":0" + segonstort.ToString();
+                            values[30] = values[30] + ":" + mstort.ToString();
+                            break;
+                        case 32:
+                            values[31] = targetIdentification.ToString();
+                            break;
+                        case 33:
+                            values[32] = emitterCategory;
+                            break;
+                        case 34:
+                            values[33] = "Click to expand";
+                            break;
+                        case 35:
+                            values[34] = selectedAltitude.ToString();
+                            break;
+                        case 36:
+                            values[35] = finalSelectedAltitude.ToString();
+                            break;
+                        case 37:
+                            values[36] = "Click to expand";
+                            break;
+                        case 38:
+                            values[37] = serviceManagement.ToString();
+                            break;
+                        case 40:
+                            values[38] = "Click to expand";
+                            break;
+                        case 41:
+                            values[39] = "Click to expand";   
+                            break;
+                        case 42:
+                            values[40] = messageAmplitude.ToString();
+                            break;
+                        case 43:
+                            //S MB DATA
+                            break;
+                        case 44:
+                            values[42] = "Click to expand";
+                            break;
+                        case 45:
+                            values[43] = receiverID.ToString();
+                            break;
+                        case 46:
+                            values[44] = "Click to expand";
+                            break;
+                    }
+                }
+            }
+            return values;
+        }
     }
 }

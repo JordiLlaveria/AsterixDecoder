@@ -33,6 +33,7 @@
             this.FileReadLabel = new System.Windows.Forms.Label();
             this.CAT10TableButton = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.CAT21Button = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,14 +83,26 @@
             this.panelMenu.Controls.Add(this.InputFile);
             this.panelMenu.Location = new System.Drawing.Point(186, 27);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(1325, 700);
+            this.panelMenu.Size = new System.Drawing.Size(1325, 850);
             this.panelMenu.TabIndex = 4;
+            // 
+            // CAT21Button
+            // 
+            this.CAT21Button.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.CAT21Button.Location = new System.Drawing.Point(35, 192);
+            this.CAT21Button.Name = "CAT21Button";
+            this.CAT21Button.Size = new System.Drawing.Size(128, 55);
+            this.CAT21Button.TabIndex = 5;
+            this.CAT21Button.Text = "CAT21 Table";
+            this.CAT21Button.UseVisualStyleBackColor = false;
+            this.CAT21Button.Click += new System.EventHandler(this.CAT21TableButton_Click);
             // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1576, 807);
+            this.ClientSize = new System.Drawing.Size(1578, 926);
+            this.Controls.Add(this.CAT21Button);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.CAT10TableButton);
             this.Name = "Menu";
@@ -107,6 +120,7 @@
         private System.Windows.Forms.Label FileReadLabel;
         private System.Windows.Forms.Button CAT10TableButton;
         private System.Windows.Forms.Panel panelMenu;
+        private System.Windows.Forms.Button CAT21Button;
     }
 }
 
