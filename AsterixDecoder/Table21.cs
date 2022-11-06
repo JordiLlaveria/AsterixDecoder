@@ -36,7 +36,7 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Time of Applicability Velocity");
             dataTable.Columns.Add("Air Speed");
             dataTable.Columns.Add("True Airspeed");
-            dataTable.Columns.Add("Target Adress");
+            dataTable.Columns.Add("Target Address");
             dataTable.Columns.Add("Time of Message Reception Position");
             dataTable.Columns.Add("Time of Message Reception Position High Res");
             dataTable.Columns.Add("Time of Message Reception Velocity");
@@ -75,6 +75,11 @@ namespace AsterixDecoder
                 dataTable.Rows.Add(rowInformation);
             }
             DataView dataView = new DataView(dataTable);
+            loadTable(dataView);
+        }
+
+        private void loadTable(DataView dataView)
+        {
             CAT21Grid.DataSource = dataView;
             CAT21Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT21Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -89,6 +94,22 @@ namespace AsterixDecoder
             CAT21Grid.Columns[2].Width = 35;
             CAT21Grid.Columns[3].Width = 35;
             CAT21Grid.RowHeadersVisible = false;
+        }
+
+        private void filterByTargetAddressButton_Click(object sender, EventArgs e)
+        {
+            if (filterByTargetAddressTextBox.Text != null)
+            {
+                DataView dataView = new DataView(dataTable);
+                dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
+                loadTable(dataView);
+            }
+        }
+
+        private void resetFilterButton_Click(object sender, EventArgs e)
+        {
+            DataView dataView = new DataView(dataTable);
+            loadTable(dataView);
         }
     }
 }

@@ -1341,7 +1341,6 @@ namespace ClassLibrary
             return values;
         }
 
-        //public string getTargetAddress
         public byte getBit(byte b, int bitNumber)
         {
             int valueint = (b >> bitNumber) & 0x01;

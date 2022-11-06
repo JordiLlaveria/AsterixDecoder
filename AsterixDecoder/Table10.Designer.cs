@@ -61,24 +61,24 @@
             // 
             // filterByTargetAddressButton
             // 
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(350, 40);
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(314, 36);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
             this.filterByTargetAddressButton.Size = new System.Drawing.Size(81, 28);
             this.filterByTargetAddressButton.TabIndex = 3;
-            this.filterByTargetAddressButton.Text = "filter";
+            this.filterByTargetAddressButton.Text = "Filter";
             this.filterByTargetAddressButton.UseVisualStyleBackColor = true;
             this.filterByTargetAddressButton.Click += new System.EventHandler(this.filterByTargetAddressButton_Click);
             // 
             // filterByTargetAddressTextBox
             // 
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(203, 41);
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(167, 38);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
             this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
             this.filterByTargetAddressTextBox.TabIndex = 2;
             // 
             // resetFilterButton
             // 
-            this.resetFilterButton.Location = new System.Drawing.Point(437, 41);
+            this.resetFilterButton.Location = new System.Drawing.Point(401, 37);
             this.resetFilterButton.Name = "resetFilterButton";
             this.resetFilterButton.Size = new System.Drawing.Size(76, 26);
             this.resetFilterButton.TabIndex = 4;
