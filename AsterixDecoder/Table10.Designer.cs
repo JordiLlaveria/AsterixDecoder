@@ -32,6 +32,7 @@
             this.filterByTargetAddressLabel = new System.Windows.Forms.Label();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
+            this.resetFilterButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CAT10Grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,9 +76,20 @@
             this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
             this.filterByTargetAddressTextBox.TabIndex = 2;
             // 
+            // resetFilterButton
+            // 
+            this.resetFilterButton.Location = new System.Drawing.Point(437, 41);
+            this.resetFilterButton.Name = "resetFilterButton";
+            this.resetFilterButton.Size = new System.Drawing.Size(76, 26);
+            this.resetFilterButton.TabIndex = 4;
+            this.resetFilterButton.Text = "Reset";
+            this.resetFilterButton.UseVisualStyleBackColor = true;
+            this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
+            // 
             // Table10
             // 
             this.ClientSize = new System.Drawing.Size(1123, 676);
+            this.Controls.Add(this.resetFilterButton);
             this.Controls.Add(this.filterByTargetAddressButton);
             this.Controls.Add(this.filterByTargetAddressTextBox);
             this.Controls.Add(this.filterByTargetAddressLabel);
@@ -99,5 +111,6 @@
         private System.Windows.Forms.Label filterByTargetAddressLabel;
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.TextBox filterByTargetAddressTextBox;
+        private System.Windows.Forms.Button resetFilterButton;
     }
 }

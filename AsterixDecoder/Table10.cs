@@ -81,13 +81,20 @@ namespace AsterixDecoder
 
         private void filterByTargetAddressButton_Click(object sender, EventArgs e)
         {
-            DataView dataView = new DataView(dataTable);
+            
             if (filterByTargetAddressTextBox.Text != null)
             {
-                dataView.RowFilter = "Target Address = 4CA9CC";
+                DataView dataView = new DataView(dataTable);
+                dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
                 loadTable(dataView);
             }
-            
+
+        }
+
+        private void resetFilterButton_Click(object sender, EventArgs e)
+        {
+            DataView dataView = new DataView(dataTable);
+            loadTable(dataView);
         }
     }
 }
