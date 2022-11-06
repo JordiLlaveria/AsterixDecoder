@@ -58,6 +58,11 @@ namespace AsterixDecoder
                 dataTable.Rows.Add(rowInformation);
             }
             DataView dataView = new DataView(dataTable);
+            loadTable(dataView);
+        }
+
+        private void loadTable(DataView dataView)
+        {            
             CAT10Grid.DataSource = dataView;
             CAT10Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -72,6 +77,17 @@ namespace AsterixDecoder
             CAT10Grid.Columns[2].Width = 35;
             CAT10Grid.Columns[3].Width = 35;
             CAT10Grid.RowHeadersVisible = false;
+        }
+
+        private void filterByTargetAddressButton_Click(object sender, EventArgs e)
+        {
+            DataView dataView = new DataView(dataTable);
+            if (filterByTargetAddressTextBox.Text != null)
+            {
+                dataView.RowFilter = "Target Address = 4CA9CC";
+                loadTable(dataView);
+            }
+            
         }
     }
 }
