@@ -93,7 +93,8 @@ namespace AsterixDecoder
 
         private void resetFilterButton_Click(object sender, EventArgs e)
         {
-            CAT10Grid.DataSource = dataTable;
+            DataView dataView = new DataView(dataTable);
+            CAT10Grid.DataSource = dataView;
             loadTable();
         }
               
@@ -102,8 +103,13 @@ namespace AsterixDecoder
         {
             int row = e.RowIndex;
             int col = e.ColumnIndex;
-            CAT10Grid.Rows[row].Cells[col].Value = "hola";
-            Console.Write("hola");
+            int num = Convert.ToInt32(CAT10Grid.Rows[row].Cells[0].Value);
+            string[] val = CAT10list[num].getClickToExpandValues(col);
+            if (val[0] != null)
+            {
+                CAT10Grid.Rows[row].Cells[col].Value = val[0] + "\n" + val[1];
+            }
+            
         }
     }
 }

@@ -1341,6 +1341,19 @@ namespace ClassLibrary
             return values;
         }
 
+        public string[] getClickToExpandValues(int col)
+        {
+            string[] val = new string[10];
+            switch (col)
+            {
+                case (5):
+                    val[0] = "hola";
+                    val[1] = "hola";
+                    break;
+            }
+            return val;
+        }
+
         public byte getBit(byte b, int bitNumber)
         {
             int valueint = (b >> bitNumber) & 0x01;
