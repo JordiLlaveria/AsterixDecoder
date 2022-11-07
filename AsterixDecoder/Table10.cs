@@ -57,13 +57,12 @@ namespace AsterixDecoder
                 string[] rowInformation = CAT10list[i].getInformation(i);
                 dataTable.Rows.Add(rowInformation);
             }
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
+            CAT10Grid.DataSource = dataTable;
+            loadTable();
         }
 
-        private void loadTable(DataView dataView)
-        {            
-            CAT10Grid.DataSource = dataView;
+        private void loadTable()
+        {   
             CAT10Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -86,15 +85,25 @@ namespace AsterixDecoder
             {
                 DataView dataView = new DataView(dataTable);
                 dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
-                loadTable(dataView);
+                CAT10Grid.DataSource = dataView;
+                loadTable();
             }
 
         }
 
         private void resetFilterButton_Click(object sender, EventArgs e)
         {
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
+            CAT10Grid.DataSource = dataTable;
+            loadTable();
+        }
+              
+
+        private void CAT10Grid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+            CAT10Grid.Rows[row].Cells[col].Value = "hola";
+            Console.Write("hola");
         }
     }
 }
