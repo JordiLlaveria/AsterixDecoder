@@ -13,6 +13,7 @@ namespace ClassLibrary
         List<CAT10> CAT10list = new List<CAT10>();
         List<CAT21> CAT21list = new List<CAT21>();
         ArrayList CATBothlist = new ArrayList();
+        List<Flight> Flightlist = new List<Flight>();
         public AsterixFile(string path)
         {
             byte[] messages = File.ReadAllBytes(path);
@@ -42,7 +43,29 @@ namespace ClassLibrary
                     CATBothlist.Add(cat21);
                 }
             }
-            Console.WriteLine("Hola");
+            this.obtainFlights();
+        }
+
+        public void obtainFlights()
+        {
+            if (CAT10list.Count != 0)
+            {
+                for (int i = 0; i < CAT10list.Count; i++)
+                {
+                    CAT10 cat10Info = CAT10list[i];
+                    int sensor = cat10Info.getTypeSensor();
+                    string targetAddress = cat10Info.getTargetAddress();
+                    Flight flightFound = Flightlist.FirstOrDefault(flight => flight.getTargetAddress() == targetAddress);
+                    if (flightFound != null)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
         }
 
         public List<CAT10> getCAT10List()
