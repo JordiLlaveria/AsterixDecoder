@@ -14,6 +14,7 @@ namespace AsterixDecoder
     public partial class Table21 : Form
     {
         DataTable dataTable = new DataTable();
+        DataTable dataTableNew;
         List<CAT21> CAT21list;
         public Table21(List<CAT21> list)
         {
@@ -69,18 +70,24 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Receiver ID");
             dataTable.Columns.Add("Data Ages");
 
+            loadTable();
+            dataTableNew = dataTable.Copy();
+            DataView dataView = new DataView(dataTableNew);
+            CAT21Grid.DataSource = dataView;
+            drawTable();
+        }
+
+        public void loadTable()
+        {
+            dataTable.Clear();
             for (int i = 0; i < CAT21list.Count; i++)
             {
                 string[] rowInformation = CAT21list[i].getInformation(i);
                 dataTable.Rows.Add(rowInformation);
             }
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
         }
-
-        private void loadTable(DataView dataView)
-        {
-            CAT21Grid.DataSource = dataView;
+        private void drawTable()
+        {            
             CAT21Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT21Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT21Grid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -100,16 +107,45 @@ namespace AsterixDecoder
         {
             if (filterByTargetAddressTextBox.Text != null)
             {
-                DataView dataView = new DataView(dataTable);
+                dataTableNew = dataTable.Copy();
+                DataView dataView = new DataView(dataTableNew);
                 dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
-                loadTable(dataView);
+                CAT21Grid.DataSource = dataView;
+                drawTable();
             }
         }
 
         private void resetFilterButton_Click(object sender, EventArgs e)
         {
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
+            dataTableNew = dataTable.Copy();
+            DataView dataView = new DataView(dataTableNew);
+            CAT21Grid.DataSource = dataView;
+            drawTable();
+        }
+
+        private void CAT21Grid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+            if (String.Equals(CAT21Grid.Rows[row].Cells[col].Value, "Click to expand"))
+            {
+                int num = Convert.ToInt32(CAT21Grid.Rows[row].Cells[0].Value);
+                string[] val = CAT21list[num].getClickToExpandValues(col);
+                if (val[0] != null)
+                {
+                    CAT21Grid.Rows[row].Cells[col].Value = val[0];
+                    int i = 1;
+                    while (i < val.Length)
+                    {
+                        if (val[i] != null)
+                        {
+                            CAT21Grid.Rows[row].Cells[col].Value = CAT21Grid.Rows[row].Cells[col].Value + "\n" + val[i];
+                        }
+                        i = i + 1;
+                    }
+                    CAT21Grid.AutoResizeRow(row);
+                }
+            }
         }
     }
 }
