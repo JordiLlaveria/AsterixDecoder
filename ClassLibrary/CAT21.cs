@@ -2590,5 +2590,15 @@ namespace ClassLibrary
             }
             return values;
         }
+
+        public string[] getClickToExpandValues(int col)
+        {
+            string[] val = new string[15];
+            //switch (col)
+            //{
+                
+            //}
+            return val;
+        }
     }
 }

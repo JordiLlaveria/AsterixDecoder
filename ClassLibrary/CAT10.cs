@@ -32,6 +32,7 @@ namespace ClassLibrary
         string lop;
         string tot;
         string spi;
+        string[] targetReportDescriptor = new string[11];
 
         // 4 I010/140 Time of the Day
         double timeOfTheDay;
@@ -195,41 +196,41 @@ namespace ClassLibrary
                                         // TYP
                                         if (octetArray[0] == false && octetArray[1] == false && octetArray[2] == false)
                                         {
-                                            typ = "SSR multilateration";
+                                            targetReportDescriptor[0] = "SSR multilateration";
                                         }
                                         else if (octetArray[0] == false && octetArray[1] == false && octetArray[2] == true)
                                         {
-                                            typ = "Mode S multilateration";
+                                            targetReportDescriptor[0] = "Mode S multilateration";
                                         }
                                         else if (octetArray[0] == false && octetArray[1] == true && octetArray[2] == false)
                                         {
-                                            typ = "ADS-B";
+                                            targetReportDescriptor[0] = "ADS-B";
                                         }
                                         else if (octetArray[0] == false && octetArray[1] == true && octetArray[2] == true)
                                         {
-                                            typ = "PSR";
+                                            targetReportDescriptor[0] = "PSR";
                                         }
                                         else if (octetArray[0] == true && octetArray[1] == false && octetArray[2] == false)
                                         {
-                                            typ = "Magnetic Loop System";
+                                            targetReportDescriptor[0] = "Magnetic Loop System";
                                         }
                                         else if (octetArray[0] == true && octetArray[1] == false && octetArray[2] == true)
                                         {
-                                            typ = "HF multilateration";
+                                            targetReportDescriptor[0] = "HF multilateration";
                                         }
                                         else if (octetArray[0] == true && octetArray[1] == true && octetArray[2] == false)
                                         {
-                                            typ = "Not defined";
+                                            targetReportDescriptor[0] = "TYP Not defined";
                                         }
                                         else
                                         {
-                                            typ = "Other types";
+                                            targetReportDescriptor[0] = "Other types";
                                         }
 
-                                        drc = octetArray[3] ? "Differential Correction (ADS-B)" : "No Differential Correction (ADS_B)";
-                                        chn = octetArray[4] ? "Chain 2" : "Chain 1";
-                                        gbs = octetArray[5] ? "Transponder Ground bit set" : "Transponder Ground bit not set";
-                                        crt = octetArray[6] ? "Corrupted replies in multilateration" : "No Corrupted reply in multilateration";
+                                        targetReportDescriptor[1] = octetArray[3] ? "Differential Correction (ADS-B)" : "No Differential Correction (ADS_B)";
+                                        targetReportDescriptor[2] = octetArray[4] ? "Chain 2" : "Chain 1";
+                                        targetReportDescriptor[3] = octetArray[5] ? "Transponder Ground bit set" : "Transponder Ground bit not set";
+                                        targetReportDescriptor[4] = octetArray[6] ? "Corrupted replies in multilateration" : "No Corrupted reply in multilateration";
 
                                         fx = octetArray[7];
 
@@ -237,42 +238,42 @@ namespace ClassLibrary
 
                                     case 1:
 
-                                        sim = octetArray[0] ? "Simulated target report" : "Actual target report";
-                                        tst = octetArray[1] ? "Test Target" : "Default";
-                                        rab = octetArray[2] ? "Report from field monitor (fixed transponder)" : "Report from target monitor";
+                                        targetReportDescriptor[5] = octetArray[0] ? "Simulated target report" : "Actual target report";
+                                        targetReportDescriptor[6] = octetArray[1] ? "Test Target" : "Default";
+                                        targetReportDescriptor[7] = octetArray[2] ? "Report from field monitor (fixed transponder)" : "Report from target monitor";
 
                                         if (octetArray[3] == false && octetArray[4] == false)
                                         {
-                                            this.lop = "Undetermined";
+                                            targetReportDescriptor[8] = "Undetermined";
                                         }
                                         else if (octetArray[3] == false && octetArray[4] == true)
                                         {
-                                            this.lop = "Loop start";
+                                            targetReportDescriptor[8] = "Loop start";
                                         }
                                         else if (octetArray[3] == true && octetArray[4] == false)
                                         {
-                                            this.lop = "Loop finish";
+                                            targetReportDescriptor[8] = "Loop finish";
                                         }
                                         else
                                         {
-                                            this.lop = "Error";
+                                            targetReportDescriptor[8] = "Error";
                                         }
 
                                         if (octetArray[5] == false && octetArray[6] == false)
                                         {
-                                            this.tot = "Undetermined";
+                                            targetReportDescriptor[9] = "Undetermined";
                                         }
                                         else if (octetArray[5] == false && octetArray[6] == true)
                                         {
-                                            this.tot = "Aircraft";
+                                            targetReportDescriptor[9] = "Aircraft";
                                         }
                                         else if (octetArray[5] == true && octetArray[6] == false)
                                         {
-                                            this.tot = "Ground vehicle";
+                                            targetReportDescriptor[9] = "Ground vehicle";
                                         }
                                         else
                                         {
-                                            this.tot = "Helicopter";
+                                            targetReportDescriptor[9] = "Helicopter";
                                         }                                       
 
                                         fx = octetArray[7];
@@ -280,7 +281,7 @@ namespace ClassLibrary
 
                                     case 2:
 
-                                        spi = octetArray[0] ? "Special Position Identification" : "Absence of SPI";
+                                        targetReportDescriptor[10] = octetArray[0] ? "Special Position Identification" : "Absence of SPI";
 
                                         fx = octetArray[7];
                                         break;
@@ -1339,6 +1340,31 @@ namespace ClassLibrary
                 }
             }
             return values;
+        }
+
+        public string[] getClickToExpandValues(int col)
+        {
+            string[] val = new string[15];
+            switch (col)
+            {
+                case (5):
+                    // Target Report Descriptor
+                    val = targetReportDescriptor;
+                    break;
+
+                case (13):
+                    // Target Status
+                    val = trackstatus;
+                    break;
+                case (22):
+                    // System Status
+                    val = systemstatus;
+                    break;
+                case (23):
+                    val = pre_programmed_message;
+                    break;
+            }
+            return val;
         }
 
         public byte getBit(byte b, int bitNumber)
