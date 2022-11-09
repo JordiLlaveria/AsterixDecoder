@@ -50,6 +50,7 @@
             this.CAT21Grid.RowTemplate.Height = 24;
             this.CAT21Grid.Size = new System.Drawing.Size(1350, 812);
             this.CAT21Grid.TabIndex = 1;
+            this.CAT21Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT21Grid_CellClick);
             // 
             // filterByTargetAddressLabel
             // 

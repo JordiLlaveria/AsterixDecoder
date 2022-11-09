@@ -14,6 +14,7 @@ namespace AsterixDecoder
     public partial class Table10 : Form
     {
         DataTable dataTable = new DataTable();
+        DataTable dataTableNew;
         List<CAT10> CAT10list;
         public Table10(List<CAT10> list)
         {
@@ -28,7 +29,7 @@ namespace AsterixDecoder
             dataTable.Columns.Add("SAC");
             dataTable.Columns.Add("SIC");
             dataTable.Columns.Add("Message Type");
-            dataTable.Columns.Add("Target Report Descriptor");
+            dataTable.Columns.Add("Target Report Descriptor"); //5
             dataTable.Columns.Add("Time of Day");
             dataTable.Columns.Add("Position in WGS-84 Coordinates");
             dataTable.Columns.Add("Position in Polar Coordinates");
@@ -36,7 +37,7 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Track Velocity in Polar Coordinates");
             dataTable.Columns.Add("Track Velocity in Cartesian Coordinates");
             dataTable.Columns.Add("Track Number");
-            dataTable.Columns.Add("Track Status");
+            dataTable.Columns.Add("Track Status"); //13
             dataTable.Columns.Add("Mode 3/A Code");
             dataTable.Columns.Add("Target Address");
             dataTable.Columns.Add("Target Identification");
@@ -45,25 +46,32 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Flight Level");
             dataTable.Columns.Add("Measured Height");
             dataTable.Columns.Add("Target Size and Orientation");
-            dataTable.Columns.Add("System Status");
-            dataTable.Columns.Add("Preprogrammed Message");
+            dataTable.Columns.Add("System Status"); //22
+            dataTable.Columns.Add("Preprogrammed Message"); //23
             dataTable.Columns.Add("Standard Deviation of Position");
             dataTable.Columns.Add("Presence");
             dataTable.Columns.Add("Amplitude of Primary Plor");
             dataTable.Columns.Add("Calculated Acceleration");
+            
+            loadTable();
+            dataTableNew = dataTable.Copy();
+            DataView dv = new DataView(dataTableNew);
+            CAT10Grid.DataSource = dv;
+            drawTable();
+        }
 
+        private void loadTable()
+        {
+            dataTable.Clear();
             for (int i = 0; i < CAT10list.Count; i++)
             {
                 string[] rowInformation = CAT10list[i].getInformation(i);
                 dataTable.Rows.Add(rowInformation);
             }
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
         }
 
-        private void loadTable(DataView dataView)
-        {            
-            CAT10Grid.DataSource = dataView;
+        private void drawTable()
+        {   
             CAT10Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -76,6 +84,7 @@ namespace AsterixDecoder
             CAT10Grid.Columns[1].Width = 65;
             CAT10Grid.Columns[2].Width = 35;
             CAT10Grid.Columns[3].Width = 35;
+            CAT10Grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             CAT10Grid.RowHeadersVisible = false;
         }
 
@@ -84,17 +93,47 @@ namespace AsterixDecoder
             
             if (filterByTargetAddressTextBox.Text != null)
             {
-                DataView dataView = new DataView(dataTable);
+                dataTableNew = dataTable.Copy();
+                DataView dataView = new DataView(dataTableNew);
                 dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
-                loadTable(dataView);
+                CAT10Grid.DataSource = dataView;
+                drawTable();
             }
 
         }
 
         private void resetFilterButton_Click(object sender, EventArgs e)
         {
-            DataView dataView = new DataView(dataTable);
-            loadTable(dataView);
+            dataTableNew = dataTable.Copy();
+            DataView dataView = new DataView(dataTableNew);
+            CAT10Grid.DataSource = dataView;
+            drawTable();
+        }
+              
+
+        private void CAT10Grid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+            if(String.Equals(CAT10Grid.Rows[row].Cells[col].Value, "Click to expand"))
+            {
+                int num = Convert.ToInt32(CAT10Grid.Rows[row].Cells[0].Value);
+                string[] val = CAT10list[num].getClickToExpandValues(col);
+                if (val[0] != null)
+                {
+                    CAT10Grid.Rows[row].Cells[col].Value = val[0];
+                    int i = 1;
+                    while (i < val.Length)
+                    {
+                        if(val[i] != null)
+                        {
+                            CAT10Grid.Rows[row].Cells[col].Value = CAT10Grid.Rows[row].Cells[col].Value + "\n" + val[i];
+                        }
+                        i = i + 1;
+                    }                    
+                    CAT10Grid.AutoResizeRow(row);
+                }
+            }      
         }
     }
 }
