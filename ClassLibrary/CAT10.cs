@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -1342,6 +1342,26 @@ namespace ClassLibrary
             return values;
         }
 
+        public double[] getLatitudeLongitudeWGS84(string sensor)
+        {
+            double[] wgs84 = new double[2];
+            return wgs84;
+        }
+
+        public int getTypeSensor()
+        {
+            return this.sic;
+        }
+
+        public string getTargetAddress()
+        {
+            return this.targetaddress;
+        }
+
+        public string getTargetIdentification()
+        {
+            return this.targetIdentification;
+        }
         public string[] getClickToExpandValues(int col)
         {
             string[] val = new string[15];

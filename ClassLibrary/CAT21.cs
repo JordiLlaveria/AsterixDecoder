@@ -775,9 +775,9 @@ namespace ClassLibrary
                             qualityIndicators[0] = "NUCr or NACv: " + value.ToString();
                             value = eightbits[3] * Math.Pow(2, 3) + eightbits[4] * Math.Pow(2, 2) + eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                             qualityIndicators[1] = "NUCp or NIC: " + value.ToString();
-                            byteread++;
                             if (eightbits[7] == 1)
                             {
+                                byteread++;
                                 for (j = 0; j < 8; j++)
                                 {
                                     eightbits[7 - j] = getBit(arraymessage[byteread], j);
@@ -787,9 +787,9 @@ namespace ClassLibrary
                                 qualityIndicators[3] = "Surveillance of Source Integrity Level: " + value.ToString();
                                 value = eightbits[3] * Math.Pow(2, 3) + eightbits[4] * Math.Pow(2, 2) + eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                                 qualityIndicators[4] = "Navigation Accuracy Category for Position: " + value.ToString();
-                                byteread++;
                                 if (eightbits[7] == 1)
                                 {
+                                    byteread++;
                                     for (j = 0; j < 8; j++)
                                     {
                                         eightbits[7 - j] = getBit(arraymessage[byteread], j);
@@ -802,9 +802,9 @@ namespace ClassLibrary
                                     qualityIndicators[6] = "Horizontal Position System Design Assurance Level: " + value.ToString();
                                     value = eightbits[5] * Math.Pow(2, 1) + eightbits[6] * Math.Pow(2, 0);
                                     qualityIndicators[7] = "Geometric Altitude Accuracy: " + value.ToString();
-                                    byteread++;
                                     if (eightbits[7] == 1)
                                     {
+                                        byteread++;
                                         for (j = 0; j < 8; j++)
                                         {
                                             eightbits[7 - j] = getBit(arraymessage[byteread], j);
@@ -1480,15 +1480,15 @@ namespace ClassLibrary
                             }
                             else if (category == 1)
                             {
-                                emitterCategory = "light aircraft <= 15500 lbs";
+                                emitterCategory = "Light aircraft";
                             }
                             else if (category == 2)
                             {
-                                emitterCategory = "15500 lbs < small aircraft <75000 lbs";
+                                emitterCategory = "Small aircraft";
                             }
                             else if (category == 3)
                             {
-                                emitterCategory = "75000 lbs < medium a/c < 300000 lbs";
+                                emitterCategory = "Medium aircraft";
                             }
                             else if (category == 4)
                             {
@@ -1496,59 +1496,59 @@ namespace ClassLibrary
                             }
                             else if (category == 5)
                             {
-                                emitterCategory = "300000 lbs <= heavy aircraft";
+                                emitterCategory = "Heavy aircraft";
                             }
                             else if (category == 6)
                             {
-                                emitterCategory = "highly manoeuvrable (5g acceleration capability) and high speed (>400 knots cruise)";
+                                emitterCategory = "Highly manoeuvrable (5g acceleration capability) and high speed (>400 knots cruise)";
                             }
                             else if (category == 10)
                             {
-                                emitterCategory = "rotocraft";
+                                emitterCategory = "Rotocraft";
                             }
                             else if (category == 11)
                             {
-                                emitterCategory = "glider / sailplane";
+                                emitterCategory = "Glider / sailplane";
                             }
                             else if (category == 12)
                             {
-                                emitterCategory = "lighter-than-air";
+                                emitterCategory = "Lighter-than-air";
                             }
                             else if (category == 13)
                             {
-                                emitterCategory = "unmanned aerial vehicle";
+                                emitterCategory = "Unmanned aerial vehicle";
                             }
                             else if (category == 14)
                             {
-                                emitterCategory = "space / transatmospheric vehicle";
+                                emitterCategory = "Space / transatmospheric vehicle";
                             }
                             else if (category == 15)
                             {
-                                emitterCategory = "ultralight / handglider / paraglider";
+                                emitterCategory = "Ultralight / handglider / paraglider";
                             }
                             else if (category == 16)
                             {
-                                emitterCategory = "parachutist / skydiver";
+                                emitterCategory = "Parachutist / skydiver";
                             }
                             else if (category == 20)
                             {
-                                emitterCategory = "surface emergency vehicle";
+                                emitterCategory = "Surface emergency vehicle";
                             }
                             else if (category == 21)
                             {
-                                emitterCategory = "surface service vehicle";
+                                emitterCategory = "Surface service vehicle";
                             }
                             else if (category == 22)
                             {
-                                emitterCategory = "fixed ground or tethered obstruction";
+                                emitterCategory = "Fixed ground or tethered obstruction";
                             }
                             else if (category == 23)
                             {
-                                emitterCategory = "cluster obstacle";
+                                emitterCategory = "Cluster obstacle";
                             }
                             else if (category == 24)
                             {
-                                emitterCategory = "line obstacle";
+                                emitterCategory = "Line obstacle";
                             }
 
                             byteread = byteread + 1;
@@ -2493,13 +2493,13 @@ namespace ClassLibrary
                             values[17] = tomrvhp.ToString();
                             break;
                         case 17:
-                            values[18] = geometricHeight.ToString();
+                            values[18] = geometricHeight.ToString() + " ft";
                             break;
                         case 18:
                             values[19] = "Click to expand";
                             break;
                         case 19:
-                            values[20] = "Click to expand";
+                            values[20] = "Version Number: " + MOPSversion[1].ToString();
                             break;
                         case 20:
                             values[21] = mode3A.ToString();
@@ -2508,7 +2508,7 @@ namespace ClassLibrary
                             values[22] = rollAngle.ToString();
                             break;
                         case 22:
-                            values[23] = flightLevel.ToString();
+                            values[23] = flightLevel.ToString() + " FL";
                             break;
                         case 24:
                             values[24] = magneticHeading.ToString();
@@ -2517,7 +2517,7 @@ namespace ClassLibrary
                             values[25] = "Click to expand";
                             break;
                         case 26:
-                            values[26] = barometricVerticalRate.ToString();
+                            values[26] = barometricVerticalRate.ToString() + " ft/min";
                             break;
                         case 27:
                             values[27] = geometricVerticalRate.ToString();
@@ -2553,16 +2553,16 @@ namespace ClassLibrary
                             values[33] = "Click to expand";
                             break;
                         case 35:
-                            values[34] = selectedAltitude.ToString();
+                            values[34] = selectedAltitude.ToString()  + " ft";
                             break;
                         case 36:
-                            values[35] = finalSelectedAltitude.ToString();
+                            values[35] = finalSelectedAltitude.ToString() + " ft";
                             break;
                         case 37:
                             values[36] = "Click to expand";
                             break;
                         case 38:
-                            values[37] = serviceManagement.ToString();
+                            values[37] = serviceManagement.ToString() + " sec";
                             break;
                         case 40:
                             values[38] = "Click to expand";
@@ -2571,7 +2571,7 @@ namespace ClassLibrary
                             values[39] = "Click to expand";   
                             break;
                         case 42:
-                            values[40] = messageAmplitude.ToString();
+                            values[40] = messageAmplitude.ToString() + " dBm";
                             break;
                         case 43:
                             //S MB DATA
