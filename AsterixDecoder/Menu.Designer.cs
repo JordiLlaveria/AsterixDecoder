@@ -34,14 +34,15 @@
             this.CAT10TableButton = new System.Windows.Forms.Button();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.CAT21Button = new System.Windows.Forms.Button();
+            this.mapViewButton = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // InputFile
             // 
-            this.InputFile.Location = new System.Drawing.Point(383, 183);
+            this.InputFile.Location = new System.Drawing.Point(512, 349);
             this.InputFile.Name = "InputFile";
-            this.InputFile.Size = new System.Drawing.Size(75, 23);
+            this.InputFile.Size = new System.Drawing.Size(109, 47);
             this.InputFile.TabIndex = 0;
             this.InputFile.Text = "Input file";
             this.InputFile.UseVisualStyleBackColor = true;
@@ -58,7 +59,7 @@
             // FileReadLabel
             // 
             this.FileReadLabel.AutoSize = true;
-            this.FileReadLabel.Location = new System.Drawing.Point(339, 265);
+            this.FileReadLabel.Location = new System.Drawing.Point(464, 418);
             this.FileReadLabel.Name = "FileReadLabel";
             this.FileReadLabel.Size = new System.Drawing.Size(138, 16);
             this.FileReadLabel.TabIndex = 2;
@@ -97,11 +98,23 @@
             this.CAT21Button.UseVisualStyleBackColor = false;
             this.CAT21Button.Click += new System.EventHandler(this.CAT21TableButton_Click);
             // 
+            // mapViewButton
+            // 
+            this.mapViewButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.mapViewButton.Location = new System.Drawing.Point(35, 267);
+            this.mapViewButton.Name = "mapViewButton";
+            this.mapViewButton.Size = new System.Drawing.Size(128, 55);
+            this.mapViewButton.TabIndex = 6;
+            this.mapViewButton.Text = "Map View";
+            this.mapViewButton.UseVisualStyleBackColor = false;
+            this.mapViewButton.Click += new System.EventHandler(this.mapViewButton_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1578, 926);
+            this.ClientSize = new System.Drawing.Size(1782, 1055);
+            this.Controls.Add(this.mapViewButton);
             this.Controls.Add(this.CAT21Button);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.CAT10TableButton);
@@ -121,6 +134,7 @@
         private System.Windows.Forms.Button CAT10TableButton;
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Button CAT21Button;
+        private System.Windows.Forms.Button mapViewButton;
     }
 }
 

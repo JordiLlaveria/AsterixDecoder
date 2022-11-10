@@ -74,6 +74,18 @@ namespace AsterixDecoder
             table21.Show();
             table21.BringToFront();
         }
+
+        private void mapViewButton_Click(object sender, EventArgs e)
+        {
+            MapView mapView = new MapView();
+            mapView.TopLevel = false;
+            mapView.FormBorderStyle = FormBorderStyle.None;
+            mapView.Dock = DockStyle.Fill;
+            panelMenu.Controls.Add(mapView);
+            panelMenu.Tag = mapView;
+            mapView.Show();
+            mapView.BringToFront();
+        }
     }
 
 }
