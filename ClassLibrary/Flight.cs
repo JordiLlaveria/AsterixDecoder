@@ -12,14 +12,14 @@ namespace ClassLibrary
         List<TimeSpan> times;
         string sensor;
         string emitterCategory;
-        int trackNumber;
+        double trackNumber;
         string targetAddress;
-        string[] MOPSVersion = new string[3];
+        string typeVehicle;
         List<double> flightLevel;
         List<double> groundSpeed;
         string targetIdentification;
 
-        public Flight(string sensor, string emitterCategory, int trackNumber)
+        public Flight(string sensor, string emitterCategory, double trackNumber)
         {
             this.sensor = sensor;
             this.emitterCategory = emitterCategory;
@@ -30,14 +30,44 @@ namespace ClassLibrary
             this.flightLevel = new List<double>();
         }
 
+        public double getTrackNumber()
+        {
+            return this.trackNumber;
+        }
+
+        public void setFlightLevel(double FL)
+        {
+            this.flightLevel.Add(FL);
+        }
+
+        public void setGroundSpeed(double gSpeed)
+        {
+            this.groundSpeed.Add(gSpeed);
+        }
+
+        public void setCoordinates(Coordinates coordinates)
+        {
+            this.coordinates.Add(coordinates);
+        }
+
+        public void setTime(TimeSpan time)
+        {
+            this.times.Add(time);
+        }
+
+        public void setTargetIdentification(string id)
+        {
+            this.targetIdentification = id;
+        }
+
         public void setTargetAddress(string address)
         {
             this.targetAddress = address;
         }
 
-        public string getTargetAddress()
+        public void setTypeVehicle(string vehicle)
         {
-            return this.targetAddress;
+            this.typeVehicle = vehicle;
         }
     }
 

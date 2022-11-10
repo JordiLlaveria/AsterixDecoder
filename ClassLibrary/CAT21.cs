@@ -33,7 +33,7 @@ namespace ClassLibrary
         string[] targetReportDescriptor = new string[15];
 
         // 2 Track Number
-        int trackNumber;
+        double trackNumber;
 
         // 3 Service Identification
         int serviceIdentification;
@@ -738,7 +738,7 @@ namespace ClassLibrary
 
                         case 17:
                             // I021/140
-                            eightbits[0] = getBit(arraymessage[byteread + 1], 7);
+                            eightbits[0] = getBit(arraymessage[byteread], 7);
                             if (eightbits[0] == 1)
                             {
                                 twobytes[1] = arraymessage[byteread];
@@ -1182,28 +1182,20 @@ namespace ClassLibrary
 
                             bool[] octetGround = getOctet(arraymessage[byteread]);
                             rangeExceededAirborne = octetGround[0] ? "Value exceeds defined range" : "Value in defined range";
-
-                            bool[] octet2Ground = getOctet(arraymessage[byteread + 1]);
-                            bool[] groundJunts = new bool[15];
-                            bool[] octet1Ground = new bool[] { octetGround[1], octetGround[2], octetGround[3], octetGround[4], octetGround[5], octetGround[6], octetGround[7] };
-                            octet1Ground.CopyTo(groundJunts, 0);
-                            octet2Ground.CopyTo(groundJunts, 7);
-                            BitArray firstBitsGround = new BitArray(groundJunts);
-
-                            if (octetGround[1])
+                          
+                            twobytes[1] = arraymessage[byteread];
+                            twobytes[0] = arraymessage[byteread + 1];
+                            bytestogether1 = new BitArray(twobytes);
+                            bytestogether1 = Reverse(bytestogether1);
+                            groundSpeed = 0;
+                            for (int k = 1; k < bytestogether1.Length; k++)
                             {
-                                BitArray firstBitsCompGround = complement2(firstBitsGround);
-                                bool[] ground = new bool[16];
-                                ground[0] = false;
-                                firstBitsCompGround.CopyTo(ground, 1);
-                                BitArray groundBit = new BitArray(ground);
-                                groundSpeed = convertToInt32(Reverse(groundBit)) * (-1) * Math.Pow(2, -14);
-
+                                if (bytestogether1[k] == true)
+                                {
+                                    groundSpeed = groundSpeed + Math.Pow(2, bytestogether1.Length - 1 - k);
+                                }
                             }
-                            else
-                            {
-                                groundSpeed = convertToInt32(Reverse(firstBitsGround)) * Math.Pow(2, -14);
-                            }
+                            groundSpeed = groundSpeed * 0.22;
 
                             // Track Angle
 
@@ -1627,7 +1619,7 @@ namespace ClassLibrary
                             twobytes[0] = arraymessage[byteread + 1];
                             bytestogether1 = new BitArray(twobytes);
                             bytestogether1 = Reverse(bytestogether1);
-                            eightbits[3] = getBit(arraymessage[byteread + 1], 7);
+                            eightbits[3] = getBit(arraymessage[byteread], 4);
                             if (eightbits[3] == 1)
                             {
                                 bytestogether1 = complement2(bytestogether1);
@@ -1667,7 +1659,7 @@ namespace ClassLibrary
                                 finalSelectedAltitudeInfo[2] = "Approach Mode: Not active of unknown";
                             else
                                 finalSelectedAltitudeInfo[2] = "Approach Mode: Active";
-                            eightbits[3] = getBit(arraymessage[byteread + 1], 7);
+                            eightbits[3] = getBit(arraymessage[byteread], 4);
                             if (eightbits[3] == 1)
                             {
                                 twobytes[1] = arraymessage[byteread];
@@ -2268,6 +2260,51 @@ namespace ClassLibrary
             }
         }
 
+        public double getTrackNumber()
+        {
+            return this.trackNumber;
+        }
+
+        public double getLongitude()
+        {
+            return this.longitude;
+        }
+
+        public double getLatitude()
+        {
+            return this.latitude;
+        }
+        public double getFlightLevel()
+        {
+            return this.flightLevel;
+        }
+
+        public TimeSpan getTime()
+        {
+            TimeSpan timeSpan = new TimeSpan(horestort, minutstort, segonstort);
+            return timeSpan;
+        }
+
+        public double getGroundSpeed()
+        {
+            return this.groundSpeed;
+        }
+
+        public string getTargetIdentification()
+        {
+            return this.targetIdentification;
+        }
+
+        public string getTargetAddress()
+        {
+            return this.targetAddress;
+        }
+
+        public string getTypeVehicle()
+        {
+            return this.emitterCategory;
+        }
+
         public void getDataAge(byte[] arraymessage, int byteToRead, int position, string information)
         {
             onebyte[0] = arraymessage[byteToRead];
@@ -2385,7 +2422,7 @@ namespace ClassLibrary
         {
             string[] values = new string[45];
             values[0] = j.ToString();
-            values[1] = "10";
+            values[1] = "21";
             for (int k = 2; k < values.Length; k++)
             {
                 values[k] = "No data";
@@ -2425,10 +2462,30 @@ namespace ClassLibrary
                             values[7] = values[7] + ":" + msApplicabilityPosition.ToString();
                             break;
                         case 5:
-                            values[8] = "Lat: " + latitude.ToString() + ", Long: " + longitude.ToString();
+                            double latdegrees = Math.Truncate(latitude * 1) / 1;
+                            double latminutes = (latitude - (Math.Truncate(latitude * 1) / 1)) * 60;
+                            double latseconds = (latminutes - (Math.Truncate(latminutes * 1) / 1)) * 60;
+                            latminutes = (Math.Truncate(latminutes * 1) / 1);
+                            latseconds = (Math.Truncate(latseconds * 100) / 100);
+                            double longdegrees = Math.Truncate(latitude * 1) / 1;
+                            double longminutes = (longitude - (Math.Truncate(longitude * 1) / 1)) * 60;
+                            double longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
+                            longminutes = (Math.Truncate(longminutes * 1) / 1);
+                            longseconds = (Math.Truncate(longseconds * 100) / 100);
+                            values[8] = latdegrees.ToString() + "º " + latminutes.ToString() + "' " + latseconds.ToString() + "'', " + longdegrees.ToString() + "º " + longminutes.ToString() + "' " + longseconds.ToString();
                             break;
                         case 6:
-                            values[9] = "High res lat: " + highResLatitude.ToString() + ", High res long: " + highResLongitude.ToString();
+                            double hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
+                            double hrlatminutes = (highResLatitude - (Math.Truncate(highResLatitude * 1) / 1)) * 60;
+                            double hrlatseconds = (hrlatminutes - (Math.Truncate(hrlatminutes * 1) / 1)) * 60;
+                            hrlatminutes = (Math.Truncate(hrlatminutes * 1) / 1);
+                            hrlatseconds = (Math.Truncate(hrlatseconds * 100) / 100);
+                            double hrlongdegrees = Math.Truncate(highResLongitude * 1) / 1;
+                            double hrlongminutes = (highResLongitude - (Math.Truncate(highResLongitude * 1) / 1)) * 60;
+                            double hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
+                            hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
+                            hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
+                            values[9] = hrlatdegrees.ToString() + "º " + hrlatminutes.ToString() + "' " + hrlatseconds.ToString() + "'', " + hrlongdegrees.ToString() + "º " + hrlongminutes.ToString() + "' " + hrlongseconds.ToString();
                             break;
                         case 8:
                             if (horesApplicabilityVelocity > 9)
