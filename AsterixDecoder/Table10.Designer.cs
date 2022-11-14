@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.CAT10Grid = new System.Windows.Forms.DataGridView();
-            this.filterByTargetAddressLabel = new System.Windows.Forms.Label();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.resetFilterButton = new System.Windows.Forms.Button();
+            this.filterComboBox = new System.Windows.Forms.ComboBox();
+            this.filterLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CAT10Grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,20 +52,12 @@
             this.CAT10Grid.TabIndex = 0;
             this.CAT10Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT10Grid_CellClick);
             // 
-            // filterByTargetAddressLabel
-            // 
-            this.filterByTargetAddressLabel.AutoSize = true;
-            this.filterByTargetAddressLabel.Location = new System.Drawing.Point(39, 41);
-            this.filterByTargetAddressLabel.Name = "filterByTargetAddressLabel";
-            this.filterByTargetAddressLabel.Size = new System.Drawing.Size(122, 20);
-            this.filterByTargetAddressLabel.TabIndex = 1;
-            this.filterByTargetAddressLabel.Text = "Target Address:";
-            // 
             // filterByTargetAddressButton
             // 
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(314, 36);
+            this.filterByTargetAddressButton.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(467, 37);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
-            this.filterByTargetAddressButton.Size = new System.Drawing.Size(81, 28);
+            this.filterByTargetAddressButton.Size = new System.Drawing.Size(80, 28);
             this.filterByTargetAddressButton.TabIndex = 3;
             this.filterByTargetAddressButton.Text = "Filter";
             this.filterByTargetAddressButton.UseVisualStyleBackColor = true;
@@ -72,28 +65,49 @@
             // 
             // filterByTargetAddressTextBox
             // 
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(167, 38);
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 37);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
             this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
             this.filterByTargetAddressTextBox.TabIndex = 2;
             // 
             // resetFilterButton
             // 
-            this.resetFilterButton.Location = new System.Drawing.Point(401, 37);
+            this.resetFilterButton.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetFilterButton.Location = new System.Drawing.Point(553, 35);
             this.resetFilterButton.Name = "resetFilterButton";
-            this.resetFilterButton.Size = new System.Drawing.Size(76, 26);
+            this.resetFilterButton.Size = new System.Drawing.Size(76, 28);
             this.resetFilterButton.TabIndex = 4;
             this.resetFilterButton.Text = "Reset";
             this.resetFilterButton.UseVisualStyleBackColor = true;
             this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
             // 
+            // filterComboBox
+            // 
+            this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.filterComboBox.FormattingEnabled = true;
+            this.filterComboBox.Location = new System.Drawing.Point(193, 35);
+            this.filterComboBox.Name = "filterComboBox";
+            this.filterComboBox.Size = new System.Drawing.Size(121, 28);
+            this.filterComboBox.TabIndex = 5;
+            // 
+            // filterLabel
+            // 
+            this.filterLabel.AutoSize = true;
+            this.filterLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterLabel.Location = new System.Drawing.Point(93, 38);
+            this.filterLabel.Name = "filterLabel";
+            this.filterLabel.Size = new System.Drawing.Size(91, 25);
+            this.filterLabel.TabIndex = 6;
+            this.filterLabel.Text = "Filter by:";
+            // 
             // Table10
             // 
             this.ClientSize = new System.Drawing.Size(1123, 676);
+            this.Controls.Add(this.filterLabel);
+            this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.resetFilterButton);
             this.Controls.Add(this.filterByTargetAddressButton);
             this.Controls.Add(this.filterByTargetAddressTextBox);
-            this.Controls.Add(this.filterByTargetAddressLabel);
             this.Controls.Add(this.CAT10Grid);
             this.Name = "Table10";
             this.Load += new System.EventHandler(this.Table10_Load);
@@ -109,9 +123,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridView CAT10Grid;
-        private System.Windows.Forms.Label filterByTargetAddressLabel;
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.TextBox filterByTargetAddressTextBox;
         private System.Windows.Forms.Button resetFilterButton;
+        private System.Windows.Forms.ComboBox filterComboBox;
+        private System.Windows.Forms.Label filterLabel;
     }
 }
