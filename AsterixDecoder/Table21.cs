@@ -28,7 +28,7 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Category");
             dataTable.Columns.Add("SAC");
             dataTable.Columns.Add("SIC");
-            dataTable.Columns.Add("Target Report Descriptor");
+            dataTable.Columns.Add("Target Report Descriptor"); //4
             dataTable.Columns.Add("Track Number");
             dataTable.Columns.Add("Service Identification");
             dataTable.Columns.Add("Time of Applicability Position");
@@ -43,13 +43,13 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Time of Message Reception Velocity");
             dataTable.Columns.Add("Time of Message Reception Velocity High Res");
             dataTable.Columns.Add("Geometric Height");
-            dataTable.Columns.Add("Quality Indicators");
+            dataTable.Columns.Add("Quality Indicators"); // 19
             dataTable.Columns.Add("MOPS Version");
             dataTable.Columns.Add("Mode 3A Code");
             dataTable.Columns.Add("Roll Angle");
             dataTable.Columns.Add("Flight Level");
             dataTable.Columns.Add("Magnetic Heading");
-            dataTable.Columns.Add("Target Status");
+            dataTable.Columns.Add("Target Status"); // 25
             dataTable.Columns.Add("Barometric Vertical Rate");
             dataTable.Columns.Add("Geometric Vertical Rate");
             dataTable.Columns.Add("Airborne Ground Vector");
@@ -57,12 +57,12 @@ namespace AsterixDecoder
             dataTable.Columns.Add("Time of Report Transmission");
             dataTable.Columns.Add("Target Identification");
             dataTable.Columns.Add("Emitter Category");
-            dataTable.Columns.Add("Met Information");
+            dataTable.Columns.Add("Met Information"); 
             dataTable.Columns.Add("Selected Altitude");
             dataTable.Columns.Add("Final State Selected Altitude");
-            dataTable.Columns.Add("Trajectory Intent");
+            dataTable.Columns.Add("Trajectory Intent"); 
             dataTable.Columns.Add("Service Management");
-            dataTable.Columns.Add("Aircraft Operational Status");
+            dataTable.Columns.Add("Aircraft Operational Status"); // 38
             dataTable.Columns.Add("Surface Capabilities and Characteristics");
             dataTable.Columns.Add("Message Amplitude");
             dataTable.Columns.Add("Mode S MB Data");
@@ -100,6 +100,7 @@ namespace AsterixDecoder
             CAT21Grid.Columns[1].Width = 65;
             CAT21Grid.Columns[2].Width = 35;
             CAT21Grid.Columns[3].Width = 35;
+            CAT21Grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             CAT21Grid.RowHeadersVisible = false;
         }
 
