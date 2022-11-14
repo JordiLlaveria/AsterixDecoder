@@ -28,7 +28,7 @@ namespace AsterixDecoder
             InitializeComponent();
         }
 
-        private void gMapControl1_Load(object sender, EventArgs e)
+        private void gMapControl1_Load_1(object sender, EventArgs e)
         {
             gMapControl1.DragButton = MouseButtons.Left;
             gMapControl1.CanDragMap = true;
@@ -38,6 +38,7 @@ namespace AsterixDecoder
             gMapControl1.MaxZoom = 24;
             gMapControl1.Zoom = 14;
             gMapControl1.AutoScroll = true;
+
         }
     }
 }
