@@ -85,6 +85,7 @@ namespace AsterixDecoder
             panelMenu.Tag = mapView;
             mapView.Show();
             mapView.BringToFront();
+            Console.WriteLine("Hola");
         }
     }
 
