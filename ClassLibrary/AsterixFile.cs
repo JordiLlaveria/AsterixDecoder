@@ -12,7 +12,6 @@ namespace ClassLibrary
     {
         List<CAT10> CAT10list = new List<CAT10>();
         List<CAT21> CAT21list = new List<CAT21>();
-        ArrayList CATBothlist = new ArrayList();
         List<Flight> Flightlist = new List<Flight>();
         public AsterixFile(string path)
         {
@@ -34,13 +33,11 @@ namespace ClassLibrary
                 {
                     CAT10 cat10 = new CAT10(arraymessage);
                     CAT10list.Add(cat10);
-                    CATBothlist.Add(cat10);
                 }
                 else if(arraymessage[0] == 21)
                 {
                     CAT21 cat21 = new CAT21(arraymessage);
                     CAT21list.Add(cat21);
-                    CATBothlist.Add(cat21);
                 }
             }
             this.obtainFlights();

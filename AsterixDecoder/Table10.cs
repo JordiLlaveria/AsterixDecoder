@@ -24,6 +24,11 @@ namespace AsterixDecoder
 
         private void Table10_Load(object sender, EventArgs e)
         {
+            filterComboBox.Items.Add("Target Address");
+            filterComboBox.Items.Add("Target Identification");
+            filterComboBox.Items.Add("Track Number");
+            filterComboBox.Items.Add("Mode 3A");
+
             dataTable.Columns.Add("Number");
             dataTable.Columns.Add("Category");
             dataTable.Columns.Add("SAC");
@@ -90,14 +95,51 @@ namespace AsterixDecoder
 
         private void filterByTargetAddressButton_Click(object sender, EventArgs e)
         {
-            
-            if (filterByTargetAddressTextBox.Text != null)
+            int index = filterComboBox.SelectedIndex;
+
+            if (index == 0)
             {
-                dataTableNew = dataTable.Copy();
-                DataView dataView = new DataView(dataTableNew);
-                dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
-                CAT10Grid.DataSource = dataView;
-                drawTable();
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 1)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Target Identification] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 2)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Track Number] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 3)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Mode 3/A Code] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
             }
 
         }

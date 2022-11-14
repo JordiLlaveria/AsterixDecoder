@@ -2593,11 +2593,25 @@ namespace ClassLibrary
 
         public string[] getClickToExpandValues(int col)
         {
-            string[] val = new string[15];
-            //switch (col)
-            //{
-                
-            //}
+            string[] val = new string[24];
+            switch (col)
+            {
+                case (4):
+                    val = targetReportDescriptor;
+                    break;
+                case (19):
+                    val = qualityIndicators;
+                    break;
+                case (25):
+                    val = targetStatus;
+                    break;
+                case (38):
+                    val = aircraftOperationalStatus;
+                    break;
+                case (44):
+                    val = dataAges;
+                    break;
+            }
             return val;
         }
     }
