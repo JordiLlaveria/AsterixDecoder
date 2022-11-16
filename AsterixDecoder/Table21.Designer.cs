@@ -33,6 +33,7 @@
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.resetFilterButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CAT21Grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,11 +89,22 @@
             this.resetFilterButton.UseVisualStyleBackColor = true;
             this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
             // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(1311, 43);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(75, 28);
+            this.exportButton.TabIndex = 6;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
             // Table21
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1557, 1050);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.resetFilterButton);
             this.Controls.Add(this.filterByTargetAddressButton);
             this.Controls.Add(this.filterByTargetAddressTextBox);
@@ -115,5 +127,6 @@
         private System.Windows.Forms.TextBox filterByTargetAddressTextBox;
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.Button resetFilterButton;
+        private System.Windows.Forms.Button exportButton;
     }
 }

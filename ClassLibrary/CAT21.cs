@@ -2425,10 +2425,10 @@ namespace ClassLibrary
                             values[7] = values[7] + ":" + msApplicabilityPosition.ToString();
                             break;
                         case 5:
-                            values[8] = "Lat: " + latitude.ToString() + ", Long: " + longitude.ToString();
+                            values[8] = "Lat: " + latitude.ToString() + " Long: " + longitude.ToString();
                             break;
                         case 6:
-                            values[9] = "High res lat: " + highResLatitude.ToString() + ", High res long: " + highResLongitude.ToString();
+                            values[9] = "High res lat: " + highResLatitude.ToString() + " High res long: " + highResLongitude.ToString();
                             break;
                         case 8:
                             if (horesApplicabilityVelocity > 9)
@@ -2523,7 +2523,7 @@ namespace ClassLibrary
                             values[27] = geometricVerticalRate.ToString();
                             break;
                         case 28:
-                            values[28] = "GS: " + groundSpeed.ToString() + ", TA: " + trackAngle.ToString() + ", Range Exceeded: " + rangeExceededAirborne.ToString();
+                            values[28] = "GS: " + groundSpeed.ToString() + " TA: " + trackAngle.ToString() + " Range Exceeded: " + rangeExceededAirborne.ToString();
                             break;
                         case 29:
                             values[29] = trackAngleRate.ToString();

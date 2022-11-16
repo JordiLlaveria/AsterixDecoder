@@ -135,5 +135,39 @@ namespace AsterixDecoder
                 }
             }      
         }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            dataTableNew = dataTable;
+            
+            int[] casesCAT10 = new int[]{ 5, 13, 22, 23};
+            int rowNum = 0;
+            foreach(DataRow row in dataTableNew.Rows)
+            {
+
+                foreach(int case10 in casesCAT10)
+                {
+                    string[] val = CAT10list[rowNum].getClickToExpandValues(case10);
+                    
+                    if (val[0] != null)
+                    {
+                        row[case10] = val[0];
+                        int i = 1;
+                        while (i < val.Length)
+                        {
+                            if (val[i] != null)
+                            {
+                                row[case10] = row[case10] + " " + val[i];
+                            }
+                            i = i + 1;
+                        }                        
+                    }
+                }
+                rowNum = rowNum + 1;
+            }
+
+            new ExportHelper().Export(dataTableNew);
+
+        }
     }
 }
