@@ -33,6 +33,8 @@
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.resetFilterButton = new System.Windows.Forms.Button();
+
+            this.exportButton = new System.Windows.Forms.Button();
             this.filterComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.CAT21Grid)).BeginInit();
             this.SuspendLayout();
@@ -93,6 +95,17 @@
             this.resetFilterButton.UseVisualStyleBackColor = true;
             this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
             // 
+
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(1311, 43);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(75, 28);
+            this.exportButton.TabIndex = 6;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+
             // filterComboBox
             // 
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -107,6 +120,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1557, 1050);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.resetFilterButton);
             this.Controls.Add(this.filterByTargetAddressButton);
@@ -130,6 +144,7 @@
         private System.Windows.Forms.TextBox filterByTargetAddressTextBox;
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.Button resetFilterButton;
+        private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.ComboBox filterComboBox;
     }
 }

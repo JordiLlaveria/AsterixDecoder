@@ -32,6 +32,7 @@
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.resetFilterButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             this.filterComboBox = new System.Windows.Forms.ComboBox();
             this.filterLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CAT10Grid)).BeginInit();
@@ -81,6 +82,15 @@
             this.resetFilterButton.UseVisualStyleBackColor = true;
             this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
             // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(918, 35);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(75, 28);
+            this.exportButton.TabIndex = 5;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // filterComboBox
             // 
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -103,6 +113,7 @@
             // Table10
             // 
             this.ClientSize = new System.Drawing.Size(1123, 676);
+            this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterLabel);
             this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.resetFilterButton);
@@ -126,6 +137,7 @@
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.TextBox filterByTargetAddressTextBox;
         private System.Windows.Forms.Button resetFilterButton;
+        private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.ComboBox filterComboBox;
         private System.Windows.Forms.Label filterLabel;
     }

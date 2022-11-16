@@ -549,7 +549,7 @@ namespace ClassLibrary
                             }
                             if (eightbits[5] == 0) 
                             {
-                                trackstatus[4] = "TCC: Tracking performed in 'Sensor Plane', i.e. neither start range correction nor projection was applied";
+                                trackstatus[4] = "TCC: Tracking performed in 'Sensor Plane' i.e. neither start range correction nor projection was applied";
                             }
                             else 
                             {
@@ -1276,16 +1276,16 @@ namespace ClassLibrary
                             //WGS
                             break;
                         case 5:
-                            values[8] = "ρ: " + rho.ToString() + " m, θ: " + theta.ToString() + "º";
+                            values[8] = "ρ: " + rho.ToString() + "m θ: " + theta.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture) + "º";
                             break;
                         case 6:
-                            values[9] = "X: " + x.ToString() + ", Y: " + y.ToString();
+                            values[9] = "X: " + x.ToString() + " Y: " + y.ToString();
                             break;
                         case 8:
-                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString() + " m/s, TA: " + trackangle_polar_coordinates.ToString() + "º";
+                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s TA: " + trackangle_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "º";
                             break;
                         case 9:
-                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString() + " m/s, Vy: " + vy_cartesian_coordinates.ToString() + " m/s";
+                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s Vy: " + vy_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s";
                             break;
                         case 10:
                             values[12] = tracknumber.ToString();
@@ -1317,7 +1317,7 @@ namespace ClassLibrary
                             values[20] = height.ToString();
                             break;
                         case 20:
-                            values[21] = "Length: " + length.ToString() + " m, Orientation: " + orientation.ToString() + ", Width: " + width.ToString() + " m";
+                            values[21] = "Length: " + length.ToString() + "m Orientation: " + orientation.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " Width: " + width.ToString() + "m";
                             break;
                         case 21:
                             values[22] = "Click to expand";
@@ -1328,13 +1328,13 @@ namespace ClassLibrary
                         case 23:
                             break;
                         case 24:
-                            values[24] = "σx = " + x_standard_deviation.ToString() + ", σy = " + y_standard_deviation.ToString() + " σxy = " + covariance.ToString();
+                            values[24] = "σx = " + x_standard_deviation.ToString() + " σy = " + y_standard_deviation.ToString() + " σxy = " + covariance.ToString();
                             break;
                         case 26:
                             values[26] = amplitudeOfPrimaryPlot.ToString();
                             break;
                         case 27:
-                            values[27] = "Ax: " + Ax.ToString() + " m/s^2, Ay: " + Ay.ToString() + " m/s^2";
+                            values[27] = "Ax: " + Ax.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
                             break;
                     }
                 }
