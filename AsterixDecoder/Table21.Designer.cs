@@ -33,7 +33,9 @@
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.resetFilterButton = new System.Windows.Forms.Button();
+
             this.exportButton = new System.Windows.Forms.Button();
+            this.filterComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.CAT21Grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,24 +58,27 @@
             // filterByTargetAddressLabel
             // 
             this.filterByTargetAddressLabel.AutoSize = true;
+            this.filterByTargetAddressLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterByTargetAddressLabel.Location = new System.Drawing.Point(79, 51);
             this.filterByTargetAddressLabel.Name = "filterByTargetAddressLabel";
-            this.filterByTargetAddressLabel.Size = new System.Drawing.Size(122, 20);
+            this.filterByTargetAddressLabel.Size = new System.Drawing.Size(91, 25);
             this.filterByTargetAddressLabel.TabIndex = 2;
-            this.filterByTargetAddressLabel.Text = "Target Address:";
+            this.filterByTargetAddressLabel.Text = "Filter by:";
             // 
             // filterByTargetAddressTextBox
             // 
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(207, 48);
+            this.filterByTargetAddressTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(303, 51);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
-            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(122, 26);
+            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(122, 28);
             this.filterByTargetAddressTextBox.TabIndex = 3;
             // 
             // filterByTargetAddressButton
             // 
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(335, 45);
+            this.filterByTargetAddressButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(431, 51);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
-            this.filterByTargetAddressButton.Size = new System.Drawing.Size(87, 34);
+            this.filterByTargetAddressButton.Size = new System.Drawing.Size(87, 28);
             this.filterByTargetAddressButton.TabIndex = 4;
             this.filterByTargetAddressButton.Text = "Filter";
             this.filterByTargetAddressButton.UseVisualStyleBackColor = true;
@@ -81,14 +86,16 @@
             // 
             // resetFilterButton
             // 
-            this.resetFilterButton.Location = new System.Drawing.Point(428, 45);
+            this.resetFilterButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetFilterButton.Location = new System.Drawing.Point(524, 51);
             this.resetFilterButton.Name = "resetFilterButton";
-            this.resetFilterButton.Size = new System.Drawing.Size(83, 34);
+            this.resetFilterButton.Size = new System.Drawing.Size(83, 28);
             this.resetFilterButton.TabIndex = 5;
             this.resetFilterButton.Text = "Reset";
             this.resetFilterButton.UseVisualStyleBackColor = true;
             this.resetFilterButton.Click += new System.EventHandler(this.resetFilterButton_Click);
             // 
+
             // exportButton
             // 
             this.exportButton.Location = new System.Drawing.Point(1311, 43);
@@ -98,6 +105,15 @@
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+
+            // filterComboBox
+            // 
+            this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.filterComboBox.FormattingEnabled = true;
+            this.filterComboBox.Location = new System.Drawing.Point(176, 51);
+            this.filterComboBox.Name = "filterComboBox";
+            this.filterComboBox.Size = new System.Drawing.Size(121, 28);
+            this.filterComboBox.TabIndex = 6;
             // 
             // Table21
             // 
@@ -105,6 +121,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1557, 1050);
             this.Controls.Add(this.exportButton);
+            this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.resetFilterButton);
             this.Controls.Add(this.filterByTargetAddressButton);
             this.Controls.Add(this.filterByTargetAddressTextBox);
@@ -128,5 +145,6 @@
         private System.Windows.Forms.Button filterByTargetAddressButton;
         private System.Windows.Forms.Button resetFilterButton;
         private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.ComboBox filterComboBox;
     }
 }
