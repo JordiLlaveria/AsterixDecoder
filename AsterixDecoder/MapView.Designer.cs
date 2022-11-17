@@ -28,8 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
+            this.buttonPlay = new System.Windows.Forms.Button();
+            this.labelTime = new System.Windows.Forms.Label();
+            this.timer1s = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,22 +74,53 @@
             this.gMapControl1.Zoom = 0D;
             this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load_1);
             // 
+            // buttonPlay
+            // 
+            this.buttonPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPlay.Location = new System.Drawing.Point(1054, 139);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(104, 64);
+            this.buttonPlay.TabIndex = 3;
+            this.buttonPlay.Text = "Play";
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
+            // 
+            // labelTime
+            // 
+            this.labelTime.AutoSize = true;
+            this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTime.Location = new System.Drawing.Point(1164, 148);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(164, 42);
+            this.labelTime.TabIndex = 4;
+            this.labelTime.Text = "08:00:00";
+            // 
+            // timer1s
+            // 
+            this.timer1s.Tick += new System.EventHandler(this.timer1s_Tick);
+            // 
             // MapView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1426, 821);
+            this.Controls.Add(this.labelTime);
+            this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.gMapControl1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MapView";
             this.Text = "MapView";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
+        private System.Windows.Forms.Button buttonPlay;
+        private System.Windows.Forms.Label labelTime;
+        private System.Windows.Forms.Timer timer1s;
     }
 }

@@ -127,5 +127,10 @@ namespace ClassLibrary
             return CAT21list;
         }
 
+        public List<Flight> getFlights()
+        {
+            return Flightslist;
+        }
+
     }
 }

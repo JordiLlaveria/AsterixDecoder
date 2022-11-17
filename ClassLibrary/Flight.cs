@@ -69,6 +69,21 @@ namespace ClassLibrary
         {
             this.typeVehicle = vehicle;
         }
+
+        public List<TimeSpan> getTimes()
+        {
+            return times;
+        }
+
+        public List<Coordinates> getCoordinates()
+        {
+            return coordinates;
+        }
+
+        public string getSensor()
+        {
+            return sensor;
+        }
     }
 
     public class Coordinates

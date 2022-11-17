@@ -16,6 +16,7 @@ namespace AsterixDecoder
     {
         List<CAT10> CAT10list = new List<CAT10>();
         List<CAT21> CAT21list = new List<CAT21>();
+        List<Flight> Flightslist = new List<Flight>();
         AsterixFile asterixFile;
         string file;
 
@@ -48,6 +49,7 @@ namespace AsterixDecoder
             FileReadLabel.Text = "File " + file + " read";
             CAT10list = asterixFile.getCAT10List();
             CAT21list = asterixFile.getCAT21List();
+            Flightslist = asterixFile.getFlights();
 
         }
 
@@ -77,7 +79,7 @@ namespace AsterixDecoder
 
         private void mapViewButton_Click(object sender, EventArgs e)
         {
-            MapView mapView = new MapView();
+            MapView mapView = new MapView(Flightslist);
             mapView.TopLevel = false;
             mapView.FormBorderStyle = FormBorderStyle.None;
             mapView.Dock = DockStyle.Fill;
