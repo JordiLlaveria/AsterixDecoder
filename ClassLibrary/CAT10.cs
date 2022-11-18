@@ -1,3 +1,4 @@
+using MultiCAT6.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1344,13 +1345,33 @@ namespace ClassLibrary
 
         public double[] getLatitudeLongitudeWGS84(string sensor)
         {
-            double[] wgs84 = new double[2];
-            return wgs84;
+            double[] radar = new double[2];
+            if (sensor == "SMR")
+            {
+                radar[0] = 41.29561944444444;
+                radar[1] = 2.09511388888888;
+            }
+            else
+            {
+                radar[0] = 41.297063888888886;
+                radar[1] = 2.0784472222222226;
+            }
+            GeoUtils geoUtils = new GeoUtils();
+            Coordinates radarCoordinates = new Coordinates(radar[0], radar[1]);
+            CoordinatesWGS84 radarWGS84 = new CoordinatesWGS84(radarCoordinates.GetLatitude() * (Math.PI / 180.0), radarCoordinates.GetLongitude() * (Math.PI / 180.0));
+            CoordinatesXYZ objectCartesian = new CoordinatesXYZ(x, y, 0);
+            CoordinatesXYZ objectGeocentric = geoUtils.change_radar_cartesian2geocentric(radarWGS84, objectCartesian);
+            CoordinatesWGS84 objectWGS84 = geoUtils.change_geocentric2geodesic(objectGeocentric);
+            double[] wgs84coordinates = { objectWGS84.Lat * (180.0 / Math.PI), objectWGS84.Lon * (180.0 / Math.PI) };
+            return wgs84coordinates;
         }
 
-        public int getTypeSensor()
+        public string getTypeSensor()
         {
-            return this.sic;
+            if (sic == 7)
+                return "SMR";
+            else
+                return "MLAT";
         }
 
         public string getTargetAddress()
@@ -1362,6 +1383,33 @@ namespace ClassLibrary
         {
             return this.targetIdentification;
         }
+
+        public double getTrackNumber()
+        {
+            return this.tracknumber;
+        }
+
+        public double getFlightLevel()
+        {
+            return this.height;
+        }
+
+        public TimeSpan getTime()
+        {
+            TimeSpan timeSpan = new TimeSpan(hores, minuts, segons);
+            return timeSpan;
+        }
+
+        public double getGroundSpeed()
+        {
+            return this.groundspeed_polar_coordinates;
+        }
+
+        public string getMessageType()
+        {
+            return this.messageType;
+        }
+
         public string[] getClickToExpandValues(int col)
         {
             string[] val = new string[15];

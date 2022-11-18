@@ -172,14 +172,14 @@ namespace MultiCAT6.Utils
             }
             catch (Exception e)
             {
-                Program.logger.Log(NSpring.Logging.Level.Exception, "expecting line(" + line + ") to be accomply with the following regex:" + Environment.NewLine +
-                    pattern + Environment.NewLine +
-                    "more or less the following valid wgs84 strings will be correctly parsed (no negative heights):" + Environment.NewLine +
-                    "-00:20:23.98 +003:45:33 897.09m" + Environment.NewLine +
-                    "0:20:23.98S 03:45:33E 897" + Environment.NewLine +
-                    "00:20:23.98S 3:45:33E");
-                Program.logger.Log(NSpring.Logging.Level.Exception, "ERROR LatLonStringBoth2Radians(string line): " + e.ToString());
-                Environment.Exit(-1);
+                //Program.logger.Log(NSpring.Logging.Level.Exception, "expecting line(" + line + ") to be accomply with the following regex:" + Environment.NewLine +
+                //    pattern + Environment.NewLine +
+                //    "more or less the following valid wgs84 strings will be correctly parsed (no negative heights):" + Environment.NewLine +
+                //    "-00:20:23.98 +003:45:33 897.09m" + Environment.NewLine +
+                //    "0:20:23.98S 03:45:33E 897" + Environment.NewLine +
+                //    "00:20:23.98S 3:45:33E");
+                //Program.logger.Log(NSpring.Logging.Level.Exception, "ERROR LatLonStringBoth2Radians(string line): " + e.ToString());
+                //Environment.Exit(-1);
             }
             CoordinatesWGS84 res = new CoordinatesWGS84();
             int n = 0;
