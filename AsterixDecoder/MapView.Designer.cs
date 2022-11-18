@@ -34,13 +34,17 @@
             this.buttonPlay = new System.Windows.Forms.Button();
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1s = new System.Windows.Forms.Timer(this.components);
+            this.buttonX1 = new System.Windows.Forms.Button();
+            this.buttonX2 = new System.Windows.Forms.Button();
+            this.buttonX5 = new System.Windows.Forms.Button();
+            this.buttonX10 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1066, 209);
+            this.dataGridView1.Location = new System.Drawing.Point(1052, 209);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -55,7 +59,7 @@
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapControl1.LevelsKeepInMemmory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(61, 65);
+            this.gMapControl1.Location = new System.Drawing.Point(37, 65);
             this.gMapControl1.MarkersEnabled = true;
             this.gMapControl1.MaxZoom = 2;
             this.gMapControl1.MinZoom = 2;
@@ -77,7 +81,7 @@
             // buttonPlay
             // 
             this.buttonPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPlay.Location = new System.Drawing.Point(1054, 139);
+            this.buttonPlay.Location = new System.Drawing.Point(1043, 139);
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(104, 64);
             this.buttonPlay.TabIndex = 3;
@@ -89,7 +93,7 @@
             // 
             this.labelTime.AutoSize = true;
             this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTime.Location = new System.Drawing.Point(1164, 148);
+            this.labelTime.Location = new System.Drawing.Point(1149, 148);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(164, 42);
             this.labelTime.TabIndex = 4;
@@ -99,11 +103,63 @@
             // 
             this.timer1s.Tick += new System.EventHandler(this.timer1s_Tick);
             // 
+            // buttonX1
+            // 
+            this.buttonX1.BackColor = System.Drawing.Color.White;
+            this.buttonX1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonX1.Location = new System.Drawing.Point(1038, 92);
+            this.buttonX1.Name = "buttonX1";
+            this.buttonX1.Size = new System.Drawing.Size(66, 41);
+            this.buttonX1.TabIndex = 5;
+            this.buttonX1.Text = "x1";
+            this.buttonX1.UseVisualStyleBackColor = false;
+            this.buttonX1.Click += new System.EventHandler(this.buttonX1_Click);
+            // 
+            // buttonX2
+            // 
+            this.buttonX2.BackColor = System.Drawing.Color.White;
+            this.buttonX2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonX2.Location = new System.Drawing.Point(1113, 92);
+            this.buttonX2.Name = "buttonX2";
+            this.buttonX2.Size = new System.Drawing.Size(62, 41);
+            this.buttonX2.TabIndex = 6;
+            this.buttonX2.Text = "x2";
+            this.buttonX2.UseVisualStyleBackColor = false;
+            this.buttonX2.Click += new System.EventHandler(this.buttonX2_Click);
+            // 
+            // buttonX5
+            // 
+            this.buttonX5.BackColor = System.Drawing.Color.White;
+            this.buttonX5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonX5.Location = new System.Drawing.Point(1185, 92);
+            this.buttonX5.Name = "buttonX5";
+            this.buttonX5.Size = new System.Drawing.Size(63, 41);
+            this.buttonX5.TabIndex = 7;
+            this.buttonX5.Text = "x5";
+            this.buttonX5.UseVisualStyleBackColor = false;
+            this.buttonX5.Click += new System.EventHandler(this.buttonX5_Click);
+            // 
+            // buttonX10
+            // 
+            this.buttonX10.BackColor = System.Drawing.Color.White;
+            this.buttonX10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonX10.Location = new System.Drawing.Point(1255, 92);
+            this.buttonX10.Name = "buttonX10";
+            this.buttonX10.Size = new System.Drawing.Size(65, 41);
+            this.buttonX10.TabIndex = 8;
+            this.buttonX10.Text = "x10";
+            this.buttonX10.UseVisualStyleBackColor = false;
+            this.buttonX10.Click += new System.EventHandler(this.buttonX10_Click);
+            // 
             // MapView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1426, 821);
+            this.ClientSize = new System.Drawing.Size(1497, 821);
+            this.Controls.Add(this.buttonX10);
+            this.Controls.Add(this.buttonX5);
+            this.Controls.Add(this.buttonX2);
+            this.Controls.Add(this.buttonX1);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.gMapControl1);
@@ -122,5 +178,9 @@
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer1s;
+        private System.Windows.Forms.Button buttonX1;
+        private System.Windows.Forms.Button buttonX2;
+        private System.Windows.Forms.Button buttonX5;
+        private System.Windows.Forms.Button buttonX10;
     }
 }

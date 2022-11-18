@@ -26,6 +26,8 @@ namespace AsterixDecoder
         int minuts;
         int segons;
         TimeSpan time;
+        bool firstTick;
+        int interval = 1;
 
         double LATLEBL = 41.298289294252534;
         double LONGLEBL = 2.0832589365462204;
@@ -57,14 +59,17 @@ namespace AsterixDecoder
             timer1s = new Timer();
             timer1s.Tick += new EventHandler(timer1s_Tick);
             timer1s.Interval = 1000; // in miliseconds
+            firstTick = true;
             timer1s.Start();
         }
 
         private void timer1s_Tick(object sender, EventArgs e)
         {
-            gMapControl1.Position = new PointLatLng(LATLEBL, LONGLEBL);
             gMapControl1.Refresh();
-            transformTimeToSeconds();
+            if (firstTick == false)
+                transformTimeToSeconds(interval);
+            firstTick = false;
+            markers.Markers.Clear();
             for (int i = 0; i < FlightsList.Count; i++)
             {
                 bool contains = FlightsList[i].getTimes().Contains(time);
@@ -75,7 +80,8 @@ namespace AsterixDecoder
                     List<Coordinates> coordinates = FlightsList[i].getCoordinates();
                     Coordinates coord = coordinates[j];
                     string trackNumberMarker = FlightsList[i].getTrackNumber().ToString();
-                    bool markerfound = false;
+                    //bool markerfound = false;
+                    /*
                     for (int k = 0; k < markers.Markers.Count; k++)
                     {
                         if (markers.Markers[k].Tag.ToString() == trackNumberMarker) 
@@ -86,40 +92,40 @@ namespace AsterixDecoder
                     }
                     if (markerfound == false)
                     {
-                        GMapMarker marker;
-                        if (sensor == "SMR")
-                        {
-                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.blue_small);
-                        }
-                        else if (sensor == "MLAT")
-                        {
-                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.yellow_small);
-                        }
-                        else
-                        {
-                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.red_small);
-                        }
-                        marker.Tag = trackNumberMarker;
-                        markers.Markers.Add(marker);
+                    */
+                    GMapMarker marker;
+                    if (sensor == "SMR")
+                    {
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.blue_small);
                     }
+                    else if (sensor == "MLAT")
+                    {
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.yellow_small);
+                    }
+                    else
+                    {
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.red_small);
+                    }
+                    marker.Tag = trackNumberMarker;
+                    markers.Markers.Add(marker);
                 }
             }
             gMapControl1.Overlays.Add(markers);
             labelTime.Text = time.ToString();
         }
 
-        private void transformTimeToSeconds()
+        private void transformTimeToSeconds(int interval)
         {
-            segons = segons + 1;
+            segons = segons + interval;
             if (segons > 59)
             {
                 minuts = minuts + 1;
-                segons = 0;
+                segons = segons - 60;
             }
             if (minuts > 59)
             {
                 hores = hores + 1;
-                minuts = 0;
+                minuts = minuts - 60;
             }
             time = new TimeSpan(hores, minuts, segons);
         }
@@ -127,6 +133,44 @@ namespace AsterixDecoder
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             InitTimer();
+            buttonX1.BackColor = Color.Green;
+            time = new TimeSpan(hores,minuts,segons);
+        }
+
+        private void buttonX1_Click(object sender, EventArgs e)
+        {
+            interval = 1;
+            buttonX1.BackColor = Color.Green;
+            buttonX2.BackColor = Color.White;
+            buttonX5.BackColor = Color.White;
+            buttonX10.BackColor = Color.White;
+        }
+
+        private void buttonX2_Click(object sender, EventArgs e)
+        {
+            interval = 2;
+            buttonX1.BackColor = Color.White;
+            buttonX2.BackColor = Color.Green;
+            buttonX5.BackColor = Color.White;
+            buttonX10.BackColor = Color.White;
+        }
+
+        private void buttonX5_Click(object sender, EventArgs e)
+        {
+            interval = 5;
+            buttonX1.BackColor = Color.White;
+            buttonX2.BackColor = Color.White;
+            buttonX5.BackColor = Color.Green;
+            buttonX10.BackColor = Color.White;
+        }
+
+        private void buttonX10_Click(object sender, EventArgs e)
+        {
+            interval = 10;
+            buttonX1.BackColor = Color.White;
+            buttonX2.BackColor = Color.White;
+            buttonX5.BackColor = Color.White;
+            buttonX10.BackColor = Color.Green;
         }
     }
 }
