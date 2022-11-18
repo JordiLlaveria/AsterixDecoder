@@ -27,7 +27,6 @@ namespace AsterixDecoder
         int segons;
         TimeSpan time;
         bool firstTick;
-        int interval = 1;
 
         double LATLEBL = 41.298289294252534;
         double LONGLEBL = 2.0832589365462204;
@@ -56,18 +55,18 @@ namespace AsterixDecoder
         }
         public void InitTimer()
         {
-            timer1s = new Timer();
-            timer1s.Tick += new EventHandler(timer1s_Tick);
-            timer1s.Interval = 1000; // in miliseconds
+            timer = new Timer();
+            timer.Tick += new EventHandler(timer1s_Tick);
+            timer.Interval = 1000; // in miliseconds
             firstTick = true;
-            timer1s.Start();
+            timer.Start();
         }
 
         private void timer1s_Tick(object sender, EventArgs e)
         {
             gMapControl1.Refresh();
             if (firstTick == false)
-                transformTimeToSeconds(interval);
+                transformTimeToSeconds();
             firstTick = false;
             markers.Markers.Clear();
             for (int i = 0; i < FlightsList.Count; i++)
@@ -97,14 +96,18 @@ namespace AsterixDecoder
                     if (sensor == "SMR")
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.blue_small);
+                        //marker.ToolTipMode = MarkerTooltipMode.Always;
+                        //marker.ToolTipText = trackNumberMarker.ToString();
                     }
                     else if (sensor == "MLAT")
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.yellow_small);
+                        marker.ToolTipText = trackNumberMarker;
                     }
                     else
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.red_small);
+                        marker.ToolTipText = trackNumberMarker;
                     }
                     marker.Tag = trackNumberMarker;
                     markers.Markers.Add(marker);
@@ -114,9 +117,9 @@ namespace AsterixDecoder
             labelTime.Text = time.ToString();
         }
 
-        private void transformTimeToSeconds(int interval)
+        private void transformTimeToSeconds()
         {
-            segons = segons + interval;
+            segons = segons + 1;
             if (segons > 59)
             {
                 minuts = minuts + 1;
@@ -139,38 +142,53 @@ namespace AsterixDecoder
 
         private void buttonX1_Click(object sender, EventArgs e)
         {
-            interval = 1;
+            timer.Interval = 1000;
             buttonX1.BackColor = Color.Green;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
+            buttonX20.BackColor = Color.White;
         }
 
         private void buttonX2_Click(object sender, EventArgs e)
         {
-            interval = 2;
+            timer.Interval = 500;
             buttonX1.BackColor = Color.White;
             buttonX2.BackColor = Color.Green;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
+            buttonX20.BackColor = Color.White;
         }
 
         private void buttonX5_Click(object sender, EventArgs e)
         {
-            interval = 5;
+            timer.Interval = 200;
             buttonX1.BackColor = Color.White;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.Green;
             buttonX10.BackColor = Color.White;
+            buttonX20.BackColor = Color.White;
         }
 
         private void buttonX10_Click(object sender, EventArgs e)
         {
-            interval = 10;
+            timer.Interval = 100;
             buttonX1.BackColor = Color.White;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.Green;
+            buttonX20.BackColor = Color.White;
         }
+
+        private void buttonX20_Click(object sender, EventArgs e)
+        {
+            timer.Interval = 50;
+            buttonX1.BackColor = Color.White;
+            buttonX2.BackColor = Color.White;
+            buttonX5.BackColor = Color.White;
+            buttonX10.BackColor = Color.White;
+            buttonX20.BackColor = Color.Green;
+        }
+
     }
 }
