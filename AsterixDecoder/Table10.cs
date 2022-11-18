@@ -24,6 +24,11 @@ namespace AsterixDecoder
 
         private void Table10_Load(object sender, EventArgs e)
         {
+            filterComboBox.Items.Add("Target Address");
+            filterComboBox.Items.Add("Target Identification");
+            filterComboBox.Items.Add("Track Number");
+            filterComboBox.Items.Add("Mode 3A");
+
             dataTable.Columns.Add("Number");
             dataTable.Columns.Add("Category");
             dataTable.Columns.Add("SAC");
@@ -90,14 +95,51 @@ namespace AsterixDecoder
 
         private void filterByTargetAddressButton_Click(object sender, EventArgs e)
         {
-            
-            if (filterByTargetAddressTextBox.Text != null)
+            int index = filterComboBox.SelectedIndex;
+
+            if (index == 0)
             {
-                dataTableNew = dataTable.Copy();
-                DataView dataView = new DataView(dataTableNew);
-                dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
-                CAT10Grid.DataSource = dataView;
-                drawTable();
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 1)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Target Identification] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 2)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Track Number] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
+            }
+            else if (index == 3)
+            {
+                if (filterByTargetAddressTextBox.Text != null)
+                {
+                    dataTableNew = dataTable.Copy();
+                    DataView dataView = new DataView(dataTableNew);
+                    dataView.RowFilter = "[Mode 3/A Code] = '" + filterByTargetAddressTextBox.Text + "'";
+                    CAT10Grid.DataSource = dataView;
+                    drawTable();
+                }
             }
 
         }
@@ -134,6 +176,40 @@ namespace AsterixDecoder
                     CAT10Grid.AutoResizeRow(row);
                 }
             }      
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            dataTableNew = dataTable;
+            
+            int[] casesCAT10 = new int[]{ 5, 13, 22, 23};
+            int rowNum = 0;
+            foreach(DataRow row in dataTableNew.Rows)
+            {
+
+                foreach(int case10 in casesCAT10)
+                {
+                    string[] val = CAT10list[rowNum].getClickToExpandValues(case10);
+                    
+                    if (val[0] != null)
+                    {
+                        row[case10] = val[0];
+                        int i = 1;
+                        while (i < val.Length)
+                        {
+                            if (val[i] != null)
+                            {
+                                row[case10] = row[case10] + " " + val[i];
+                            }
+                            i = i + 1;
+                        }                        
+                    }
+                }
+                rowNum = rowNum + 1;
+            }
+
+            new ExportHelper().Export(dataTableNew);
+
         }
     }
 }

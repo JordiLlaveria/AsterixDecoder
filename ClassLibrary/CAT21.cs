@@ -2565,7 +2565,7 @@ namespace ClassLibrary
                             values[22] = rollAngle.ToString();
                             break;
                         case 22:
-                            values[23] = flightLevel.ToString() + " FL";
+                            values[23] = flightLevel.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " FL";
                             break;
                         case 24:
                             values[24] = magneticHeading.ToString();
@@ -2574,13 +2574,13 @@ namespace ClassLibrary
                             values[25] = "Click to expand";
                             break;
                         case 26:
-                            values[26] = barometricVerticalRate.ToString() + " ft/min";
+                            values[26] = barometricVerticalRate.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " ft/min";
                             break;
                         case 27:
                             values[27] = geometricVerticalRate.ToString();
                             break;
                         case 28:
-                            values[28] = "GS: " + groundSpeed.ToString() + ", TA: " + trackAngle.ToString() + ", Range Exceeded: " + rangeExceededAirborne.ToString();
+                            values[28] = "GS: " + groundSpeed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " TA: " + trackAngle.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " Range Exceeded: " + rangeExceededAirborne.ToString();
                             break;
                         case 29:
                             values[29] = trackAngleRate.ToString();
@@ -2650,11 +2650,25 @@ namespace ClassLibrary
 
         public string[] getClickToExpandValues(int col)
         {
-            string[] val = new string[15];
-            //switch (col)
-            //{
-                
-            //}
+            string[] val = new string[24];
+            switch (col)
+            {
+                case (4):
+                    val = targetReportDescriptor;
+                    break;
+                case (19):
+                    val = qualityIndicators;
+                    break;
+                case (25):
+                    val = targetStatus;
+                    break;
+                case (38):
+                    val = aircraftOperationalStatus;
+                    break;
+                case (44):
+                    val = dataAges;
+                    break;
+            }
             return val;
         }
     }
