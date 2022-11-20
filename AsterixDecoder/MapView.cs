@@ -22,6 +22,14 @@ namespace AsterixDecoder
         DataTable dt;
         List<Flight> FlightsList = new List<Flight>();
 
+
+        Bitmap blueDotBmp = (Bitmap)Image.FromFile(@"..\..\Resources\bluedot.png");
+        Bitmap blueDotResized;
+        Bitmap redDotBmp = (Bitmap)Image.FromFile(@"..\..\Resources\reddot.png");
+        Bitmap redDotResized;
+        Bitmap greenDotBmp = (Bitmap)Image.FromFile(@"..\..\Resources\greendot.png");
+        Bitmap greenDotResized;
+
         int hores;
         int minuts;
         int segons;
@@ -51,6 +59,9 @@ namespace AsterixDecoder
             hores = 8;
             minuts = 0;
             segons = 0;
+            blueDotResized = new Bitmap(blueDotBmp, new Size(blueDotBmp.Width / 100, blueDotBmp.Height / 100));
+            redDotResized = new Bitmap(redDotBmp, new Size(redDotBmp.Width / 60, redDotBmp.Height / 60));
+            greenDotResized = new Bitmap(greenDotBmp, new Size(greenDotBmp.Width / 60, greenDotBmp.Height / 60));
 
         }
         public void InitTimer()
@@ -93,20 +104,22 @@ namespace AsterixDecoder
                     {
                     */
                     GMapMarker marker;
+
                     if (sensor == "SMR")
                     {
-                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.blue_small);
+                        
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), blueDotResized);
                         //marker.ToolTipMode = MarkerTooltipMode.Always;
                         //marker.ToolTipText = trackNumberMarker.ToString();
                     }
                     else if (sensor == "MLAT")
                     {
-                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.yellow_small);
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), greenDotResized);
                         marker.ToolTipText = trackNumberMarker;
                     }
                     else
                     {
-                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.red_small);
+                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
                         marker.ToolTipText = trackNumberMarker;
                     }
                     marker.Tag = trackNumberMarker;

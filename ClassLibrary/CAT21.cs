@@ -2472,7 +2472,7 @@ namespace ClassLibrary
                             double longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
                             longminutes = (Math.Truncate(longminutes * 1) / 1);
                             longseconds = (Math.Truncate(longseconds * 100) / 100);
-                            values[8] = latdegrees.ToString() + "º " + latminutes.ToString() + "' " + latseconds.ToString() + "'', " + longdegrees.ToString() + "º " + longminutes.ToString() + "' " + longseconds.ToString();
+                            values[8] = latdegrees.ToString() + "º " + latminutes.ToString() + "' " + latseconds.ToString() + "'' " + longdegrees.ToString() + "º " + longminutes.ToString() + "' " + longseconds.ToString();
                             break;
                         case 6:
                             double hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
@@ -2485,7 +2485,7 @@ namespace ClassLibrary
                             double hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
                             hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
                             hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
-                            values[9] = hrlatdegrees.ToString() + "º " + hrlatminutes.ToString() + "' " + hrlatseconds.ToString() + "'', " + hrlongdegrees.ToString() + "º " + hrlongminutes.ToString() + "' " + hrlongseconds.ToString();
+                            values[9] = hrlatdegrees.ToString() + "º " + hrlatminutes.ToString() + "' " + hrlatseconds.ToString() + "'' " + hrlongdegrees.ToString() + "º " + hrlongminutes.ToString() + "' " + hrlongseconds.ToString();
                             break;
                         case 8:
                             if (horesApplicabilityVelocity > 9)
