@@ -29,6 +29,10 @@ namespace AsterixDecoder
         Bitmap redDotResized;
         Bitmap greenDotBmp = (Bitmap)Image.FromFile(@"..\..\Resources\greendot.png");
         Bitmap greenDotResized;
+        Bitmap aircraftBmp = (Bitmap)Image.FromFile(@"..\..\Resources\aircraft.png");
+        Bitmap aircraftResized;
+        Bitmap groundBmp = (Bitmap)Image.FromFile(@"..\..\Resources\truck.png");
+        Bitmap groundResized;
 
         int hores;
         int minuts;
@@ -62,7 +66,8 @@ namespace AsterixDecoder
             blueDotResized = new Bitmap(blueDotBmp, new Size(blueDotBmp.Width / 100, blueDotBmp.Height / 100));
             redDotResized = new Bitmap(redDotBmp, new Size(redDotBmp.Width / 60, redDotBmp.Height / 60));
             greenDotResized = new Bitmap(greenDotBmp, new Size(greenDotBmp.Width / 60, greenDotBmp.Height / 60));
-
+            aircraftResized = new Bitmap(aircraftBmp, new Size(aircraftBmp.Width / 65, aircraftBmp.Height / 65));
+            groundResized = new Bitmap(groundBmp, new Size(groundBmp.Width / 90, groundBmp.Height / 90));
         }
         public void InitTimer()
         {
@@ -119,8 +124,22 @@ namespace AsterixDecoder
                     }
                     else
                     {
-                        marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
-                        marker.ToolTipText = trackNumberMarker;
+                                                 
+                        if (FlightsList[i].getTypeVehicleNum() == 1 || FlightsList[i].getTypeVehicleNum() == 2 || FlightsList[i].getTypeVehicleNum() == 3 || FlightsList[i].getTypeVehicleNum() == 4 || FlightsList[i].getTypeVehicleNum() == 5 || FlightsList[i].getTypeVehicleNum() == 6)
+                        {
+                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), aircraftResized);
+                            marker.ToolTipText = trackNumberMarker;
+                        }
+                        else if (FlightsList[i].getTypeVehicleNum() == 20 || FlightsList[i].getTypeVehicleNum() == 21)
+                        {
+                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), groundResized);
+                            marker.ToolTipText = trackNumberMarker;
+                        }
+                        else
+                        {
+                            marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
+                            marker.ToolTipText = trackNumberMarker;
+                        }
                     }
                     marker.Tag = trackNumberMarker;
                     markers.Markers.Add(marker);
