@@ -79,13 +79,11 @@ namespace AsterixDecoder
         {   
             CAT10Grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             CAT10Grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            CAT10Grid.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[21].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[27].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            CAT10Grid.Columns[0].Width = 50;
+            for (int i = 0; i < CAT10Grid.ColumnCount; i++)
+            {
+                CAT10Grid.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            }
+            CAT10Grid.Columns[0].Width = 200;
             CAT10Grid.Columns[1].Width = 65;
             CAT10Grid.Columns[2].Width = 35;
             CAT10Grid.Columns[3].Width = 35;

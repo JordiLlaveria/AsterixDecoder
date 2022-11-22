@@ -1335,7 +1335,7 @@ namespace ClassLibrary
                             values[26] = amplitudeOfPrimaryPlot.ToString();
                             break;
                         case 27:
-                            values[27] = "Ax: " + Ax.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
+                            values[27] = "Ax: " + Ax.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
                             break;
                     }
                 }

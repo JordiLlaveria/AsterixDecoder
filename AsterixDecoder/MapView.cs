@@ -23,10 +23,12 @@ namespace AsterixDecoder
         DataTable dataTable2;
         List<Flight> FlightsList = new List<Flight>();
         List<Flight> flightsMarkers = new List<Flight>();
+        Flight flightSelected;
 
         int hores;
         int minuts;
         int segons;
+        int i = 0;
         int j = 0;
         TimeSpan time;
         TimeSpan secondAdded = TimeSpan.FromSeconds(1);
@@ -42,11 +44,13 @@ namespace AsterixDecoder
         double longseconds;
         */
         bool found = false;
+        bool findSelectedMarkerUpdate = false;
         bool firstMarker = true;
         string[] information;
         int hoursTextBox;
         int minutesTextBox;
         int secondsTextBox;
+        TimeSpan timeMarkerSelected;
 
         double LATLEBL = 41.298289294252534;
         double LONGLEBL = 2.0832589365462204;
@@ -79,6 +83,8 @@ namespace AsterixDecoder
             hores = 8;
             minuts = 0;
             segons = 0;
+            flightSelected = null;
+            timeMarkerSelected = new TimeSpan(hores, minuts, segons);
 
         }
         public void InitTimer()
@@ -131,26 +137,47 @@ namespace AsterixDecoder
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.blue_small);
                         marker.Tag = trackNumberMarker;
                         markers.Markers.Add(marker);
-                        //marker.ToolTipMode = MarkerTooltipMode.Always;
-                        //marker.ToolTipText = trackNumberMarker.ToString();
+                        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        marker.ToolTipText = trackNumberMarker.ToString();
                     }
                     else if (sensor == "MLAT" && checkBoxMLAT.Checked == true)
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.yellow_small);
                         marker.Tag = trackNumberMarker;
                         markers.Markers.Add(marker);
-                        //marker.ToolTipText = trackNumberMarker;
+                        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        marker.ToolTipText = trackNumberMarker.ToString();
                     }
                     else if (sensor == "ADSB" && checkBoxADSB.Checked == true)
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), GMarkerGoogleType.red_small);
                         marker.Tag = trackNumberMarker;
                         markers.Markers.Add(marker);
-                        //marker.ToolTipText = trackNumberMarker;
+                        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        marker.ToolTipText = trackNumberMarker.ToString();
                     }
                 }
             }
             gMapControl1.Overlays.Add(markers);
+            i = 0;
+            if (flightSelected != null && checkBoxSMR.Checked == true)
+            {
+                while (i < flightsMarkers.Count && findSelectedMarkerUpdate == false)
+                {
+                    if (flightsMarkers[i].getTrackNumber().ToString() == flightSelected.getTrackNumber().ToString())
+                    {
+                        findSelectedMarkerUpdate = true;
+                        dataTable.Rows.Clear();
+                        ordenateInformation(flightSelected);
+                        dataTable2 = dataTable.Copy();
+                        DataView dv = new DataView(dataTable2);
+                        dataMarker.DataSource = dv;
+                        drawTable();
+                    }
+                    i++;
+                }
+                findSelectedMarkerUpdate = false;
+            }
             labelTime.Text = time.ToString();
         }
 
@@ -213,54 +240,59 @@ namespace AsterixDecoder
 
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            GC.Collect();
-            dataMarker.Visible = true;
-            dataTable.Rows.Clear();
-            found = false;
-            int i = 0;
-            if (firstMarker == true)
+            if (timeMarkerSelected != time)
             {
-                dataTable.Columns.Add("Target Identification");
-                dataTable.Columns.Add("Target Address");
-                dataTable.Columns.Add("Track Number");
-                dataTable.Columns.Add("Emitter Category");
-                dataTable.Columns.Add("Detection Mode");
-                dataTable.Columns.Add("Time");
-                dataTable.Columns.Add("Ground Speed");
-                dataTable.Columns.Add("Flight level");
-                firstMarker = false;
-            }
-            while (i < flightsMarkers.Count && found == false)
-            {
-                if (flightsMarkers[i].getTrackNumber().ToString() == item.Tag.ToString())
+                timeMarkerSelected = time;
+                GC.Collect();
+                dataMarker.Visible = true;
+                dataTable.Rows.Clear();
+                found = false;
+                int i = 0;
+                if (firstMarker == true)
                 {
-                    found = true;
-                    ordenateInformation(flightsMarkers[i]);
+                    dataTable.Columns.Add("Target Identification");
+                    dataTable.Columns.Add("Target Address");
+                    dataTable.Columns.Add("Track Number");
+                    dataTable.Columns.Add("Emitter Category");
+                    dataTable.Columns.Add("Detection Mode");
+                    dataTable.Columns.Add("Time");
+                    dataTable.Columns.Add("Ground Speed");
+                    dataTable.Columns.Add("Flight level");
+                    firstMarker = false;
                 }
-                i++;
+                while (i < flightsMarkers.Count && found == false)
+                {
+                    if (flightsMarkers[i].getTrackNumber().ToString() == item.Tag.ToString())
+                    {
+                        found = true;
+                        ordenateInformation(flightsMarkers[i]);
+                        flightSelected = flightsMarkers[i];
+                    }
+                    i++;
+                }
+                dataTable2 = dataTable.Copy();
+                DataView dv = new DataView(dataTable2);
+                dataMarker.DataSource = dv;
+                drawTable();
             }
-            dataTable2 = dataTable.Copy();
-            DataView dv = new DataView(dataTable2);
-            dataMarker.DataSource = dv;
-            drawTable();
         }
 
         private void ordenateInformation(Flight flight)
         {
-            information = new string[6];
-            information[0] = flight.getTargetIdentification() != null ? flight.getTargetIdentification() : information[0];
-            information[1] = flight.getTargetAddress() != null ? flight.getTargetAddress() : information[1];
+            information = new string[8];
+            information[0] = flight.getTargetIdentification();
+            information[1] = flight.getTargetAddress();
             information[2] = flight.getTrackNumber().ToString();
             information[3] = flight.getEmitterCategory();
             information[4] = flight.getSensor();
             information[5] = time.ToString();
             j = flight.getTimes().IndexOf(time);
-            information[6] = flight.getGroundSpeed(j) != null ? flight.getGroundSpeed(j) : information[6];
-            information[7] = flight.getFL(j) != null ? flight.getFL(j) : information[7];
+            information[6] = flight.getGroundSpeed(j);
+            information[7] = flight.getFL(j);
             for (int i = 0; i < information.Length; i++)
             {
                 if (information[i] == null)
-                    information[i] = "No data";
+                    information[i] = "No Data";
             }
             dataTable.Rows.Add(information);
         }
