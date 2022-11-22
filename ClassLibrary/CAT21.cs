@@ -48,10 +48,22 @@ namespace ClassLibrary
         // 5 Position in WGS-84 Co-ordinates
         double latitude;
         double longitude;
+        double latdegrees;
+        double latminutes;
+        double latseconds;
+        double longdegrees;
+        double longminutes;
+        double longseconds;
 
         // 6 High-Resolution Position inf WGS-84 Co-cordinates
         double highResLatitude;
         double highResLongitude;
+        double hrlatdegrees;
+        double hrlatminutes;
+        double hrlatseconds;
+        double hrlongdegrees;
+        double hrlongminutes;
+        double hrlongseconds;
 
         // 8 Time of Applicability for Velocity
         double timeOfApplicabilityVelocity;
@@ -2462,27 +2474,27 @@ namespace ClassLibrary
                             values[7] = values[7] + ":" + msApplicabilityPosition.ToString();
                             break;
                         case 5:
-                            double latdegrees = Math.Truncate(latitude * 1) / 1;
-                            double latminutes = (latitude - (Math.Truncate(latitude * 1) / 1)) * 60;
-                            double latseconds = (latminutes - (Math.Truncate(latminutes * 1) / 1)) * 60;
+                            latdegrees = Math.Truncate(latitude * 1) / 1;
+                            latminutes = (latitude - (Math.Truncate(latitude * 1) / 1)) * 60;
+                            latseconds = (latminutes - (Math.Truncate(latminutes * 1) / 1)) * 60;
                             latminutes = (Math.Truncate(latminutes * 1) / 1);
                             latseconds = (Math.Truncate(latseconds * 100) / 100);
-                            double longdegrees = Math.Truncate(latitude * 1) / 1;
-                            double longminutes = (longitude - (Math.Truncate(longitude * 1) / 1)) * 60;
-                            double longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
+                            longdegrees = Math.Truncate(longitude * 1) / 1;
+                            longminutes = (longitude - (Math.Truncate(longitude * 1) / 1)) * 60;
+                            longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
                             longminutes = (Math.Truncate(longminutes * 1) / 1);
                             longseconds = (Math.Truncate(longseconds * 100) / 100);
                             values[8] = latdegrees.ToString() + "º " + latminutes.ToString() + "' " + latseconds.ToString() + "'', " + longdegrees.ToString() + "º " + longminutes.ToString() + "' " + longseconds.ToString();
                             break;
                         case 6:
-                            double hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
-                            double hrlatminutes = (highResLatitude - (Math.Truncate(highResLatitude * 1) / 1)) * 60;
-                            double hrlatseconds = (hrlatminutes - (Math.Truncate(hrlatminutes * 1) / 1)) * 60;
+                            hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
+                            hrlatminutes = (highResLatitude - (Math.Truncate(highResLatitude * 1) / 1)) * 60;
+                            hrlatseconds = (hrlatminutes - (Math.Truncate(hrlatminutes * 1) / 1)) * 60;
                             hrlatminutes = (Math.Truncate(hrlatminutes * 1) / 1);
                             hrlatseconds = (Math.Truncate(hrlatseconds * 100) / 100);
-                            double hrlongdegrees = Math.Truncate(highResLongitude * 1) / 1;
-                            double hrlongminutes = (highResLongitude - (Math.Truncate(highResLongitude * 1) / 1)) * 60;
-                            double hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
+                            hrlongdegrees = Math.Truncate(highResLongitude * 1) / 1;
+                            hrlongminutes = (highResLongitude - (Math.Truncate(highResLongitude * 1) / 1)) * 60;
+                            hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
                             hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
                             hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
                             values[9] = hrlatdegrees.ToString() + "º " + hrlatminutes.ToString() + "' " + hrlatseconds.ToString() + "'', " + hrlongdegrees.ToString() + "º " + hrlongminutes.ToString() + "' " + hrlongseconds.ToString();
