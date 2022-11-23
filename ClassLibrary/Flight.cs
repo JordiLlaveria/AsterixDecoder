@@ -12,6 +12,7 @@ namespace ClassLibrary
         List<TimeSpan> times;
         string sensor;
         string emitterCategory;
+        int typeVehicleNum;
         double trackNumber;
         string targetAddress;
         string typeVehicle;
@@ -70,6 +71,20 @@ namespace ClassLibrary
             this.typeVehicle = vehicle;
         }
 
+        public void setTypeVehicleNum(int vehicleNum)
+        {
+            this.typeVehicleNum = vehicleNum;
+        }
+
+        public int getTypeVehicleNum()
+        {
+            return this.typeVehicleNum;
+        }
+
+        public string getTargetAddress()
+        {
+            return targetAddress;
+        }
         public List<TimeSpan> getTimes()
         {
             return times;

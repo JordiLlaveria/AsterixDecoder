@@ -24,6 +24,7 @@ namespace ClassLibrary
         byte[] fourbytes = new byte[4];
         byte[] eightbits = new byte[8];
         bool[] octet;
+        StringBuilder sb = new StringBuilder();
 
         // 0 Data Source identification
         byte sac;
@@ -154,6 +155,7 @@ namespace ClassLibrary
 
         // 33 Emitter Category
         string emitterCategory;
+        int emitterCategoryNum;
 
         // 34 Met Information
         double windSpeed;
@@ -1465,80 +1467,80 @@ namespace ClassLibrary
 
                         case 33:
                             // I021/020
-                            int category = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
-                            if (category == 0)
+                            emitterCategoryNum = getInt32FromBytes(0, 0, 0, arraymessage[byteread]);
+                            if (emitterCategoryNum == 0)
                             {
                                 emitterCategory = "No ADS-B Emitter Category Information";
                             }
-                            else if (category == 1)
+                            else if (emitterCategoryNum == 1)
                             {
                                 emitterCategory = "Light aircraft";
                             }
-                            else if (category == 2)
+                            else if (emitterCategoryNum == 2)
                             {
                                 emitterCategory = "Small aircraft";
                             }
-                            else if (category == 3)
+                            else if (emitterCategoryNum == 3)
                             {
                                 emitterCategory = "Medium aircraft";
                             }
-                            else if (category == 4)
+                            else if (emitterCategoryNum == 4)
                             {
                                 emitterCategory = "High Vortex Large";
                             }
-                            else if (category == 5)
+                            else if (emitterCategoryNum == 5)
                             {
                                 emitterCategory = "Heavy aircraft";
                             }
-                            else if (category == 6)
+                            else if (emitterCategoryNum == 6)
                             {
                                 emitterCategory = "Highly manoeuvrable (5g acceleration capability) and high speed (>400 knots cruise)";
                             }
-                            else if (category == 10)
+                            else if (emitterCategoryNum == 10)
                             {
                                 emitterCategory = "Rotocraft";
                             }
-                            else if (category == 11)
+                            else if (emitterCategoryNum == 11)
                             {
                                 emitterCategory = "Glider / sailplane";
                             }
-                            else if (category == 12)
+                            else if (emitterCategoryNum == 12)
                             {
                                 emitterCategory = "Lighter-than-air";
                             }
-                            else if (category == 13)
+                            else if (emitterCategoryNum == 13)
                             {
                                 emitterCategory = "Unmanned aerial vehicle";
                             }
-                            else if (category == 14)
+                            else if (emitterCategoryNum == 14)
                             {
                                 emitterCategory = "Space / transatmospheric vehicle";
                             }
-                            else if (category == 15)
+                            else if (emitterCategoryNum == 15)
                             {
                                 emitterCategory = "Ultralight / handglider / paraglider";
                             }
-                            else if (category == 16)
+                            else if (emitterCategoryNum == 16)
                             {
                                 emitterCategory = "Parachutist / skydiver";
                             }
-                            else if (category == 20)
+                            else if (emitterCategoryNum == 20)
                             {
                                 emitterCategory = "Surface emergency vehicle";
                             }
-                            else if (category == 21)
+                            else if (emitterCategoryNum == 21)
                             {
                                 emitterCategory = "Surface service vehicle";
                             }
-                            else if (category == 22)
+                            else if (emitterCategoryNum == 22)
                             {
                                 emitterCategory = "Fixed ground or tethered obstruction";
                             }
-                            else if (category == 23)
+                            else if (emitterCategoryNum == 23)
                             {
                                 emitterCategory = "Cluster obstacle";
                             }
-                            else if (category == 24)
+                            else if (emitterCategoryNum == 24)
                             {
                                 emitterCategory = "Line obstacle";
                             }
@@ -2305,6 +2307,11 @@ namespace ClassLibrary
             return this.emitterCategory;
         }
 
+        public int getTypeVehicleNum()
+        {
+            return this.emitterCategoryNum;
+        }
+
         public void getDataAge(byte[] arraymessage, int byteToRead, int position, string information)
         {
             onebyte[0] = arraymessage[byteToRead];
@@ -2423,6 +2430,7 @@ namespace ClassLibrary
             string[] values = new string[45];
             values[0] = j.ToString();
             values[1] = "21";
+            
             for (int k = 2; k < values.Length; k++)
             {
                 values[k] = "No data";
@@ -2447,19 +2455,38 @@ namespace ClassLibrary
                             values[6] = serviceIdentification.ToString();   
                             break;
                         case 4:
+                            sb.Clear();
                             if (horesApplicabilityPosition > 9)
-                                values[7] = horesApplicabilityPosition.ToString();
+                                sb.Append(horesApplicabilityPosition);
                             else
-                                values[7] = "0" + horesApplicabilityPosition.ToString();
+                            {
+                                sb.Append('0');
+                                sb.Append(horesApplicabilityPosition.ToString());
+                            }                                
                             if (minutsApplicabilityPosition > 9)
-                                values[7] = values[7] + ":" + minutsApplicabilityPosition.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(minutsApplicabilityPosition);
+                            }
                             else
-                                values[7] = values[7] + ":0" + minutsApplicabilityPosition.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutsApplicabilityPosition.ToString());
+                            }                                
                             if (segonsApplicabilityPosition > 9)
-                                values[7] = values[7] + ":" + segonsApplicabilityPosition.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(segonsApplicabilityPosition);
+                            }
                             else
-                                values[7] = values[7] + ":0" + segonsApplicabilityPosition.ToString();
-                            values[7] = values[7] + ":" + msApplicabilityPosition.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonsApplicabilityPosition);
+                            }
+                            sb.Append(":");
+                            sb.Append(msApplicabilityPosition);
+                            values[7] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 5:
                             double latdegrees = Math.Truncate(latitude * 1) / 1;
@@ -2472,7 +2499,19 @@ namespace ClassLibrary
                             double longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
                             longminutes = (Math.Truncate(longminutes * 1) / 1);
                             longseconds = (Math.Truncate(longseconds * 100) / 100);
-                            values[8] = latdegrees.ToString() + "º " + latminutes.ToString() + "' " + latseconds.ToString() + "'' " + longdegrees.ToString() + "º " + longminutes.ToString() + "' " + longseconds.ToString();
+                            sb.Append(latdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(latminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(latseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("'' ");
+                            sb.Append(longdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(longminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(longseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            values[8] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 6:
                             double hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
@@ -2485,22 +2524,54 @@ namespace ClassLibrary
                             double hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
                             hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
                             hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
-                            values[9] = hrlatdegrees.ToString() + "º " + hrlatminutes.ToString() + "' " + hrlatseconds.ToString() + "'' " + hrlongdegrees.ToString() + "º " + hrlongminutes.ToString() + "' " + hrlongseconds.ToString();
+                            sb.Append(hrlatdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(hrlatminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(hrlatseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("'' ");
+                            sb.Append(hrlongdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(hrlongminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(hrlongseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            values[9] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 8:
                             if (horesApplicabilityVelocity > 9)
-                                values[10] = horesApplicabilityVelocity.ToString();
+                            {
+                                sb.Append(horesApplicabilityVelocity);
+                            }
                             else
-                                values[10] = "0" + horesApplicabilityVelocity.ToString();
+                            {
+                                sb.Append('0');
+                                sb.Append(horesApplicabilityVelocity);
+                            }
                             if (minutsApplicabilityVelocity > 9)
-                                values[10] = values[10] + ":" + minutsApplicabilityVelocity.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(minutsApplicabilityVelocity);
+                            }
                             else
-                                values[10] = values[10] + ":0" + minutsApplicabilityVelocity.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutsApplicabilityVelocity);
+                            }
                             if (segonsApplicabilityVelocity > 9)
-                                values[10] = values[10] + ":" + segonsApplicabilityVelocity.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(segonsApplicabilityVelocity);
+                            }
                             else
-                                values[10] = values[10] + ":0" + segonsApplicabilityVelocity.ToString();
-                            values[10] = values[10] + ":" + msApplicabilityVelocity.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonsApplicabilityVelocity);
+                            }
+                            sb.Append(':');
+                            sb.Append(msApplicabilityVelocity);
+                            values[10] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 9:
                             values[11] = airSpeed.ToString();
@@ -2512,51 +2583,97 @@ namespace ClassLibrary
                             values[13] = targetAddress.ToString();
                             break;
                         case 12:
-                            values[14] = tomrp.ToString();
+                            sb.Append(tomrp);
                             if (horestomrp > 9)
-                                values[14] = horestomrp.ToString();
+                            {
+                                sb.Append(horestomrp);
+                            }
                             else
-                                values[14] = "0" + horestomrp.ToString();
+                            {
+                                sb.Append('0');
+                                sb.Append(horestomrp);
+                            }
                             if (minutstomrp > 9)
-                                values[14] = values[14] + ":" + minutstomrp.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(minutstomrp);
+                            }
                             else
-                                values[14] = values[14] + ":0" + minutstomrp.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstomrp);
+                            }
                             if (segonstomrp > 9)
-                                values[14] = values[14] + ":" + segonstomrp.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(segonstomrp);
+                            }
                             else
-                                values[14] = values[14] + ":0" + segonstomrp.ToString();
-                            values[14] = values[14] + ":" + mstomrp.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstomrp);
+                            }
+                            sb.Append(':');
+                            sb.Append(mstomrp);
+                            values[14] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 13:
                             values[15] = tomrphp.ToString();
                             break;
                         case 14:
-                            values[16] = tomrv.ToString();
+                            sb.Append(tomrv);
                             if (horestomrv > 9)
-                                values[16] = horestomrv.ToString();
+                            {
+                                sb.Append(horestomrv);
+                            }
                             else
-                                values[16] = "0" + horestomrv.ToString();
+                            {
+                                sb.Append('0');
+                                sb.Append(horestomrv);
+                            }
                             if (minutstomrv > 9)
-                                values[16] = values[16] + ":" + minutstomrv.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(minutstomrv);
+                            }
                             else
-                                values[16] = values[16] + ":0" + minutstomrv.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstomrv);
+                            }
                             if (segonstomrv > 9)
-                                values[16] = values[16] + ":" + segonstomrv.ToString();
+                            {
+                                sb.Append(':');
+                                sb.Append(segonstomrv);
+                            }
                             else
-                                values[16] = values[16] + ":0" + segonstomrv.ToString();
-                            values[16] = values[16] + ":" + mstomrv.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstomrv);
+                            }
+                            sb.Append(':');
+                            sb.Append(mstomrv);
+                            values[16] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 16:
                             values[17] = tomrvhp.ToString();
                             break;
                         case 17:
-                            values[18] = geometricHeight.ToString() + " ft";
+                            sb.Append(geometricHeight);
+                            sb.Append(" ft");
+                            values[18] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 18:
                             values[19] = "Click to expand";
                             break;
                         case 19:
-                            values[20] = "Version Number: " + MOPSversion[1].ToString();
+                            sb.Append("Version Number: ");
+                            sb.Append(MOPSversion[1]);
+                            values[20] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 20:
                             values[21] = mode3A.ToString();
@@ -2565,7 +2682,10 @@ namespace ClassLibrary
                             values[22] = rollAngle.ToString();
                             break;
                         case 22:
-                            values[23] = flightLevel.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " FL";
+                            sb.Append(flightLevel.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" FL");
+                            values[23] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 24:
                             values[24] = magneticHeading.ToString();
@@ -2574,31 +2694,61 @@ namespace ClassLibrary
                             values[25] = "Click to expand";
                             break;
                         case 26:
-                            values[26] = barometricVerticalRate.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " ft/min";
+                            sb.Append(barometricVerticalRate.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" ft/min");
+                            values[26] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 27:
                             values[27] = geometricVerticalRate.ToString();
                             break;
                         case 28:
-                            values[28] = "GS: " + groundSpeed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " TA: " + trackAngle.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " Range Exceeded: " + rangeExceededAirborne.ToString();
+                            sb.Append("GS: ");
+                            sb.Append(groundSpeed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" TA: ");
+                            sb.Append(trackAngle.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" Range Exceeded: ");
+                            sb.Append(rangeExceededAirborne);
+                            values[28] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 29:
                             values[29] = trackAngleRate.ToString();
                             break;
                         case 30:
                             if (horestort > 9)
-                                values[30] = horestort.ToString();
+                            {
+                                sb.Append(horestort);
+                            }
                             else
-                                values[30] = "0" + horestort.ToString();
+                            {
+                                sb.Append("0");
+                                sb.Append(horestort);
+                            }
                             if (minutstort > 9)
-                                values[30] = values[30] + ":" + minutstort.ToString();
+                            {
+                                sb.Append(":");
+                                sb.Append(minutstort);
+                            }
                             else
-                                values[30] = values[30] + ":0" + minutstort.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstort);
+                            }
                             if (segonstort > 9)
-                                values[30] = values[30] + ":" + segonstort.ToString();
+                            {
+                                sb.Append(":");
+                                sb.Append(segonstort);
+                            }
                             else
-                                values[30] = values[30] + ":0" + segonstort.ToString();
-                            values[30] = values[30] + ":" + mstort.ToString();
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstort);
+                            }
+                            sb.Append(":");
+                            sb.Append(mstort);
+                            values[30] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 32:
                             values[31] = targetIdentification.ToString();
@@ -2610,16 +2760,25 @@ namespace ClassLibrary
                             values[33] = "Click to expand";
                             break;
                         case 35:
-                            values[34] = selectedAltitude.ToString()  + " ft";
+                            sb.Append(selectedAltitude);
+                            sb.Append(" ft");
+                            values[34] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 36:
-                            values[35] = finalSelectedAltitude.ToString() + " ft";
+                            sb.Append(finalSelectedAltitude);
+                            sb.Append(" ft");
+                            values[35] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 37:
                             values[36] = "Click to expand";
                             break;
                         case 38:
-                            values[37] = serviceManagement.ToString() + " sec";
+                            sb.Append(serviceManagement);
+                            sb.Append(" sec");
+                            values[37] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 40:
                             values[38] = "Click to expand";
@@ -2628,7 +2787,10 @@ namespace ClassLibrary
                             values[39] = "Click to expand";   
                             break;
                         case 42:
-                            values[40] = messageAmplitude.ToString() + " dBm";
+                            sb.Append(messageAmplitude);
+                            sb.Append(" dBm");
+                            values[40] = sb.ToString();
+                            sb.Clear();
                             break;
                         case 43:
                             //S MB DATA
@@ -2650,26 +2812,25 @@ namespace ClassLibrary
 
         public string[] getClickToExpandValues(int col)
         {
-            string[] val = new string[24];
             switch (col)
             {
                 case (4):
-                    val = targetReportDescriptor;
+                    return targetReportDescriptor;
                     break;
                 case (19):
-                    val = qualityIndicators;
+                    return qualityIndicators;
                     break;
                 case (25):
-                    val = targetStatus;
+                    return targetStatus;
                     break;
                 case (38):
-                    val = aircraftOperationalStatus;
+                    return aircraftOperationalStatus;
                     break;
                 case (44):
-                    val = dataAges;
+                    return dataAges;
                     break;
             }
-            return val;
+            return null;
         }
     }
 }
