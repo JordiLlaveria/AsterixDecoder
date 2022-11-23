@@ -87,7 +87,7 @@ namespace ClassLibrary
                 {
                     CAT21 cat21Info = CAT21list[i];
                     string sensor = "ADSB";
-                    double tracknumber = cat21Info.getTrackNumber();
+                    double tracknumber = cat21Info.getTrackNumber();                    
                     Flight flightFound = Flightslist.FirstOrDefault(flight => flight.getTrackNumber() == tracknumber);
                     if (flightFound != null)
                     {
@@ -111,6 +111,7 @@ namespace ClassLibrary
                         flight.setTime(cat21Info.getTime());
                         flight.setGroundSpeed(cat21Info.getGroundSpeed());
                         flight.setTypeVehicle(cat21Info.getTypeVehicle());
+                        flight.setTypeVehicleNum(cat21Info.getTypeVehicleNum());
                         flight.setTargetAddress(cat21Info.getTargetAddress());
                         Flightslist.Add(flight);
                     }

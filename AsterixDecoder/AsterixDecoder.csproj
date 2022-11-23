@@ -126,6 +126,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Table10.resx">
       <DependentUpon>Table10.cs</DependentUpon>
@@ -152,6 +153,14 @@
       <Project>{784C7924-ED13-45BD-9536-616871483916}</Project>
       <Name>ClassLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\aircraft.png" />
+    <Content Include="Resources\bluedot.png" />
+    <Content Include="Resources\greendot.png" />
+    <Content Include="Resources\reddot.png" />
+    <Content Include="Resources\truck.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

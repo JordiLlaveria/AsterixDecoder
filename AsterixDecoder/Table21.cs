@@ -110,14 +110,18 @@ namespace AsterixDecoder
         private void filterByTargetAddressButton_Click(object sender, EventArgs e)
         {
             int index = filterComboBox.SelectedIndex;
-
-            if(index == 0)
+            StringBuilder sbFilter = new StringBuilder();
+            if (index == 0)
             {
                 if (filterByTargetAddressTextBox.Text != null)
                 {
                     dataTableNew = dataTable.Copy();
                     DataView dataView = new DataView(dataTableNew);
-                    dataView.RowFilter = "[Target Address] = '" + filterByTargetAddressTextBox.Text + "'";
+                    sbFilter.Append("[Target Address] = '");
+                    sbFilter.Append(filterByTargetAddressTextBox.Text);
+                    sbFilter.Append("'");
+                    dataView.RowFilter = sbFilter.ToString();
+                    sbFilter.Clear();
                     CAT21Grid.DataSource = dataView;
                     drawTable();
                 }
@@ -176,16 +180,19 @@ namespace AsterixDecoder
                 string[] val = CAT21list[num].getClickToExpandValues(col);
                 if (val[0] != null)
                 {
-                    CAT21Grid.Rows[row].Cells[col].Value = val[0];
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.Append(val[0]);
                     int i = 1;
                     while (i < val.Length)
                     {
                         if (val[i] != null)
                         {
-                            CAT21Grid.Rows[row].Cells[col].Value = CAT21Grid.Rows[row].Cells[col].Value + "\n" + val[i];
+                            stringBuilder.Append('\n');
+                            stringBuilder.Append(val[i]);
                         }
                         i = i + 1;
                     }
+                    CAT21Grid.Rows[row].Cells[col].Value = stringBuilder;
                     CAT21Grid.AutoResizeRow(row);
                 }
             }
@@ -197,26 +204,30 @@ namespace AsterixDecoder
 
             int[] casesCAT21 = new int[] { 4, 19, 25, 38, 44 };
             int rowNum = 0;
+            string[] val;
+            StringBuilder sb = new StringBuilder();
             foreach (DataRow row in dataTableNew.Rows)
             {
 
                 foreach (int case21 in casesCAT21)
                 {
-                    string[] val = CAT21list[rowNum].getClickToExpandValues(case21);
-
-                    if (val[0] != null)
+                    val = CAT21list[rowNum].getClickToExpandValues(case21);
+                    sb.Clear();
+                    if (val != null)
                     {
-                        row[case21] = val[0];
+                        sb.Append(val[0]);
                         int i = 1;
                         while (i < val.Length)
                         {
                             if (val[i] != null)
                             {
-                                row[case21] = row[case21] + " " + val[i];
+                                sb.Append(' ');
+                                sb.Append(val[i]);
                             }
                             i = i + 1;
                         }
                     }
+                    row[case21] = sb;
                 }
                 rowNum = rowNum + 1;
             }
