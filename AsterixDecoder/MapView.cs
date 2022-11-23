@@ -377,7 +377,7 @@ namespace AsterixDecoder
                     writer.WriteStartElement("Style");
                     writer.WriteStartElement("IconStyle");
                     writer.WriteStartElement("Icon");
-                    writer.WriteElementString("href", "http://maps.google.com/mapfiles/kml/pal2/icon56.png");
+                    writer.WriteElementString("href", "http://google.com/mapfiles/ms/micons/icon48.png");
                     writer.WriteEndElement();
                     writer.WriteEndElement();
                     writer.WriteEndElement();
