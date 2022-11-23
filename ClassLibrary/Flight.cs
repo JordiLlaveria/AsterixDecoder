@@ -81,6 +81,10 @@ namespace ClassLibrary
             return this.typeVehicleNum;
         }
 
+        public string getTargetAddress()
+        {
+            return targetAddress;
+        }
         public List<TimeSpan> getTimes()
         {
             return times;

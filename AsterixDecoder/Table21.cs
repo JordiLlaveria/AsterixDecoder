@@ -215,7 +215,7 @@ namespace AsterixDecoder
                 {
                     val = CAT21list[rowNum].getClickToExpandValues(case21);
                     sb.Clear();
-                    if (val[0] != null)
+                    if (val != null)
                     {
                         sb.Append(val[0]);
                         int i = 1;

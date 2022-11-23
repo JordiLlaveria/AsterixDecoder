@@ -2812,26 +2812,25 @@ namespace ClassLibrary
 
         public string[] getClickToExpandValues(int col)
         {
-            string[] val = new string[24];
             switch (col)
             {
                 case (4):
-                    val = targetReportDescriptor;
+                    return targetReportDescriptor;
                     break;
                 case (19):
-                    val = qualityIndicators;
+                    return qualityIndicators;
                     break;
                 case (25):
-                    val = targetStatus;
+                    return targetStatus;
                     break;
                 case (38):
-                    val = aircraftOperationalStatus;
+                    return aircraftOperationalStatus;
                     break;
                 case (44):
-                    val = dataAges;
+                    return dataAges;
                     break;
             }
-            return val;
+            return null;
         }
     }
 }
