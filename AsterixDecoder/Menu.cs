@@ -81,7 +81,7 @@ namespace AsterixDecoder
             }
             else
             {
-                MessageBox.Show("The table can't be shown, as there's any information about CAT10 data items");
+                MessageBox.Show("The table can't be shown, as there's any information about CAT21 data items");
             }
         }
 

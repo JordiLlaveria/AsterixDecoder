@@ -110,11 +110,6 @@ namespace ClassLibrary
             return groundSpeed[j].ToString();
         }
 
-        public string getTargetAddress()
-        {
-            return targetAddress;
-        }
-
         public string getTargetIdentification()
         {
             return targetIdentification;    
