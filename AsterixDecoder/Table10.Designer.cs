@@ -49,7 +49,7 @@
             this.CAT10Grid.ReadOnly = true;
             this.CAT10Grid.RowHeadersWidth = 51;
             this.CAT10Grid.RowTemplate.Height = 24;
-            this.CAT10Grid.Size = new System.Drawing.Size(950, 458);
+            this.CAT10Grid.Size = new System.Drawing.Size(1100, 540);
             this.CAT10Grid.TabIndex = 0;
             this.CAT10Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT10Grid_CellClick);
             // 
@@ -68,7 +68,7 @@
             // 
             this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 37);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
-            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
+            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 22);
             this.filterByTargetAddressTextBox.TabIndex = 2;
             // 
             // resetFilterButton
@@ -91,13 +91,14 @@
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
             // filterComboBox
             // 
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterComboBox.FormattingEnabled = true;
             this.filterComboBox.Location = new System.Drawing.Point(193, 35);
             this.filterComboBox.Name = "filterComboBox";
-            this.filterComboBox.Size = new System.Drawing.Size(121, 28);
+            this.filterComboBox.Size = new System.Drawing.Size(121, 24);
             this.filterComboBox.TabIndex = 5;
             // 
             // filterLabel
@@ -106,7 +107,7 @@
             this.filterLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterLabel.Location = new System.Drawing.Point(93, 38);
             this.filterLabel.Name = "filterLabel";
-            this.filterLabel.Size = new System.Drawing.Size(91, 25);
+            this.filterLabel.Size = new System.Drawing.Size(77, 22);
             this.filterLabel.TabIndex = 6;
             this.filterLabel.Text = "Filter by:";
             // 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Xml;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +53,12 @@ namespace AsterixDecoder
         int minutesTextBox;
         int secondsTextBox;
         TimeSpan timeMarkerSelected;
+        string filename;
+        List<Coordinates> coordinates;
+        Coordinates coordinatesKML;
+        Coordinates coord;
+        string latKML;
+        string longKML;
 
         double LATLEBL = 41.298289294252534;
         double LONGLEBL = 2.0832589365462204;
@@ -113,8 +121,8 @@ namespace AsterixDecoder
                     string sensor = flightsMarkers[flightsMarkers.Count-1].getSensor();
                     j = flightsMarkers[flightsMarkers.Count-1].getTimes().IndexOf(time);
                     //FlightsList[i].removeTimes(j);
-                    List<Coordinates> coordinates = flightsMarkers[flightsMarkers.Count-1].getCoordinates();
-                    Coordinates coord = coordinates[j];
+                    coordinates = flightsMarkers[flightsMarkers.Count-1].getCoordinates();
+                    coord = coordinates[j];
                     //FlightsList[i].removeCoordinates(j);
                     //FlightsList[i].removeGroundSpeed(j);
                     //FlightsList[i].removeFL(j);
@@ -310,6 +318,108 @@ namespace AsterixDecoder
             minutesTextBox = Convert.ToInt32(textBoxMinutes.Text);
             secondsTextBox = Convert.ToInt32(textBoxSeconds.Text);
             time = new TimeSpan(hoursTextBox, minutesTextBox, secondsTextBox);
+        }
+
+        private void buttonExportKML_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = @"C:\";
+            saveFileDialog.Filter = "Kml files (*.kml)|*.kml";
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog.OpenFile()) != null)
+                {
+                    filename = saveFileDialog.FileName;
+                    myStream.Close();
+                }
+
+                XmlTextWriter writer = new
+                XmlTextWriter((filename), Encoding.UTF8);
+
+                writer.WriteStartDocument();
+                writer.WriteStartElement("kml");
+                writer.WriteAttributeString("xmlns", "http://earth.google.com/kml/2.2");
+                writer.WriteStartElement("Folder");
+                writer.WriteStartElement("description");
+                writer.WriteCData("All Flights");
+                writer.WriteEndElement();
+                writer.WriteElementString("name", "Asterix Decoder");
+                writer.WriteStartElement("Folder");
+
+                int len = flightsMarkers.Count();
+                for (int i = 0; i < len; i++)
+                {
+                    j = flightsMarkers[i].getTimes().IndexOf(time);
+                    coordinates = flightsMarkers[i].getCoordinates();
+                    coordinatesKML = coordinates[j];
+                    this.latKML = coordinatesKML.GetLatitude().ToString();
+                    this.latKML = this.latKML.Replace(',', '.');
+                    this.longKML = coordinatesKML.GetLongitude().ToString();
+                    this.longKML = this.longKML.Replace(',', '.');
+                    string flightname = flightsMarkers[i].getTrackNumber().ToString();
+                    writer.WriteStartElement("Placemark");
+                    writer.WriteStartElement("title");
+                    if (flightsMarkers[i].getSensor() == "SMR")
+                        writer.WriteCData(flightname);
+                    else if (flightsMarkers[i].getSensor() == "MLAT")
+                        writer.WriteCData(flightsMarkers[i].getTargetAddress());
+                    else
+                        writer.WriteCData(flightsMarkers[i].getTargetIdentification());
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("description");
+                    writer.WriteCData(flightname);
+                    writer.WriteEndElement();
+
+                    writer.WriteElementString("name", flightname);
+                    writer.WriteStartElement("Style");
+                    writer.WriteStartElement("IconStyle");
+                    writer.WriteStartElement("Icon");
+                    writer.WriteElementString("href", "http://maps.google.com/mapfiles/kml/pal2/icon56.png");
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("LookAt");
+                    writer.WriteElementString("longitude", this.longKML);
+                    writer.WriteElementString("latitude", this.latKML);
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("Point");
+                    writer.WriteElementString("altitudeMode", "relativeToGround");
+                    writer.WriteElementString("coordinates", this.longKML + "," + this.latKML + ",50");
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndDocument();
+                writer.Close();
+                try
+                {
+                    string message = "You have saved your KML file, ¿Do you want to open it in Google Earth?";
+                    string caption = "Open KML";
+                    var result = MessageBox.Show(message, caption,
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(this.filename);
+                    }
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message);
+                    return;
+                }
+            }
+            else
+            {
+                const string message = "The file was not saved.";
+                const string caption = "Warning";
+                var result = MessageBox.Show(message, caption,
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Warning);
+            }
         }
     }
 }
