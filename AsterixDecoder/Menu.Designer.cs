@@ -84,7 +84,7 @@
             this.panelMenu.Controls.Add(this.InputFile);
             this.panelMenu.Location = new System.Drawing.Point(186, 27);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(1325, 850);
+            this.panelMenu.Size = new System.Drawing.Size(1525, 850);
             this.panelMenu.TabIndex = 4;
             // 
             // CAT21Button

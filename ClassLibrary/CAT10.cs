@@ -23,7 +23,7 @@ namespace ClassLibrary
 
         // 3 I010/020 Target Report Descriptor
         string typ;
-        string drc; 
+        string drc;
         string chn;
         string gbs;
         string crt;
@@ -33,7 +33,7 @@ namespace ClassLibrary
         string lop;
         string tot;
         string spi;
-        string[] targetReportDescriptor = new string[11];
+        string[] targetReportDescriptor = new string[10];
 
         // 4 I010/140 Time of the Day
         double timeOfTheDay;
@@ -125,12 +125,12 @@ namespace ClassLibrary
             this.flightinformation = arraymessage;
             for (int i = 0; i < 8; i++)
             {
-                byte byteobtained = getBit(arraymessage[byteread], 7-i);
+                byte byteobtained = getBit(arraymessage[byteread], 7 - i);
                 UAP[j] = byteobtained;
                 j++;
             }
-            
-            while (UAP[j-1] == 1)
+
+            while (UAP[j - 1] == 1)
             {
                 byteread++;
                 for (int i = 0; i < 8; i++)
@@ -146,9 +146,9 @@ namespace ClassLibrary
             {
                 if (UAP[i] == 1)
                 {
-                    switch(i)
+                    switch (i)
                     {
-                        case 0: 
+                        case 0:
                             // 1 I010/010
                             sac = arraymessage[byteread];
                             sic = arraymessage[byteread + 1];
@@ -162,7 +162,7 @@ namespace ClassLibrary
                             {
                                 messageType = "Target Report";
                             }
-                            else if(num == 2)
+                            else if (num == 2)
                             {
                                 messageType = "Start of Update Cycle";
                             }
@@ -189,7 +189,7 @@ namespace ClassLibrary
 
                             while (fx)
                             {
-                                bool[] octetArray = getOctet(arraymessage[byteread]);                                
+                                bool[] octetArray = getOctet(arraymessage[byteread]);
 
                                 switch (cont)
                                 {
@@ -275,7 +275,7 @@ namespace ClassLibrary
                                         else
                                         {
                                             targetReportDescriptor[9] = "Helicopter";
-                                        }                                       
+                                        }
 
                                         fx = octetArray[7];
                                         break;
@@ -295,7 +295,7 @@ namespace ClassLibrary
 
                         case 3:
                             // 4 I010/140 Time of the Day
-                            this.timeOfTheDay= getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / (double)128; // segons
+                            this.timeOfTheDay = getInt32FromBytes(0, arraymessage[byteread], arraymessage[byteread + 1], arraymessage[byteread + 2]) / (double)128; // segons
                             double segonsprov = timeOfTheDay;
                             double minutsprov = segonsprov / 60;
                             double horesprov = minutsprov / 60;
@@ -363,40 +363,40 @@ namespace ClassLibrary
                                 onebyte[0] = arraymessage[byteread];
                                 BitArray xbits1 = new BitArray(onebyte);
                                 BitArray xbits1Complement = complement2xy(xbits1);
-                                onebyte[0] = arraymessage[byteread+1];
+                                onebyte[0] = arraymessage[byteread + 1];
                                 BitArray xbits2 = new BitArray(onebyte);
                                 BitArray xbits2Complement = complement2xy(xbits2);
-                                
-                                xbits1Complement.CopyTo(x1Array,0);                                
-                                xbits2Complement.CopyTo(x2Array,0);
+
+                                xbits1Complement.CopyTo(x1Array, 0);
+                                xbits2Complement.CopyTo(x2Array, 0);
 
                                 x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
-                                x = x*(-1) -1;
+                                x = x * (-1) - 1;
                             }
                             else
                             {
                                 x1Array[0] = arraymessage[byteread];
-                                x2Array[0] = arraymessage[byteread+1];
-                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);                                
+                                x2Array[0] = arraymessage[byteread + 1];
+                                x = getInt32FromBytes(0, 0, x1Array[0], x2Array[0]);
                             }
                             if (y2complement)
                             {
-                                onebyte[0] = arraymessage[byteread+2];
+                                onebyte[0] = arraymessage[byteread + 2];
                                 BitArray ybits1 = new BitArray(onebyte);
                                 BitArray ybits1Complement = complement2xy(ybits1);
-                                onebyte[0] = arraymessage[byteread+3];
+                                onebyte[0] = arraymessage[byteread + 3];
                                 BitArray ybits2 = new BitArray(onebyte);
                                 BitArray ybits2Complement = complement2xy(ybits2);
-                                
-                                ybits1Complement.CopyTo(y1Array,0);                                
-                                ybits2Complement.CopyTo(y2Array,0);
+
+                                ybits1Complement.CopyTo(y1Array, 0);
+                                ybits2Complement.CopyTo(y2Array, 0);
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
-                                y = y*(-1);
+                                y = y * (-1);
                             }
                             else
                             {
-                                y1Array[0] = arraymessage[byteread+2];
-                                y2Array[0] = arraymessage[byteread+3];
+                                y1Array[0] = arraymessage[byteread + 2];
+                                y2Array[0] = arraymessage[byteread + 3];
                                 y = getInt32FromBytes(0, 0, y1Array[0], y2Array[0]);
                             }
                             byteread = byteread + 4;
@@ -404,7 +404,7 @@ namespace ClassLibrary
 
                         case 8:
                             // I010/200
-                            for (j = 0; j < 2; j++) 
+                            for (j = 0; j < 2; j++)
                             {
                                 twobytes[1] = arraymessage[byteread + j * 2];
                                 twobytes[0] = arraymessage[byteread + j * 2 + 1];
@@ -413,8 +413,8 @@ namespace ClassLibrary
                                 {
                                     for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[p] == true) { 
-                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2,p);
+                                        if (bytestogether1[p] == true) {
+                                            groundspeed_polar_coordinates = groundspeed_polar_coordinates + Math.Pow(2, p);
                                         }
                                     }
                                     groundspeed_polar_coordinates = groundspeed_polar_coordinates * Math.Pow(2, -14) * 1852;
@@ -424,11 +424,11 @@ namespace ClassLibrary
                                 {
                                     for (int p = 0; p < bytestogether1.Length; p++)
                                     {
-                                        if (bytestogether1[p] == true) { 
-                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2,p);
+                                        if (bytestogether1[p] == true) {
+                                            trackangle_polar_coordinates = trackangle_polar_coordinates + Math.Pow(2, p);
                                         }
                                     }
-                                    trackangle_polar_coordinates = trackangle_polar_coordinates * (360/Math.Pow(2,16));
+                                    trackangle_polar_coordinates = trackangle_polar_coordinates * (360 / Math.Pow(2, 16));
                                     trackangle_polar_coordinates = Math.Truncate(trackangle_polar_coordinates * 100) / 100;
                                 }
                             }
@@ -438,7 +438,7 @@ namespace ClassLibrary
                             // I010/202
                             //byteread = 26;
                             bool complement2done = false;
-                            for (j = 0; j < 2; j++) 
+                            for (j = 0; j < 2; j++)
                             {
                                 twobytes[1] = arraymessage[byteread + j * 2];
                                 twobytes[0] = arraymessage[byteread + j * 2 + 1];
@@ -454,8 +454,8 @@ namespace ClassLibrary
                                 {
                                     for (int s = 0; s < bytestogether1.Length; s++)
                                     {
-                                        if (bytestogether1[s] == true) { 
-                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2,bytestogether1.Length - 1 - s);
+                                        if (bytestogether1[s] == true) {
+                                            vx_cartesian_coordinates = vx_cartesian_coordinates + Math.Pow(2, bytestogether1.Length - 1 - s);
                                         }
                                     }
                                     if (complement2done == true)
@@ -471,8 +471,8 @@ namespace ClassLibrary
                                 {
                                     for (int q = 0; q < bytestogether1.Length; q++)
                                     {
-                                        if (bytestogether1[q] == true) { 
-                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2,bytestogether1.Length - 1 - q);
+                                        if (bytestogether1[q] == true) {
+                                            vy_cartesian_coordinates = vy_cartesian_coordinates + Math.Pow(2, bytestogether1.Length - 1 - q);
                                         }
                                     }
                                     if (complement2done == true)
@@ -494,81 +494,81 @@ namespace ClassLibrary
                             bytestogether1 = new BitArray(twobytes);
                             for (int t = 0; t < bytestogether1.Length; t++)
                             {
-                                if (bytestogether1[t] == true) 
-                                { 
-                                    tracknumber = tracknumber + Math.Pow(2,t);
+                                if (bytestogether1[t] == true)
+                                {
+                                    tracknumber = tracknumber + Math.Pow(2, t);
                                 }
                             }
                             byteread = byteread + 2;
                             break;
                         case 11:
                             // I010/170
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             byteread++;
                             if (eightbits[0] == 0)
                             {
-                                trackstatus[0]= "CNF: Confirmed track";
+                                trackstatus[0] = "CNF: Confirmed track";
                             }
                             else
                             {
-                                trackstatus[0]= "CNF: Track in initialisation phase";
+                                trackstatus[0] = "CNF: Track in initialisation phase";
                             }
                             if (eightbits[1] == 0)
                             {
-                                trackstatus[1]= "TRE: Default";
+                                trackstatus[1] = "TRE: Default";
                             }
                             else
                             {
-                                trackstatus[1]= "TRE: Last report for a track";
+                                trackstatus[1] = "TRE: Last report for a track";
                             }
                             if (eightbits[2] == 0 && eightbits[3] == 0)
                             {
-                                trackstatus[2]= "CST: No extraploation";
+                                trackstatus[2] = "CST: No extraploation";
                             }
-                            else if(eightbits[2] == 0 && eightbits[3] == 1)
+                            else if (eightbits[2] == 0 && eightbits[3] == 1)
                             {
-                                trackstatus[2]= "CST: Predictable extrapolation due to sensor refresh period (see Note)";
+                                trackstatus[2] = "CST: Predictable extrapolation due to sensor refresh period (see Note)";
                             }
-                            else if(eightbits[2] == 1 && eightbits[3] == 0)
+                            else if (eightbits[2] == 1 && eightbits[3] == 0)
                             {
-                                trackstatus[2]= "CST: Predictable extrapolation in masked area";
+                                trackstatus[2] = "CST: Predictable extrapolation in masked area";
                             }
-                            else if(eightbits[2] == 1 && eightbits[3] == 1)
+                            else if (eightbits[2] == 1 && eightbits[3] == 1)
                             {
-                                trackstatus[2]= "CST: Extrapolation due to unpredictable absence of detection";
+                                trackstatus[2] = "CST: Extrapolation due to unpredictable absence of detection";
                             }
                             if (eightbits[4] == 0)
                             {
-                                trackstatus[3]= "MAH: Default";
+                                trackstatus[3] = "MAH: Default";
                             }
-                            else 
+                            else
                             {
                                 trackstatus[3] = "MAH: Horizontal Manouvre";
                             }
-                            if (eightbits[5] == 0) 
+                            if (eightbits[5] == 0)
                             {
                                 trackstatus[4] = "TCC: Tracking performed in 'Sensor Plane' i.e. neither start range correction nor projection was applied";
                             }
-                            else 
+                            else
                             {
                                 trackstatus[4] = "TCC: Slant range correction and suitable projection technique are used to track in a 2D.reference plane, tangential to the earth model at the Sensor Site co-cordinates";
                             }
-                            if (eightbits[6] == 0) 
+                            if (eightbits[6] == 0)
                             {
                                 trackstatus[5] = "STH: Measured position";
                             }
-                            else 
+                            else
                             {
                                 trackstatus[5] = "STH: Smoothed position";
                             }
                             if (eightbits[7] == 1)
                             {
-                                for(j = 0; j < 8; j++) 
+                                for (j = 0; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
                                 }
                                 byteread++;
                                 if (eightbits[0] == 0 && eightbits[1] == 0)
@@ -635,7 +635,7 @@ namespace ClassLibrary
                                 {
                                     eightbits[0] = getBit(arraymessage[byteread], 7);
                                     byteread++;
-                                    if(eightbits[0] == 0)
+                                    if (eightbits[0] == 0)
                                     {
                                         trackstatus[9] = "Default";
                                     }
@@ -732,11 +732,11 @@ namespace ClassLibrary
                             {
                                 sti = "Callsign or registration downlinked from transponder";
                             }
-                            else if(octet[0] == false && octet[1] == true)
+                            else if (octet[0] == false && octet[1] == true)
                             {
                                 sti = "Callsign not downlinked from transponder";
                             }
-                            else if( octet[0] == true && octet[1] == false)
+                            else if (octet[0] == true && octet[1] == false)
                             {
                                 sti = "Registration not downlinked from transponder";
                             }
@@ -749,7 +749,7 @@ namespace ClassLibrary
                             getOctet(arraymessage[byteread + 5]).CopyTo(totalCharactersBits, 32);
                             getOctet(arraymessage[byteread + 6]).CopyTo(totalCharactersBits, 40);
 
-                            targetIdentification = "";                           
+                            targetIdentification = "";
 
                             int numchar = 0;
                             while (numchar < 48)
@@ -822,11 +822,11 @@ namespace ClassLibrary
                                 {
                                     character = "P";
                                 }
-                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, true}))
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, false, true }))
                                 {
                                     character = "Q";
                                 }
-                                else if (char1.SequenceEqual(new bool[] {false, true, false, false, true, false}))
+                                else if (char1.SequenceEqual(new bool[] { false, true, false, false, true, false }))
                                 {
                                     character = "R";
                                 }
@@ -854,7 +854,7 @@ namespace ClassLibrary
                                 {
                                     character = "X";
                                 }
-                                else if (char1.SequenceEqual(new bool[]{ false, true, true, false, false, true }))
+                                else if (char1.SequenceEqual(new bool[] { false, true, true, false, false, true }))
                                 {
                                     character = "Y";
                                 }
@@ -999,7 +999,7 @@ namespace ClassLibrary
                             byte[] fl1 = new byte[1];
                             flbits.CopyTo(fl1, 0);
 
-                            this.FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1])/4;
+                            this.FL = getInt32FromBytes(0, 0, fl1[0], arraymessage[byteread + 1]) / 4;
 
                             byteread = byteread + 2;
                             break;
@@ -1015,33 +1015,33 @@ namespace ClassLibrary
                                 bytestogether1 = complement2(bytestogether1);
                             }
                             height = 0;
-                            for ( j = 1; j < bytestogether1.Length; j++)
+                            for (j = 1; j < bytestogether1.Length; j++)
                             {
-                                height = height + Math.Pow(2, 14 - j); 
+                                height = height + Math.Pow(2, 14 - j);
                             }
                             height = height * 6.25;
                             byteread = byteread + 2;
                             break;
                         case 20:
                             // I010/270
-                            for(j = 1; j < 8; j++) 
+                            for (j = 1; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
-                                if(eightbits[7-j] == 1)
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
+                                if (eightbits[7 - j] == 1)
                                 {
-                                    length = length + Math.Pow(2,j-1);
+                                    length = length + Math.Pow(2, j - 1);
                                 }
                             }
                             eightbits[7] = getBit(arraymessage[byteread], 0); //bit utilizado para conocer si hay extent o no
                             byteread++;
                             if (eightbits[7] == 1)
                             {
-                                for(j = 1; j < 8; j++) 
+                                for (j = 1; j < 8; j++)
                                 {
-                                    eightbits[7-j] = getBit(arraymessage[byteread], j);
-                                    if(eightbits[7-j] == 1)
+                                    eightbits[7 - j] = getBit(arraymessage[byteread], j);
+                                    if (eightbits[7 - j] == 1)
                                     {
-                                        orientation = orientation + Math.Pow(2,j-1);
+                                        orientation = orientation + Math.Pow(2, j - 1);
                                     }
                                 }
                                 eightbits[7] = getBit(arraymessage[byteread], 0);
@@ -1049,12 +1049,12 @@ namespace ClassLibrary
                                 orientation = (orientation * 360) / 128;
                                 if (eightbits[7] == 1)
                                 {
-                                    for(j = 1; j < 8; j++) 
+                                    for (j = 1; j < 8; j++)
                                     {
-                                        eightbits[7-j] = getBit(arraymessage[byteread], j);
-                                        if(eightbits[7-j] == 1)
+                                        eightbits[7 - j] = getBit(arraymessage[byteread], j);
+                                        if (eightbits[7 - j] == 1)
                                         {
-                                            width = width + Math.Pow(2,j-1);
+                                            width = width + Math.Pow(2, j - 1);
                                         }
                                     }
                                     byteread++;
@@ -1063,9 +1063,9 @@ namespace ClassLibrary
                             break;
                         case 21:
                             // I010/550
-                            for(j = 0; j < 8; j++) 
+                            for (j = 0; j < 8; j++)
                             {
-                                eightbits[7-j] = getBit(arraymessage[byteread], j);
+                                eightbits[7 - j] = getBit(arraymessage[byteread], j);
                             }
                             if (eightbits[0] == 0 && eightbits[1] == 0)
                             {
@@ -1181,7 +1181,7 @@ namespace ClassLibrary
                         case 27:
                             // I010/210
                             complement2done = false;
-                            for (j=0; j < 2; j++)
+                            for (j = 0; j < 2; j++)
                             {
                                 onebyte[0] = arraymessage[byteread + j];
                                 simplebyte = new BitArray(onebyte);
@@ -1194,10 +1194,10 @@ namespace ClassLibrary
                                 }
                                 if (j == 0)
                                 {
-                                    for ( k = 0; k < simplebyte.Length; k++)
+                                    for (k = 0; k < simplebyte.Length; k++)
                                     {
-                                        if (simplebyte[k] == true) { 
-                                            Ax = Ax + Math.Pow(2,simplebyte.Length - 1 - k);
+                                        if (simplebyte[k] == true) {
+                                            Ax = Ax + Math.Pow(2, simplebyte.Length - 1 - k);
                                         }
                                     }
                                     if (complement2done == true)
@@ -1213,8 +1213,8 @@ namespace ClassLibrary
                                 {
                                     for (k = 0; k < simplebyte.Length; k++)
                                     {
-                                        if (simplebyte[k] == true) { 
-                                            Ay = Ay + Math.Pow(2,simplebyte.Length - 1 - k);
+                                        if (simplebyte[k] == true) {
+                                            Ay = Ay + Math.Pow(2, simplebyte.Length - 1 - k);
                                         }
                                     }
                                     if (complement2done == true)
@@ -1227,7 +1227,7 @@ namespace ClassLibrary
                                     }
                                 }
                             }
-                            break;                           
+                            break;
                     }
                 }
             }
@@ -1277,7 +1277,7 @@ namespace ClassLibrary
                             //WGS
                             break;
                         case 5:
-                            values[8] = "ρ: " + rho.ToString() + "m θ: " + theta.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture) + "º";
+                            values[8] = "ρ: " + rho.ToString() + "m θ: " + theta.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "º";
                             break;
                         case 6:
                             values[9] = "X: " + x.ToString() + " Y: " + y.ToString();
@@ -1335,7 +1335,7 @@ namespace ClassLibrary
                             values[26] = amplitudeOfPrimaryPlot.ToString();
                             break;
                         case 27:
-                            values[27] = "Ax: " + Ax.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
+                            values[27] = "Ax: " + Ax.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
                             break;
                     }
                 }
@@ -1408,6 +1408,11 @@ namespace ClassLibrary
         public string getMessageType()
         {
             return this.messageType;
+        }
+
+        public string getTypeVehicle()
+        {
+            return targetReportDescriptor[9];
         }
 
         public string[] getClickToExpandValues(int col)

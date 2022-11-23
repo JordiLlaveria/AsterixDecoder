@@ -39,6 +39,7 @@ namespace ClassLibrary
                 }
             }
             this.obtainFlights();
+            GC.Collect();
         }
 
         public void obtainFlights()
@@ -74,6 +75,7 @@ namespace ClassLibrary
                         flight.setCoordinates(coordinates);
                         flight.setFlightLevel(cat10Info.getFlightLevel());
                         flight.setTime(cat10Info.getTime());
+                        flight.setTypeVehicle(cat10Info.getTypeVehicle());
                         flight.setGroundSpeed(cat10Info.getGroundSpeed());
                         Flightslist.Add(flight);
                     }
@@ -115,7 +117,7 @@ namespace ClassLibrary
                     }
                 }
             }
-            Console.WriteLine("Hola");
+            GC.Collect();
         }
 
         public List<CAT10> getCAT10List()

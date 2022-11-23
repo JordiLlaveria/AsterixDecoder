@@ -99,6 +99,51 @@ namespace ClassLibrary
         {
             return sensor;
         }
+
+        public string getFL(int j)
+        {
+            return flightLevel[j].ToString();
+        }
+
+        public string getGroundSpeed(int j)
+        {
+            return groundSpeed[j].ToString();
+        }
+
+        public string getTargetAddress()
+        {
+            return targetAddress;
+        }
+
+        public string getTargetIdentification()
+        {
+            return targetIdentification;    
+        }
+
+        public string getEmitterCategory()
+        {
+            return emitterCategory;
+        }
+
+        public void removeTimes(int j)
+        {
+            times.RemoveAt(j);
+        }
+
+        public void removeCoordinates(int j)
+        {
+            coordinates.RemoveAt(j);
+        }
+
+        public void removeGroundSpeed(int j)
+        {
+            groundSpeed.RemoveAt(j);
+        }
+
+        public void removeFL(int j)
+        {
+            flightLevel.RemoveAt(j);
+        }
     }
 
     public class Coordinates
