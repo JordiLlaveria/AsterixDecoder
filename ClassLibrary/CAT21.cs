@@ -2511,17 +2511,17 @@ namespace ClassLibrary
                             longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
                             longminutes = (Math.Truncate(longminutes * 1) / 1);
                             longseconds = (Math.Truncate(longseconds * 100) / 100);
-                            sb.Append(latdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(latdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
-                            sb.Append(latminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(latminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
-                            sb.Append(latseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
-                            sb.Append("'' ");
-                            sb.Append(longdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(latseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("''; ");
+                            sb.Append(longdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
-                            sb.Append(longminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(longminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
-                            sb.Append(longseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(longseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             values[8] = sb.ToString();
                             sb.Clear();
                             break;
@@ -2536,17 +2536,17 @@ namespace ClassLibrary
                             hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
                             hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
                             hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
-                            sb.Append(hrlatdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(hrlatdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
-                            sb.Append(hrlatminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(hrlatminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
-                            sb.Append(hrlatseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
-                            sb.Append("'' ");
-                            sb.Append(hrlongdegrees.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(hrlatseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("''; ");
+                            sb.Append(hrlongdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
-                            sb.Append(hrlongminutes.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(hrlongminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
-                            sb.Append(hrlongseconds.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(hrlongseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             values[9] = sb.ToString();
                             sb.Clear();
                             break;
@@ -2595,7 +2595,7 @@ namespace ClassLibrary
                             values[13] = targetAddress.ToString();
                             break;
                         case 12:
-                            sb.Append(tomrp);
+                            //sb.Append(tomrp);
                             if (horestomrp > 9)
                             {
                                 sb.Append(horestomrp);
@@ -2634,7 +2634,7 @@ namespace ClassLibrary
                             values[15] = tomrphp.ToString();
                             break;
                         case 14:
-                            sb.Append(tomrv);
+                            //sb.Append(tomrv);
                             if (horestomrv > 9)
                             {
                                 sb.Append(horestomrv);
@@ -2694,7 +2694,7 @@ namespace ClassLibrary
                             values[22] = rollAngle.ToString();
                             break;
                         case 22:
-                            sb.Append(flightLevel.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(flightLevel.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append(" FL");
                             values[23] = sb.ToString();
                             sb.Clear();
@@ -2706,7 +2706,7 @@ namespace ClassLibrary
                             values[25] = "Click to expand";
                             break;
                         case 26:
-                            sb.Append(barometricVerticalRate.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(barometricVerticalRate.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append(" ft/min");
                             values[26] = sb.ToString();
                             sb.Clear();
@@ -2716,11 +2716,9 @@ namespace ClassLibrary
                             break;
                         case 28:
                             sb.Append("GS: ");
-                            sb.Append(groundSpeed.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(groundSpeed.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append(" TA: ");
-                            sb.Append(trackAngle.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture));
-                            sb.Append(" Range Exceeded: ");
-                            sb.Append(rangeExceededAirborne);
+                            sb.Append(trackAngle.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                             values[28] = sb.ToString();
                             sb.Clear();
                             break;

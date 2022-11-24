@@ -1283,10 +1283,10 @@ namespace ClassLibrary
                             values[9] = "X: " + x.ToString() + " Y: " + y.ToString();
                             break;
                         case 8:
-                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s TA: " + trackangle_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "º";
+                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s TA: " + trackangle_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "º";
                             break;
                         case 9:
-                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s Vy: " + vy_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s";
+                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s Vy: " + vy_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s";
                             break;
                         case 10:
                             values[12] = tracknumber.ToString();
@@ -1413,6 +1413,11 @@ namespace ClassLibrary
         public string getTypeVehicle()
         {
             return targetReportDescriptor[9];
+        }
+
+        public double getSic()
+        {
+            return sic;
         }
 
         public string[] getClickToExpandValues(int col)

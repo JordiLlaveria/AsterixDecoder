@@ -55,6 +55,7 @@
     <Compile Include="GeneralMatrix.cs" />
     <Compile Include="GeoUtils.cs" />
     <Compile Include="LUDecomposition.cs" />
+    <Compile Include="MLAT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QRDecomposition.cs" />
     <Compile Include="SingularValueDecomposition.cs" />

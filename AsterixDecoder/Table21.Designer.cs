@@ -42,7 +42,7 @@
             // 
             this.CAT21Grid.AllowUserToAddRows = false;
             this.CAT21Grid.AllowUserToDeleteRows = false;
-            this.CAT21Grid.BackgroundColor = System.Drawing.Color.White;
+            this.CAT21Grid.BackgroundColor = System.Drawing.Color.CornflowerBlue;
             this.CAT21Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CAT21Grid.Location = new System.Drawing.Point(57, 82);
             this.CAT21Grid.Name = "CAT21Grid";
@@ -75,10 +75,10 @@
             // filterByTargetAddressButton
             // 
             this.filterByTargetAddressButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(383, 41);
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(383, 36);
             this.filterByTargetAddressButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
-            this.filterByTargetAddressButton.Size = new System.Drawing.Size(77, 22);
+            this.filterByTargetAddressButton.Size = new System.Drawing.Size(77, 36);
             this.filterByTargetAddressButton.TabIndex = 4;
             this.filterByTargetAddressButton.Text = "Filter";
             this.filterByTargetAddressButton.UseVisualStyleBackColor = true;
@@ -87,10 +87,10 @@
             // resetFilterButton
             // 
             this.resetFilterButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetFilterButton.Location = new System.Drawing.Point(466, 41);
+            this.resetFilterButton.Location = new System.Drawing.Point(466, 37);
             this.resetFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.resetFilterButton.Name = "resetFilterButton";
-            this.resetFilterButton.Size = new System.Drawing.Size(74, 22);
+            this.resetFilterButton.Size = new System.Drawing.Size(74, 36);
             this.resetFilterButton.TabIndex = 5;
             this.resetFilterButton.Text = "Reset";
             this.resetFilterButton.UseVisualStyleBackColor = true;
@@ -101,7 +101,7 @@
             this.exportButton.Location = new System.Drawing.Point(1165, 34);
             this.exportButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(67, 22);
+            this.exportButton.Size = new System.Drawing.Size(67, 38);
             this.exportButton.TabIndex = 6;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
@@ -121,6 +121,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(1384, 840);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterComboBox);

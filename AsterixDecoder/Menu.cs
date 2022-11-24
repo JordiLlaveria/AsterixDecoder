@@ -103,5 +103,26 @@ namespace AsterixDecoder
                 MessageBox.Show("There's any flight already decoded, so they can't be shown in the map");
             }
         }
+
+        private void buttonMLAT_Click(object sender, EventArgs e)
+        {
+            if (CAT10list.Count != 0 && CAT10list[0].getSic() == 107)
+            {
+                MLAT_MOPS mlatMOPS = new MLAT_MOPS(CAT21list, CAT10list, file);
+                mlatMOPS.TopLevel = false;
+                mlatMOPS.TopMost = true;
+                mlatMOPS.FormBorderStyle = FormBorderStyle.None;
+                mlatMOPS.Dock = DockStyle.Fill;
+                panelMenu.Controls.Add(mlatMOPS);
+                panelMenu.Tag = mlatMOPS;
+                mlatMOPS.Show();
+                mlatMOPS.BringToFront();
+            }
+            else
+            {
+                MessageBox.Show("MLAT MOPS can't be shown, as there's any information about any MLAT detection");
+            }
+        }
+        Panel p = new Panel();
     }
 }

@@ -19,7 +19,6 @@ namespace ClassLibrary
         List<double> flightLevel;
         List<double> groundSpeed;
         string targetIdentification;
-
         public Flight(string sensor, string emitterCategory, double trackNumber)
         {
             this.sensor = sensor;

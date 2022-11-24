@@ -92,6 +92,12 @@
     <Compile Include="MapView.Designer.cs">
       <DependentUpon>MapView.cs</DependentUpon>
     </Compile>
+    <Compile Include="MLAT_MOPS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MLAT_MOPS.Designer.cs">
+      <DependentUpon>MLAT_MOPS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Table10.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MLAT_MOPS.resx">
+      <DependentUpon>MLAT_MOPS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

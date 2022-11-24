@@ -42,7 +42,7 @@
             // 
             this.CAT10Grid.AllowUserToAddRows = false;
             this.CAT10Grid.AllowUserToDeleteRows = false;
-            this.CAT10Grid.BackgroundColor = System.Drawing.Color.White;
+            this.CAT10Grid.BackgroundColor = System.Drawing.Color.CornflowerBlue;
             this.CAT10Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CAT10Grid.Location = new System.Drawing.Point(43, 89);
             this.CAT10Grid.Name = "CAT10Grid";
@@ -113,6 +113,7 @@
             // 
             // Table10
             // 
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(1123, 676);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterLabel);
