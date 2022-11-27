@@ -86,6 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelpView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpView.Designer.cs">
+      <DependentUpon>HelpView.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <Compile Include="Table21.Designer.cs">
       <DependentUpon>Table21.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HelpView.resx">
+      <DependentUpon>HelpView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapView.resx">
       <DependentUpon>MapView.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,6 +177,8 @@
     <Content Include="Resources\aircraft.png" />
     <Content Include="Resources\bluedot.png" />
     <Content Include="Resources\greendot.png" />
+    <Content Include="Resources\helpPic.png" />
+    <None Include="Resources\helpTablePic.png" />
     <Content Include="Resources\reddot.png" />
     <Content Include="Resources\truck.png" />
   </ItemGroup>

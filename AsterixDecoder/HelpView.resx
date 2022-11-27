@@ -117,11 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="helpPic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\helpPic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="helpTablePic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\helpTablePic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>1) Map
+2) Play: Click to start the simulation
+3) Time of the simulation
+4) Speed of the simulation
+5) Restart the simulation
+6) Write the time from where to start the simulation
+and then click to select Time
+7) Stop the simulation
+8) Export 
+9) Choose the sensor to show
+10) Filter the flights by target address
+11) See the trajectory of a previous filtered flight
+12) Erase the filter and see all the vehicles
+13) Click one vehicle to see its information
+</value>
   </data>
 </root>

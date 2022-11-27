@@ -124,5 +124,10 @@ namespace AsterixDecoder
             }
         }
         Panel p = new Panel();
+
+        private void buttonHelp_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
