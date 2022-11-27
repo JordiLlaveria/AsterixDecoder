@@ -127,7 +127,21 @@ namespace AsterixDecoder
 
         private void buttonHelp_Click(object sender, EventArgs e)
         {
+            HelpView helpView = new HelpView();
+            helpView.TopLevel = false;
+            helpView.TopMost = true;
+            helpView.FormBorderStyle = FormBorderStyle.None;
+            helpView.Dock = DockStyle.Fill;
+            panelMenu.Controls.Add(helpView);
+            panelMenu.Tag = helpView;
+            helpView.Show();
+            helpView.BringToFront();
+            
+        }
 
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

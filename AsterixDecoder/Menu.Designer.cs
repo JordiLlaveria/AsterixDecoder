@@ -37,6 +37,7 @@
             this.mapViewButton = new System.Windows.Forms.Button();
             this.buttonMLAT = new System.Windows.Forms.Button();
             this.buttonHelp = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +76,7 @@
             this.CAT10TableButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CAT10TableButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CAT10TableButton.ForeColor = System.Drawing.Color.Black;
-            this.CAT10TableButton.Location = new System.Drawing.Point(14, 65);
+            this.CAT10TableButton.Location = new System.Drawing.Point(29, 65);
             this.CAT10TableButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CAT10TableButton.Name = "CAT10TableButton";
             this.CAT10TableButton.Size = new System.Drawing.Size(218, 99);
@@ -89,10 +90,10 @@
             this.panelMenu.Controls.Add(this.FileReadLabel);
             this.panelMenu.Controls.Add(this.label1);
             this.panelMenu.Controls.Add(this.InputFile);
-            this.panelMenu.Location = new System.Drawing.Point(238, 34);
+            this.panelMenu.Location = new System.Drawing.Point(304, 65);
             this.panelMenu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(1883, 1125);
+            this.panelMenu.Size = new System.Drawing.Size(1898, 1082);
             this.panelMenu.TabIndex = 4;
             // 
             // CAT21Button
@@ -101,7 +102,7 @@
             this.CAT21Button.FlatAppearance.BorderSize = 0;
             this.CAT21Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CAT21Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CAT21Button.Location = new System.Drawing.Point(14, 282);
+            this.CAT21Button.Location = new System.Drawing.Point(29, 213);
             this.CAT21Button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CAT21Button.Name = "CAT21Button";
             this.CAT21Button.Size = new System.Drawing.Size(218, 116);
@@ -116,7 +117,7 @@
             this.mapViewButton.FlatAppearance.BorderSize = 0;
             this.mapViewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mapViewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mapViewButton.Location = new System.Drawing.Point(14, 500);
+            this.mapViewButton.Location = new System.Drawing.Point(29, 385);
             this.mapViewButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.mapViewButton.Name = "mapViewButton";
             this.mapViewButton.Size = new System.Drawing.Size(218, 121);
@@ -131,7 +132,7 @@
             this.buttonMLAT.FlatAppearance.BorderSize = 0;
             this.buttonMLAT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMLAT.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonMLAT.Location = new System.Drawing.Point(14, 685);
+            this.buttonMLAT.Location = new System.Drawing.Point(29, 573);
             this.buttonMLAT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonMLAT.Name = "buttonMLAT";
             this.buttonMLAT.Size = new System.Drawing.Size(218, 111);
@@ -146,7 +147,7 @@
             this.buttonHelp.FlatAppearance.BorderSize = 0;
             this.buttonHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonHelp.Location = new System.Drawing.Point(14, 912);
+            this.buttonHelp.Location = new System.Drawing.Point(29, 730);
             this.buttonHelp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonHelp.Name = "buttonHelp";
             this.buttonHelp.Size = new System.Drawing.Size(218, 111);
@@ -155,12 +156,28 @@
             this.buttonHelp.UseVisualStyleBackColor = false;
             this.buttonHelp.Click += new System.EventHandler(this.buttonHelp_Click);
             // 
+            // exitButton
+            // 
+            this.exitButton.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.exitButton.FlatAppearance.BorderSize = 0;
+            this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exitButton.Location = new System.Drawing.Point(29, 882);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(218, 111);
+            this.exitButton.TabIndex = 9;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = false;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(1924, 1050);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.buttonHelp);
             this.Controls.Add(this.buttonMLAT);
             this.Controls.Add(this.mapViewButton);
@@ -187,6 +204,7 @@
         private System.Windows.Forms.Button mapViewButton;
         private System.Windows.Forms.Button buttonMLAT;
         private System.Windows.Forms.Button buttonHelp;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 
