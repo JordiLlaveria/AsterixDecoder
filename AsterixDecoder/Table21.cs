@@ -200,39 +200,62 @@ namespace AsterixDecoder
 
         private void exportButton_Click(object sender, EventArgs e)
         {
-            dataTableNew = dataTable;
+            DataTable exportDT = new DataTable();
 
-            int[] casesCAT21 = new int[] { 4, 19, 25, 38, 44 };
-            int rowNum = 0;
-            string[] val;
-            StringBuilder sb = new StringBuilder();
-            foreach (DataRow row in dataTableNew.Rows)
+            exportDT.Columns.Add("Number");
+            exportDT.Columns.Add("Category");
+            exportDT.Columns.Add("SAC");
+            exportDT.Columns.Add("SIC");
+            exportDT.Columns.Add("Target Report Descriptor"); //4
+            exportDT.Columns.Add("Track Number");
+            exportDT.Columns.Add("Service Identification");
+            exportDT.Columns.Add("Time of Applicability Position");
+            exportDT.Columns.Add("Position in WGS-84 Coordinates");
+            exportDT.Columns.Add("Position in WGS-84 Coordinates High Resolution");
+            exportDT.Columns.Add("Time of Applicability Velocity");
+            exportDT.Columns.Add("Air Speed");
+            exportDT.Columns.Add("True Airspeed");
+            exportDT.Columns.Add("Target Address");
+            exportDT.Columns.Add("Time of Message Reception Position");
+            exportDT.Columns.Add("Time of Message Reception Position High Res");
+            exportDT.Columns.Add("Time of Message Reception Velocity");
+            exportDT.Columns.Add("Time of Message Reception Velocity High Res");
+            exportDT.Columns.Add("Geometric Height");
+            exportDT.Columns.Add("Quality Indicators"); // 19
+            exportDT.Columns.Add("MOPS Version");
+            exportDT.Columns.Add("Mode 3A Code");
+            exportDT.Columns.Add("Roll Angle");
+            exportDT.Columns.Add("Flight Level");
+            exportDT.Columns.Add("Magnetic Heading");
+            exportDT.Columns.Add("Target Status"); // 25
+            exportDT.Columns.Add("Barometric Vertical Rate");
+            exportDT.Columns.Add("Geometric Vertical Rate");
+            exportDT.Columns.Add("Airborne Ground Vector");
+            exportDT.Columns.Add("Track Angle Rate");
+            exportDT.Columns.Add("Time of Report Transmission");
+            exportDT.Columns.Add("Target Identification");
+            exportDT.Columns.Add("Emitter Category");
+            exportDT.Columns.Add("Met Information");
+            exportDT.Columns.Add("Selected Altitude");
+            exportDT.Columns.Add("Final State Selected Altitude");
+            exportDT.Columns.Add("Trajectory Intent");
+            exportDT.Columns.Add("Service Management");
+            exportDT.Columns.Add("Aircraft Operational Status"); // 38
+            exportDT.Columns.Add("Surface Capabilities and Characteristics");
+            exportDT.Columns.Add("Message Amplitude");
+            exportDT.Columns.Add("Mode S MB Data");
+            exportDT.Columns.Add("ACAS Resolution");
+            exportDT.Columns.Add("Receiver ID");
+            exportDT.Columns.Add("Data Ages");
+
+            for (int i = 0; i < CAT21list.Count; i++)
             {
-
-                foreach (int case21 in casesCAT21)
-                {
-                    val = CAT21list[rowNum].getClickToExpandValues(case21);
-                    sb.Clear();
-                    if (val != null)
-                    {
-                        sb.Append(val[0]);
-                        int i = 1;
-                        while (i < val.Length)
-                        {
-                            if (val[i] != null)
-                            {
-                                sb.Append(' ');
-                                sb.Append(val[i]);
-                            }
-                            i = i + 1;
-                        }
-                    }
-                    row[case21] = sb;
-                }
-                rowNum = rowNum + 1;
+                string[] rowInformation = CAT21list[i].getInfoCSV(i);
+                exportDT.Rows.Add(rowInformation);
             }
 
-            new ExportHelper().Export(dataTableNew);
+            new ExportHelper().Export(exportDT);
+            exportDT = null;
         }
     }
 }

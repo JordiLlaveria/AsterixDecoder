@@ -178,36 +178,45 @@ namespace AsterixDecoder
 
         private void exportButton_Click(object sender, EventArgs e)
         {
-            dataTableNew = dataTable;
-            
-            int[] casesCAT10 = new int[]{ 5, 13, 22, 23};
-            int rowNum = 0;
-            foreach(DataRow row in dataTableNew.Rows)
-            {
+            DataTable exportDT = new DataTable();
 
-                foreach(int case10 in casesCAT10)
-                {
-                    string[] val = CAT10list[rowNum].getClickToExpandValues(case10);
-                    
-                    if (val[0] != null)
-                    {
-                        row[case10] = val[0];
-                        int i = 1;
-                        while (i < val.Length)
-                        {
-                            if (val[i] != null)
-                            {
-                                row[case10] = row[case10] + " " + val[i];
-                            }
-                            i = i + 1;
-                        }                        
-                    }
-                }
-                rowNum = rowNum + 1;
+            exportDT.Columns.Add("Number");
+            exportDT.Columns.Add("Category");
+            exportDT.Columns.Add("SAC");
+            exportDT.Columns.Add("SIC");
+            exportDT.Columns.Add("Message Type");
+            exportDT.Columns.Add("Target Report Descriptor"); //5
+            exportDT.Columns.Add("Time of Day");
+            exportDT.Columns.Add("Position in WGS-84 Coordinates");
+            exportDT.Columns.Add("Position in Polar Coordinates");
+            exportDT.Columns.Add("Position in Cartesian Coordinates");
+            exportDT.Columns.Add("Track Velocity in Polar Coordinates");
+            exportDT.Columns.Add("Track Velocity in Cartesian Coordinates");
+            exportDT.Columns.Add("Track Number");
+            exportDT.Columns.Add("Track Status"); //13
+            exportDT.Columns.Add("Mode 3/A Code");
+            exportDT.Columns.Add("Target Address");
+            exportDT.Columns.Add("Target Identification");
+            exportDT.Columns.Add("Mode S MB Data");
+            exportDT.Columns.Add("Vehicle Fleet Identification");
+            exportDT.Columns.Add("Flight Level");
+            exportDT.Columns.Add("Measured Height");
+            exportDT.Columns.Add("Target Size and Orientation");
+            exportDT.Columns.Add("System Status"); //22
+            exportDT.Columns.Add("Preprogrammed Message"); //23
+            exportDT.Columns.Add("Standard Deviation of Position");
+            exportDT.Columns.Add("Presence");
+            exportDT.Columns.Add("Amplitude of Primary Plot");
+            exportDT.Columns.Add("Calculated Acceleration");
+
+            for (int i = 0; i < CAT10list.Count; i++)
+            {
+                string[] rowInformation = CAT10list[i].getInformation(i);
+                exportDT.Rows.Add(rowInformation);
             }
 
-            new ExportHelper().Export(dataTableNew);
-
+            new ExportHelper().Export(exportDT);
+            exportDT = null;
         }
     }
 }

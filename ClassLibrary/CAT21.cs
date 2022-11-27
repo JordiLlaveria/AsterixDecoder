@@ -2138,133 +2138,133 @@ namespace ClassLibrary
                             }
                             if (dataAgesLength[1] == 1)
                             {
-                                data = "Age of the last update of the Target Report Descriptor: ";
+                                data = "Target Report Descriptor: ";
                                 getDataAge(arraymessage, byteread, 1, data);
                                 byteread++;
                             }
                             if (dataAgesLength[2] == 1)
                             {
-                                data = "Age of the last update of Mode 3/A Code: ";
+                                data = "Mode 3/A Code: ";
                                 getDataAge(arraymessage, byteread, 2, data);
                                 byteread++;
                             }
                             if (dataAgesLength[3] == 1)
                             {
-                                data = "Age of the latest information received to update the Quality Indicators: ";
+                                data = "Quality Indicators: ";
                                 getDataAge(arraymessage, byteread, 3, data);
                                 byteread++;
                             }
                             if (dataAgesLength[4] == 1)
                             {
-                                data = "Age of the last update of the Trajectory Intent information: ";
+                                data = "Trajectory Intent information: ";
                                 getDataAge(arraymessage, byteread, 4, data);
                                 byteread++;
                             }
                             if (dataAgesLength[5] == 1)
                             {
-                                data = "Age of the latest measurement of the message amplitude: ";
+                                data = "message amplitude: ";
                                 getDataAge(arraymessage, byteread, 5, data);
                                 byteread++;
                             }
                             if (dataAgesLength[6] == 1)
                             {
-                                data = "Age of the information contained in item 021/140: ";
+                                data = "item 021/140: ";
                                 getDataAge(arraymessage, byteread, 6, data);
                                 byteread++;
                             }
                             if (dataAgesLength[8] == 1)
                             {
-                                data = "Age of the Flight Level information: ";
+                                data = "Flight Level: ";
                                 getDataAge(arraymessage, byteread, 7, data);
                                 byteread++;
                             }
                             if (dataAgesLength[9] == 1)
                             {
-                                data = "Age of the Intermediate State Selected Altitude: ";
+                                data = "Intermediate State Selected Altitude: ";
                                 getDataAge(arraymessage, byteread, 8, data);
                                 byteread++;
                             }
                             if (dataAgesLength[10] == 1)
                             {
-                                data = "Age of the Final State Selected Altitude: ";
+                                data = "Final State Selected Altitude: ";
                                 getDataAge(arraymessage, byteread, 9, data);
                                 byteread++;
                             }
                             if (dataAgesLength[11] == 1)
                             {
-                                data = "Age of the Air Speed: ";
+                                data = "Air Speed: ";
                                 getDataAge(arraymessage, byteread, 10, data);
                                 byteread++;
                             }
                             if (dataAgesLength[12] == 1)
                             {
-                                data = "Age of the value for the True Air Speed: ";
+                                data = "True Air Speed: ";
                                 getDataAge(arraymessage, byteread, 11, data);
                                 byteread++;
                             }
                             if (dataAgesLength[13] == 1)
                             {
-                                data = "Age of the value for the Magnetic Heading: ";
+                                data = "Magnetic Heading: ";
                                 getDataAge(arraymessage, byteread, 12, data);
                                 byteread++;
                             }
                             if (dataAgesLength[14] == 1)
                             {
-                                data = "Age of the Barometric Vertical Rate: ";
+                                data = "Barometric Vertical Rate: ";
                                 getDataAge(arraymessage, byteread, 13, data);
                                 byteread++;
                             }
                             if (dataAgesLength[16] == 1)
                             {
-                                data = "Age of the Geometric Vertical Rate: ";
+                                data = "Geometric Vertical Rate: ";
                                 getDataAge(arraymessage, byteread, 14, data);
                                 byteread++;
                             }
                             if (dataAgesLength[17] == 1)
                             {
-                                data = "Age of the Ground Vector: ";
+                                data = "Ground Vector: ";
                                 getDataAge(arraymessage, byteread, 15, data);
                                 byteread++;
                             }
                             if (dataAgesLength[18] == 1)
                             {
-                                data = "Age of the Track Angle Rate: ";
+                                data = "Track Angle Rate: ";
                                 getDataAge(arraymessage, byteread, 16, data);
                                 byteread++;
                             }
                             if (dataAgesLength[19] == 1)
                             {
-                                data = "Age of the Target Identification: ";
+                                data = "Target Identification: ";
                                 getDataAge(arraymessage, byteread, 17, data);
                                 byteread++;
                             }
                             if (dataAgesLength[20] == 1)
                             {
-                                data = "Age of the Target Status: ";
+                                data = "Target Status: ";
                                 getDataAge(arraymessage, byteread, 18, data);
                                 byteread++;
                             }
                             if (dataAgesLength[21] == 1)
                             {
-                                data = "Age of the Meteorological data: ";
+                                data = "Meteorological data: ";
                                 getDataAge(arraymessage, byteread, 19, data);
                                 byteread++;
                             }
                             if (dataAgesLength[22] == 1)
                             {
-                                data = "Age of the Roll Angle: ";
+                                data = "Roll Angle: ";
                                 getDataAge(arraymessage, byteread, 20, data);
                                 byteread++;
                             }
                             if (dataAgesLength[24] == 1)
                             {
-                                data = "Age of the latest update of an Active ACAS Resolution Advisory: ";
+                                data = "Active ACAS Resolution Advisory: ";
                                 getDataAge(arraymessage, byteread, 21, data);
                                 byteread++;
                             }
                             if (dataAgesLength[25] == 1)
                             {
-                                data = "Age of the latest information received on the surface capabilities and characteristics of the respective target: ";
+                                data = "surface capabilities and characteristics of the respective target: ";
                                 getDataAge(arraymessage, byteread, 22, data);
                                 byteread++;
                             }
@@ -2516,7 +2516,7 @@ namespace ClassLibrary
                             sb.Append(latminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
                             sb.Append(latseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
-                            sb.Append("''; ");
+                            sb.Append("'' ");
                             sb.Append(longdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
                             sb.Append(longminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
@@ -2541,7 +2541,7 @@ namespace ClassLibrary
                             sb.Append(hrlatminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("' ");
                             sb.Append(hrlatseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
-                            sb.Append("''; ");
+                            sb.Append("'' ");
                             sb.Append(hrlongdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
                             sb.Append("º ");
                             sb.Append(hrlongminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
@@ -2841,6 +2841,398 @@ namespace ClassLibrary
                     break;
             }
             return null;
+        }
+
+        public string[] getInfoCSV(int j)
+        {
+            string[] values = new string[45];
+            values[0] = j.ToString();
+            values[1] = "21";
+
+            for (int k = 2; k < values.Length; k++)
+            {
+                values[k] = "No data";
+            }
+            for (int i = 0; i < UAP.Length; i++)
+            {
+                if (UAP[i] == 1)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            values[2] = sac.ToString();
+                            values[3] = sic.ToString();
+                            break;
+                        case 1:
+                            values[4] = targetReportDescriptor[0];
+                            break;
+                        case 2:
+                            values[5] = trackNumber.ToString();
+                            break;
+                        case 3:
+                            values[6] = serviceIdentification.ToString();
+                            break;
+                        case 4:
+                            sb.Clear();
+                            if (horesApplicabilityPosition > 9)
+                                sb.Append(horesApplicabilityPosition);
+                            else
+                            {
+                                sb.Append('0');
+                                sb.Append(horesApplicabilityPosition.ToString());
+                            }
+                            if (minutsApplicabilityPosition > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(minutsApplicabilityPosition);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutsApplicabilityPosition.ToString());
+                            }
+                            if (segonsApplicabilityPosition > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(segonsApplicabilityPosition);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonsApplicabilityPosition);
+                            }
+                            sb.Append(":");
+                            sb.Append(msApplicabilityPosition);
+                            values[7] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 5:
+                            latdegrees = Math.Truncate(latitude * 1) / 1;
+                            latminutes = (latitude - (Math.Truncate(latitude * 1) / 1)) * 60;
+                            latseconds = (latminutes - (Math.Truncate(latminutes * 1) / 1)) * 60;
+                            latminutes = (Math.Truncate(latminutes * 1) / 1);
+                            latseconds = (Math.Truncate(latseconds * 100) / 100);
+                            longdegrees = Math.Truncate(longitude * 1) / 1;
+                            longminutes = (longitude - (Math.Truncate(longitude * 1) / 1)) * 60;
+                            longseconds = (longminutes - (Math.Truncate(longminutes * 1) / 1)) * 60;
+                            longminutes = (Math.Truncate(longminutes * 1) / 1);
+                            longseconds = (Math.Truncate(longseconds * 100) / 100);
+                            sb.Append(latdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(latminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(latseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("''; ");
+                            sb.Append(longdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(longminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(longseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            values[8] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 6:
+                            hrlatdegrees = Math.Truncate(highResLatitude * 1) / 1;
+                            hrlatminutes = (highResLatitude - (Math.Truncate(highResLatitude * 1) / 1)) * 60;
+                            hrlatseconds = (hrlatminutes - (Math.Truncate(hrlatminutes * 1) / 1)) * 60;
+                            hrlatminutes = (Math.Truncate(hrlatminutes * 1) / 1);
+                            hrlatseconds = (Math.Truncate(hrlatseconds * 100) / 100);
+                            hrlongdegrees = Math.Truncate(highResLongitude * 1) / 1;
+                            hrlongminutes = (highResLongitude - (Math.Truncate(highResLongitude * 1) / 1)) * 60;
+                            hrlongseconds = (hrlongminutes - (Math.Truncate(hrlongminutes * 1) / 1)) * 60;
+                            hrlongminutes = (Math.Truncate(hrlongminutes * 1) / 1);
+                            hrlongseconds = (Math.Truncate(hrlongseconds * 10000) / 10000);
+                            sb.Append(hrlatdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(hrlatminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(hrlatseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("''; ");
+                            sb.Append(hrlongdegrees.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("º ");
+                            sb.Append(hrlongminutes.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append("' ");
+                            sb.Append(hrlongseconds.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            values[9] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 8:
+                            if (horesApplicabilityVelocity > 9)
+                            {
+                                sb.Append(horesApplicabilityVelocity);
+                            }
+                            else
+                            {
+                                sb.Append('0');
+                                sb.Append(horesApplicabilityVelocity);
+                            }
+                            if (minutsApplicabilityVelocity > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(minutsApplicabilityVelocity);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutsApplicabilityVelocity);
+                            }
+                            if (segonsApplicabilityVelocity > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(segonsApplicabilityVelocity);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonsApplicabilityVelocity);
+                            }
+                            sb.Append(':');
+                            sb.Append(msApplicabilityVelocity);
+                            values[10] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 9:
+                            values[11] = airSpeed.ToString();
+                            break;
+                        case 10:
+                            values[12] = trueAirspeed.ToString();
+                            break;
+                        case 11:
+                            values[13] = targetAddress.ToString();
+                            break;
+                        case 12:
+                            //sb.Append(tomrp);
+                            if (horestomrp > 9)
+                            {
+                                sb.Append(horestomrp);
+                            }
+                            else
+                            {
+                                sb.Append('0');
+                                sb.Append(horestomrp);
+                            }
+                            if (minutstomrp > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(minutstomrp);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstomrp);
+                            }
+                            if (segonstomrp > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(segonstomrp);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstomrp);
+                            }
+                            sb.Append(':');
+                            sb.Append(mstomrp);
+                            values[14] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 13:
+                            values[15] = tomrphp.ToString();
+                            break;
+                        case 14:
+                            //sb.Append(tomrv);
+                            if (horestomrv > 9)
+                            {
+                                sb.Append(horestomrv);
+                            }
+                            else
+                            {
+                                sb.Append('0');
+                                sb.Append(horestomrv);
+                            }
+                            if (minutstomrv > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(minutstomrv);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstomrv);
+                            }
+                            if (segonstomrv > 9)
+                            {
+                                sb.Append(':');
+                                sb.Append(segonstomrv);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstomrv);
+                            }
+                            sb.Append(':');
+                            sb.Append(mstomrv);
+                            values[16] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 16:
+                            values[17] = tomrvhp.ToString();
+                            break;
+                        case 17:
+                            sb.Append(geometricHeight);
+                            sb.Append(" ft");
+                            values[18] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 18:
+                            sb.Append(qualityIndicators[0]);
+                            sb.Append(' ');
+                            sb.Append(qualityIndicators[1]);
+                            values[19] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 19:
+                            sb.Append("Version Number: ");
+                            sb.Append(MOPSversion[1]);
+                            values[20] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 20:
+                            values[21] = mode3A.ToString();
+                            break;
+                        case 21:
+                            values[22] = rollAngle.ToString();
+                            break;
+                        case 22:
+                            sb.Append(flightLevel.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" FL");
+                            values[23] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 24:
+                            values[24] = magneticHeading.ToString();
+                            break;
+                        case 25:
+                            values[25] = targetStatus[2];
+                            break;
+                        case 26:
+                            sb.Append(barometricVerticalRate.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" ft/min");
+                            values[26] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 27:
+                            values[27] = geometricVerticalRate.ToString();
+                            break;
+                        case 28:
+                            sb.Append("GS: ");
+                            sb.Append(groundSpeed.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            sb.Append(" TA: ");
+                            sb.Append(trackAngle.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+                            values[28] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 29:
+                            values[29] = trackAngleRate.ToString();
+                            break;
+                        case 30:
+                            if (horestort > 9)
+                            {
+                                sb.Append(horestort);
+                            }
+                            else
+                            {
+                                sb.Append("0");
+                                sb.Append(horestort);
+                            }
+                            if (minutstort > 9)
+                            {
+                                sb.Append(":");
+                                sb.Append(minutstort);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(minutstort);
+                            }
+                            if (segonstort > 9)
+                            {
+                                sb.Append(":");
+                                sb.Append(segonstort);
+                            }
+                            else
+                            {
+                                sb.Append(":0");
+                                sb.Append(segonstort);
+                            }
+                            sb.Append(":");
+                            sb.Append(mstort);
+                            values[30] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 32:
+                            values[31] = targetIdentification.ToString();
+                            break;
+                        case 33:
+                            values[32] = emitterCategory;
+                            break;
+                        case 34:
+                            values[33] = "No data";
+                            break;
+                        case 35:
+                            sb.Append(selectedAltitude);
+                            sb.Append(" ft");
+                            values[34] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 36:
+                            sb.Append(finalSelectedAltitude);
+                            sb.Append(" ft");
+                            values[35] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 37:
+                            values[36] = "No data";
+                            break;
+                        case 38:
+                            sb.Append(serviceManagement);
+                            sb.Append(" sec");
+                            values[37] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 40:
+                            values[38] = aircraftOperationalStatus[0];
+                            break;
+                        case 41:
+                            values[39] = null;
+                            break;
+                        case 42:
+                            sb.Append(messageAmplitude);
+                            sb.Append(" dBm");
+                            values[40] = sb.ToString();
+                            sb.Clear();
+                            break;
+                        case 43:
+                            //S MB DATA
+                            break;
+                        case 44:
+
+                            values[42] = "Click to expand";
+                            break;
+                        case 45:
+                            values[43] = receiverID.ToString();
+                            break;
+                        case 46:
+                            sb.Append(dataAges[1]);
+                            sb.Append(' ');
+                            sb.Append(dataAges[8]);
+                            values[44] = sb.ToString();
+                            sb.Clear();
+                            break;
+                    }
+                }
+            }
+            return values;
         }
     }
 }

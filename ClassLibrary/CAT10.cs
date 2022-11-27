@@ -118,6 +118,8 @@ namespace ClassLibrary
         byte[] fourbytes = new byte[4];
         byte[] eightbits = new byte[8];
         bool[] octet;
+
+        StringBuilder sb = new StringBuilder();
         public CAT10(byte[] arraymessage)
         {
             int j = 0;
@@ -1427,7 +1429,7 @@ namespace ClassLibrary
             {
                 case (5):
                     // Target Report Descriptor
-                    val = targetReportDescriptor;
+                    return targetReportDescriptor;
                     break;
 
                 case (13):
@@ -1443,6 +1445,117 @@ namespace ClassLibrary
                     break;
             }
             return val;
+        }
+
+        public string[] getInfoCSV(int j)
+        {
+            string[] values = new string[28];
+            values[0] = j.ToString();
+            values[1] = "10";
+            for (int k = 2; k < values.Length; k++)
+            {
+                values[k] = "No data";
+            }
+            for (int i = 0; i < UAP.Length; i++)
+            {
+                if (UAP[i] == 1)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            values[2] = sac.ToString();
+                            values[3] = sic.ToString();
+                            break;
+                        case 1:
+                            values[4] = messageType;
+                            break;
+                        case 2:                            
+                            values[5] = targetReportDescriptor[0];
+                            break;
+                        case 3:
+                            if (hores > 9)
+                                values[6] = hores.ToString();
+                            else
+                                values[6] = "0" + hores.ToString();
+                            if (minuts > 9)
+                                values[6] = values[6] + ":" + minuts.ToString();
+                            else
+                                values[6] = values[6] + ":0" + minuts.ToString();
+                            if (segons > 9)
+                                values[6] = values[6] + ":" + segons.ToString();
+                            else
+                                values[6] = values[6] + ":0" + segons.ToString();
+                            values[6] = values[6] + ":" + ms.ToString();
+                            break;
+                        case 4:
+                            //WGS
+                            break;
+                        case 5:
+                            values[8] = "ρ: " + rho.ToString() + "m θ: " + theta.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "º";
+                            break;
+                        case 6:
+                            values[9] = "X: " + x.ToString() + " Y: " + y.ToString();
+                            break;
+                        case 8:
+                            values[10] = "GS: " + groundspeed_polar_coordinates.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s TA: " + trackangle_polar_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "º";
+                            break;
+                        case 9:
+                            values[11] = "Vx: " + vx_cartesian_coordinates.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s Vy: " + vy_cartesian_coordinates.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s";
+                            break;
+                        case 10:
+                            values[12] = tracknumber.ToString();
+                            break;
+                        case 11:
+                            
+                            values[13] = trackstatus[3];
+                            break;
+                        case 12:
+                            values[14] = code3A.ToString();
+                            break;
+                        case 13:
+                            values[15] = targetaddress;
+                            break;
+                        case 14:
+                            values[16] = targetIdentification;
+                            break;
+                        case 15:
+                            break;
+                        case 16:
+                            //MODE S MB
+                            break;
+                        case 17:
+                            values[18] = vfi;
+                            break;
+                        case 18:
+                            values[19] = FL.ToString();
+                            break;
+                        case 19:
+                            values[20] = height.ToString();
+                            break;
+                        case 20:
+                            values[21] = "Length: " + length.ToString() + "m Orientation: " + orientation.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " Width: " + width.ToString() + "m";
+                            break;
+                        case 21:                            
+                            values[22] = systemstatus[0];
+                            break;
+                        case 22:                            
+                            values[23] = pre_programmed_message[1];
+                            break;
+                        case 23:
+                            break;
+                        case 24:
+                            values[24] = "σx = " + x_standard_deviation.ToString() + " σy = " + y_standard_deviation.ToString() + " σxy = " + covariance.ToString();
+                            break;
+                        case 26:
+                            values[26] = amplitudeOfPrimaryPlot.ToString();
+                            break;
+                        case 27:
+                            values[27] = "Ax: " + Ax.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2 Ay: " + Ay.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "m/s^2";
+                            break;
+                    }
+                }
+            }
+            return values;
         }
 
         public byte getBit(byte b, int bitNumber)
