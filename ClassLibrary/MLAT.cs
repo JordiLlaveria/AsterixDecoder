@@ -74,6 +74,11 @@ namespace ClassLibrary
             tracknumber = track;
         }
 
+        public void setTargetAddress(string targetadd)
+        {
+            targetAddress = targetadd;
+        }
+
         public void setIdentification(string identifications)
         {
             listIdentifications.Add(identifications);

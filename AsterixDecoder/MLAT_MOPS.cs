@@ -60,7 +60,7 @@ namespace AsterixDecoder
                 sensor = cat10Info.getTypeSensor();
                 tracknumber = cat10Info.getTrackNumber().ToString();
                 targetAddress = cat10Info.getTargetAddress();
-                MLAT mlatFlightFound = MLATlist.FirstOrDefault(MLAT => MLAT.getTrackNumber() == tracknumber);
+                MLAT mlatFlightFound = MLATlist.FirstOrDefault(MLAT => MLAT.getTargetAddress() == targetAddress);
                 if (mlatFlightFound != null)
                 {
                     if (cat10Info.getTargetIdentification() != null)
@@ -81,7 +81,7 @@ namespace AsterixDecoder
                         Coordinates coordinates = new Coordinates(latLong[0], latLong[1]);
                         mlat.setCoordinates(coordinates);
                         mlat.setTimes(cat10Info.getTime());
-                        mlat.setIdentification(cat10Info.getTargetIdentification()); ;
+                        mlat.setIdentification(cat10Info.getTargetIdentification());
                         MLATlist.Add(mlat);
                     }
                 }
