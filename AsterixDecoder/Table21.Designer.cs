@@ -44,12 +44,12 @@
             this.CAT21Grid.AllowUserToDeleteRows = false;
             this.CAT21Grid.BackgroundColor = System.Drawing.Color.CornflowerBlue;
             this.CAT21Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CAT21Grid.Location = new System.Drawing.Point(57, 82);
+            this.CAT21Grid.Location = new System.Drawing.Point(12, 54);
             this.CAT21Grid.Name = "CAT21Grid";
             this.CAT21Grid.ReadOnly = true;
             this.CAT21Grid.RowHeadersWidth = 51;
             this.CAT21Grid.RowTemplate.Height = 24;
-            this.CAT21Grid.Size = new System.Drawing.Size(1450, 700);
+            this.CAT21Grid.Size = new System.Drawing.Size(1500, 700);
             this.CAT21Grid.TabIndex = 1;
             this.CAT21Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT21Grid_CellClick);
             // 
@@ -57,7 +57,7 @@
             // 
             this.filterByTargetAddressLabel.AutoSize = true;
             this.filterByTargetAddressLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressLabel.Location = new System.Drawing.Point(70, 41);
+            this.filterByTargetAddressLabel.Location = new System.Drawing.Point(70, 12);
             this.filterByTargetAddressLabel.Name = "filterByTargetAddressLabel";
             this.filterByTargetAddressLabel.Size = new System.Drawing.Size(77, 22);
             this.filterByTargetAddressLabel.TabIndex = 2;
@@ -66,7 +66,7 @@
             // filterByTargetAddressTextBox
             // 
             this.filterByTargetAddressTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(269, 41);
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(269, 12);
             this.filterByTargetAddressTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
             this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(109, 24);
@@ -75,7 +75,7 @@
             // filterByTargetAddressButton
             // 
             this.filterByTargetAddressButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(383, 36);
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(383, 7);
             this.filterByTargetAddressButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
             this.filterByTargetAddressButton.Size = new System.Drawing.Size(77, 36);
@@ -87,7 +87,7 @@
             // resetFilterButton
             // 
             this.resetFilterButton.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetFilterButton.Location = new System.Drawing.Point(466, 37);
+            this.resetFilterButton.Location = new System.Drawing.Point(466, 8);
             this.resetFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.resetFilterButton.Name = "resetFilterButton";
             this.resetFilterButton.Size = new System.Drawing.Size(74, 36);
@@ -98,7 +98,7 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(1165, 34);
+            this.exportButton.Location = new System.Drawing.Point(1165, 5);
             this.exportButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(67, 38);
@@ -111,7 +111,7 @@
             // 
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterComboBox.FormattingEnabled = true;
-            this.filterComboBox.Location = new System.Drawing.Point(156, 41);
+            this.filterComboBox.Location = new System.Drawing.Point(156, 12);
             this.filterComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterComboBox.Name = "filterComboBox";
             this.filterComboBox.Size = new System.Drawing.Size(108, 24);

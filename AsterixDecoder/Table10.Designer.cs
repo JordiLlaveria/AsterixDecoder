@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CAT10Grid = new System.Windows.Forms.DataGridView();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
@@ -43,20 +46,48 @@
             this.CAT10Grid.AllowUserToAddRows = false;
             this.CAT10Grid.AllowUserToDeleteRows = false;
             this.CAT10Grid.BackgroundColor = System.Drawing.Color.CornflowerBlue;
+            this.CAT10Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CAT10Grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.CAT10Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CAT10Grid.Location = new System.Drawing.Point(43, 89);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle2.NullValue = "No data";
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.CAT10Grid.DefaultCellStyle = dataGridViewCellStyle2;
+            this.CAT10Grid.EnableHeadersVisualStyles = false;
+            this.CAT10Grid.GridColor = System.Drawing.Color.CornflowerBlue;
+            this.CAT10Grid.Location = new System.Drawing.Point(12, 71);
             this.CAT10Grid.Name = "CAT10Grid";
             this.CAT10Grid.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CAT10Grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.CAT10Grid.RowHeadersWidth = 51;
             this.CAT10Grid.RowTemplate.Height = 24;
-            this.CAT10Grid.Size = new System.Drawing.Size(1100, 540);
+            this.CAT10Grid.Size = new System.Drawing.Size(1150, 559);
             this.CAT10Grid.TabIndex = 0;
             this.CAT10Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT10Grid_CellClick);
             // 
             // filterByTargetAddressButton
             // 
             this.filterByTargetAddressButton.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(467, 37);
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(467, 21);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
             this.filterByTargetAddressButton.Size = new System.Drawing.Size(80, 28);
             this.filterByTargetAddressButton.TabIndex = 3;
@@ -66,7 +97,7 @@
             // 
             // filterByTargetAddressTextBox
             // 
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 37);
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 21);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
             this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 22);
             this.filterByTargetAddressTextBox.TabIndex = 2;
@@ -74,7 +105,7 @@
             // resetFilterButton
             // 
             this.resetFilterButton.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resetFilterButton.Location = new System.Drawing.Point(553, 35);
+            this.resetFilterButton.Location = new System.Drawing.Point(553, 19);
             this.resetFilterButton.Name = "resetFilterButton";
             this.resetFilterButton.Size = new System.Drawing.Size(76, 28);
             this.resetFilterButton.TabIndex = 4;
@@ -84,7 +115,7 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(918, 35);
+            this.exportButton.Location = new System.Drawing.Point(918, 19);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 28);
             this.exportButton.TabIndex = 5;
@@ -96,7 +127,7 @@
             // 
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterComboBox.FormattingEnabled = true;
-            this.filterComboBox.Location = new System.Drawing.Point(193, 35);
+            this.filterComboBox.Location = new System.Drawing.Point(193, 19);
             this.filterComboBox.Name = "filterComboBox";
             this.filterComboBox.Size = new System.Drawing.Size(121, 24);
             this.filterComboBox.TabIndex = 5;
@@ -105,7 +136,7 @@
             // 
             this.filterLabel.AutoSize = true;
             this.filterLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterLabel.Location = new System.Drawing.Point(93, 38);
+            this.filterLabel.Location = new System.Drawing.Point(93, 22);
             this.filterLabel.Name = "filterLabel";
             this.filterLabel.Size = new System.Drawing.Size(77, 22);
             this.filterLabel.TabIndex = 6;
@@ -114,7 +145,7 @@
             // Table10
             // 
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(1123, 676);
+            this.ClientSize = new System.Drawing.Size(1123, 672);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterLabel);
             this.Controls.Add(this.filterComboBox);
