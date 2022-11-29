@@ -155,7 +155,7 @@ namespace AsterixDecoder
                         else if (sensor == "MLAT" && checkBoxMLAT.Checked == true)
                         {
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), greenDotResized);
-                            marker.Tag = FlightsList[i].getTargetAddress();
+                            marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             marker.ToolTipText = FlightsList[i].getTargetAddress();
                             markers.Markers.Add(marker);
@@ -166,7 +166,7 @@ namespace AsterixDecoder
                             if (FlightsList[i].getTypeVehicleNum() == 1 || FlightsList[i].getTypeVehicleNum() == 2 || FlightsList[i].getTypeVehicleNum() == 3 || FlightsList[i].getTypeVehicleNum() == 4 || FlightsList[i].getTypeVehicleNum() == 5 || FlightsList[i].getTypeVehicleNum() == 6)
                             {
                                 marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), aircraftResized);
-                                marker.Tag = FlightsList[i].getTargetAddress();
+                                marker.Tag = trackNumberMarker.ToString();
                                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 marker.ToolTipText = FlightsList[i].getTargetAddress();
                                 markers.Markers.Add(marker);
@@ -174,7 +174,7 @@ namespace AsterixDecoder
                             else if (FlightsList[i].getTypeVehicleNum() == 20 || FlightsList[i].getTypeVehicleNum() == 21)
                             {
                                 marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), groundResized);
-                                marker.Tag = FlightsList[i].getTargetAddress();
+                                marker.Tag = trackNumberMarker.ToString();
                                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 marker.ToolTipText = FlightsList[i].getTargetAddress();
                                 markers.Markers.Add(marker);
@@ -182,7 +182,7 @@ namespace AsterixDecoder
                             else
                             {
                                 marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
-                                marker.Tag = FlightsList[i].getTargetAddress();
+                                marker.Tag = trackNumberMarker.ToString();
                                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 marker.ToolTipText = FlightsList[i].getTargetAddress();
                                 markers.Markers.Add(marker);
@@ -212,7 +212,7 @@ namespace AsterixDecoder
                     else if (sensor == "MLAT" && checkBoxMLAT.Checked == true)
                     {
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), greenDotResized);
-                        marker.Tag = FlightsList[i].getTargetAddress();
+                        marker.Tag = trackNumberMarker.ToString();
                         marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         marker.ToolTipText = FlightsList[i].getTargetAddress();
                         markers.Markers.Add(marker);
@@ -222,7 +222,7 @@ namespace AsterixDecoder
                         if (filterFlight.getTypeVehicleNum() == 1 || filterFlight.getTypeVehicleNum() == 2 || filterFlight.getTypeVehicleNum() == 3 || filterFlight.getTypeVehicleNum() == 4 || filterFlight.getTypeVehicleNum() == 5 || filterFlight.getTypeVehicleNum() == 6)
                         {
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), aircraftResized);
-                            marker.Tag = FlightsList[i].getTargetAddress();
+                            marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             marker.ToolTipText = FlightsList[i].getTargetAddress();
                             markers.Markers.Add(marker);
@@ -230,7 +230,7 @@ namespace AsterixDecoder
                         else if (filterFlight.getTypeVehicleNum() == 20 || filterFlight.getTypeVehicleNum() == 21)
                         {
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), groundResized);
-                            marker.Tag = FlightsList[i].getTargetAddress();
+                            marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             marker.ToolTipText = FlightsList[i].getTargetAddress();
                             markers.Markers.Add(marker);
@@ -238,7 +238,7 @@ namespace AsterixDecoder
                         else
                         {
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
-                            marker.Tag = FlightsList[i].getTargetAddress();
+                            marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             marker.ToolTipText = FlightsList[i].getTargetAddress();
                             markers.Markers.Add(marker);

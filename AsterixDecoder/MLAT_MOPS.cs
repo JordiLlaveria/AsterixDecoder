@@ -13,27 +13,31 @@ namespace AsterixDecoder
 {
     public partial class MLAT_MOPS : Form
     {
-        List<CAT21> cat21List = new List<CAT21>(); 
+        DataTable dataTable = new DataTable();
+        DataTable dataTable2;
         List<MLAT> MLATlist = new List<MLAT>();
         string targetAddress;
         string tracknumber;
         string sensor;
-        List<double> totalFalseDetection;
-        List<double> totalIdentification;
+        List<double> FalseDetections;
+        List<double> Identifications;
+        List<string> differentTargetAddresses;
         double totalFalseIdentification = 0;
         double probabilityFalseIdentification;
         double totalDetection = 0;
         double probabilityFalseDetection;
+        bool insideRange;
+        bool falseDetectionSelected = true;
+        bool firstDataGrid = true;
+
+        //Estadísticas para el dataGridView
+        int totalTargetIDAllFlights;
+        int equalTargetIDAllFlights;
         int totalTargetID;
         int equalTargetID;
-        List<Coordinates> secondsLatLong;
-        double maxDif = 1.618;
-        double latdegrees;
-        double latminutes;
-        double latseconds;
-        double londegrees;
-        double lonminutes;
-        double lonseconds;
+
+        double totalCoordinatesAllFlights;
+        double equalCoordinatesAllFlights;
 
         int i;
         int j;
@@ -42,9 +46,8 @@ namespace AsterixDecoder
             InitializeComponent();
         }
 
-        public MLAT_MOPS(List<CAT21> cat21List, List<CAT10> cat10List, string fileName)
+        public MLAT_MOPS(List<CAT10> cat10List, string fileName)
         {
-            this.cat21List = cat21List;
             InitializeComponent();
             if (fileName == "201002-lebl-080001_smr_mlat_adsb")
             {
@@ -60,7 +63,7 @@ namespace AsterixDecoder
                 sensor = cat10Info.getTypeSensor();
                 tracknumber = cat10Info.getTrackNumber().ToString();
                 targetAddress = cat10Info.getTargetAddress();
-                MLAT mlatFlightFound = MLATlist.FirstOrDefault(MLAT => MLAT.getTargetAddress() == targetAddress);
+                MLAT mlatFlightFound = MLATlist.FirstOrDefault(MLAT => MLAT.getTargetAddress() == targetAddress && (cat10Info.getTime() - MLAT.getLastTime()).TotalMinutes < 10);
                 if (mlatFlightFound != null)
                 {
                     if (cat10Info.getTargetIdentification() != null)
@@ -70,37 +73,18 @@ namespace AsterixDecoder
                         mlatFlightFound.setCoordinates(coordinates);
                         mlatFlightFound.setTimes(cat10Info.getTime());
                         mlatFlightFound.setIdentification(cat10Info.getTargetIdentification());
+                        mlatFlightFound.setGroundSpeed(cat10Info.getGroundSpeed());
                     }
                 }
                 else
                 {
                     if (cat10Info.getTargetIdentification() != null)
                     {
-                        MLAT mlat = new MLAT(tracknumber, targetAddress);
+                        MLAT mlat = new MLAT(tracknumber, targetAddress, cat10Info.getTime(), cat10Info.getTargetIdentification(), cat10Info.getGroundSpeed());
                         double[] latLong = cat10Info.getLatitudeLongitudeWGS84(sensor);
                         Coordinates coordinates = new Coordinates(latLong[0], latLong[1]);
                         mlat.setCoordinates(coordinates);
-                        mlat.setTimes(cat10Info.getTime());
-                        mlat.setIdentification(cat10Info.getTargetIdentification());
                         MLATlist.Add(mlat);
-                    }
-                }
-            }
-            if (cat21List.Count != 0)
-            {
-                Coordinates coordADSB;
-                for(i=0; i < cat21List.Count; i++)
-                {
-                    targetAddress = cat21List[i].getTargetAddress().ToString();
-                    int k = 0;
-                    bool found = false;
-                    MLAT mlatFlightFound = MLATlist.FirstOrDefault(MLAT => MLAT.getTargetAddress() == targetAddress);
-                    if (mlatFlightFound != null)
-                    {
-                        MLATlist.Remove(mlatFlightFound);
-                        coordADSB = new Coordinates(cat21List[i].getLatitude(), cat21List[i].getLongitude());
-                        mlatFlightFound.setCoordinatesADSB(coordADSB);
-                        MLATlist.Add(mlatFlightFound);
                     }
                 }
             }
@@ -108,11 +92,14 @@ namespace AsterixDecoder
         }
         private void calculateProbIdentification()
         {
+            totalTargetIDAllFlights = 0;
+            equalTargetIDAllFlights = 0;
             probabilityFalseIdentification = 0;
             totalFalseIdentification = 0;
+            differentTargetAddresses = new List<string>();
             string firstIdentification;
             List<string> targetids;
-            totalIdentification = new List<double>();
+            Identifications = new List<double>();
             for(i = 0; i < MLATlist.Count; i++)
             {
                 equalTargetID = 0;
@@ -124,46 +111,119 @@ namespace AsterixDecoder
                     if (targetids[j] == firstIdentification)
                         equalTargetID++;
                 }
-                totalIdentification.Add((equalTargetID / totalTargetID) * 100);
+                string mlatFlightFound = differentTargetAddresses.FirstOrDefault(targetAddress => targetAddress == MLATlist[i].getTargetAddress());
+                if (mlatFlightFound == null)
+                    differentTargetAddresses.Add(MLATlist[i].getTargetAddress());
+                Identifications.Add(((float)equalTargetID / totalTargetID) * 100);
+                totalTargetIDAllFlights = totalTargetIDAllFlights + totalTargetID;
+                equalTargetIDAllFlights = equalTargetIDAllFlights + equalTargetID;
             }
-            for(i = 0; i < totalIdentification.Count; i++)
+            for(i = 0; i < Identifications.Count; i++)
             {
-                totalFalseIdentification = totalFalseIdentification + totalIdentification[i];
+                totalFalseIdentification = totalFalseIdentification + Identifications[i];
             }
-            probabilityFalseIdentification = totalFalseIdentification / (totalIdentification.Count);
-            labelID.Text = "Probability ended and the value is " + probabilityFalseIdentification.ToString();
+            probabilityFalseIdentification = (float)totalFalseIdentification / (Identifications.Count);
+            if (falseDetectionSelected == true || firstDataGrid == true)
+            {
+                dataTable.Rows.Clear();
+                dataTable.Columns.Clear();
+                dataTable.Columns.Add("Definition");
+                dataTable.Columns.Add("Value");
+                string[] information = new string[2];
+                information[0] = "Total different target addresses";
+                information[1] = differentTargetAddresses.Count.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Amount of different target identifications";
+                information[1] = Identifications.Count.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Total equal target identifications detected";
+                information[1] = equalTargetIDAllFlights.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Total target identifications detected";
+                information[1] = totalTargetIDAllFlights.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Probability of false identification";
+                information[1] = probabilityFalseIdentification.ToString() + " %";
+                dataTable.Rows.Add(information);
+                dataTable2 = dataTable.Copy();
+                DataView dv = new DataView(dataTable2);
+                dataGridViewInfo.DataSource = dv;
+                drawTable();
+                dataGridViewInfo.ClearSelection();
+                firstDataGrid = false;
+                falseDetectionSelected = false;
+            }
         }
 
-        //50m son 1.618''
         private void calculateFalseDetection()
         {
+            totalCoordinatesAllFlights = 0;
+            equalCoordinatesAllFlights = 0;
             probabilityFalseDetection = 0;
             totalDetection = 0;
-            double totalCoordinates;
-            double equalCoordinates;
-            List<Coordinates> coord;
-            totalFalseDetection = new List<double>();
+            differentTargetAddresses = new List<string>();
+            double differenceTimes;
+            double distanceMadeBetweenDetection;
+            double totalCoordinatesDetected;
+            double equalCoordinatesDetected;
+            FalseDetections = new List<double>();
+            bool positionInsideRange;
             for(i=0; i < MLATlist.Count; i++)
             {
-                int j;
-                coord = obtainSecondsLongLat(MLATlist[i].getCoordinates());
-                totalCoordinates = coord.Count-1;
-                equalCoordinates = coord.Count - 1;
-                for (j=0; j <coord.Count-1; j++)
+                equalCoordinatesDetected = 0;
+                totalCoordinatesDetected = MLATlist[i].getCoordinates().Count;
+                totalCoordinatesAllFlights = totalCoordinatesAllFlights + totalCoordinatesDetected;
+                for(j = 0; j < MLATlist[i].getCoordinates().Count - 1; j++)
                 {
-                    if (coord[j+1].GetLatitude() > (coord[j].GetLatitude() + maxDif) || coord[j + 1].GetLatitude() < (coord[j].GetLatitude() - maxDif) || coord[j + 1].GetLongitude() > (coord[j].GetLongitude() + maxDif) || coord[j + 1].GetLongitude() < (coord[j].GetLongitude() - maxDif))
+                    differenceTimes = (MLATlist[i].getTime(j + 1) - MLATlist[i].getTime(j)).TotalSeconds;
+                    distanceMadeBetweenDetection = differenceTimes * MLATlist[i].getGroundSpeed(j);
+                    positionInsideRange = GetDistance(distanceMadeBetweenDetection, MLATlist[i].getLatitude(j), MLATlist[i].getLongitude(j), MLATlist[i].getLatitude(j + 1), MLATlist[i].getLongitude(j + 1));
+                    if (positionInsideRange)
                     {
-                        equalCoordinates = equalCoordinates - 1;
+                        equalCoordinatesDetected++;
+                        equalCoordinatesAllFlights++;
                     }
                 }
-                totalFalseDetection.Add((equalCoordinates / totalCoordinates) * 100);
+                string mlatFlightFound = differentTargetAddresses.FirstOrDefault(targetAddress => targetAddress == MLATlist[i].getTargetAddress());
+                if (mlatFlightFound == null)
+                    differentTargetAddresses.Add(MLATlist[i].getTargetAddress());
+                FalseDetections.Add(((float)equalCoordinatesDetected / totalCoordinatesDetected) * 100);
             }
-            for (i = 0; i < totalFalseDetection.Count; i++)
+            for (i = 0; i < FalseDetections.Count; i++)
             {
-                totalDetection = totalDetection + totalFalseDetection[i];
+                totalDetection = totalDetection + FalseDetections[i];
             }
-            probabilityFalseDetection = totalDetection / (totalFalseDetection.Count);
-            labelID.Text = "Probability ended and the value is " + probabilityFalseDetection.ToString();
+            probabilityFalseDetection = (float)totalDetection / (FalseDetections.Count);
+            if (falseDetectionSelected == false || firstDataGrid == true)
+            {
+                dataTable.Rows.Clear();
+                dataTable.Columns.Clear();
+                dataTable.Columns.Add("Definition");
+                dataTable.Columns.Add("Value");
+                string[] information = new string[2];
+                information[0] = "Total different target addresses";
+                information[1] = differentTargetAddresses.Count.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Amount of different target identifications";
+                information[1] = MLATlist.Count.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Amount of coordinates below 50 metres from expected";
+                information[1] = equalCoordinatesAllFlights.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Total amount of coordinates analysed";
+                information[1] = totalCoordinatesAllFlights.ToString();
+                dataTable.Rows.Add(information);
+                information[0] = "Probability of false detection";
+                information[1] = probabilityFalseDetection.ToString() + " %";
+                dataTable.Rows.Add(information);
+                dataTable2 = dataTable.Copy();
+                DataView dv = new DataView(dataTable2);
+                dataGridViewInfo.DataSource = dv;
+                drawTable();
+                dataGridViewInfo.ClearSelection();
+                firstDataGrid = false;
+                falseDetectionSelected = true;
+            }
         }
 
         private void buttonIDProb_Click(object sender, EventArgs e)
@@ -174,34 +234,52 @@ namespace AsterixDecoder
 
         private void buttonFalseDetect_Click(object sender, EventArgs e)
         {
+            probabilityFalseDetection = 0;
             calculateFalseDetection();
         }
 
-        private List<Coordinates> obtainSecondsLongLat(List<Coordinates> coord)
+        private bool GetDistance(double mruDistance, double lat1, double lon1, double lat2, double lon2)
         {
-            secondsLatLong = new List<Coordinates>();
-            Coordinates coordSec;
-            for (int k = 0; k < coord.Count; k++)
-            {
-                latdegrees = Math.Truncate(coord[k].GetLatitude() * 1) / 1;
-                latminutes = (coord[k].GetLatitude() - (Math.Truncate(coord[k].GetLatitude() * 1) / 1)) * 60;
-                latseconds = (latminutes - (Math.Truncate(latminutes * 1) / 1)) * 60;
-                latminutes = (Math.Truncate(latminutes * 1) / 1);
-                latseconds = (Math.Truncate(latseconds * 100) / 100);
-                londegrees = Math.Truncate(coord[k].GetLongitude() * 1) / 1;
-                lonminutes = (coord[k].GetLongitude() - (Math.Truncate(coord[k].GetLongitude() * 1) / 1)) * 60;
-                lonseconds = (lonminutes - (Math.Truncate(lonminutes * 1) / 1)) * 60;
-                lonminutes = (Math.Truncate(lonminutes * 1) / 1);
-                lonseconds = (Math.Truncate(lonseconds * 100) / 100);
-                coordSec = new Coordinates(latseconds, lonseconds);
-                secondsLatLong.Add(coordSec);
-            }
-            return secondsLatLong;
+            var R = 0.05 + mruDistance * Math.Pow(10,-3); // Radius in km
+            var dLat = ToRadians(lat2 - lat1);
+            var dLon = ToRadians(lon2 - lon1);
+            var a =
+                Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
 
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var d = R * c; // Distance in km
+            if (d < R)
+                insideRange = true;
+            else
+                insideRange = false;
+            return insideRange;
         }
+
+        private double ToRadians(double deg)
+        {
+            return deg * (Math.PI / 180);
+        }
+
+        private void drawTable()
+        {
+            foreach (DataGridViewRow row in dataGridViewInfo.Rows)
+            {
+                row.Height = (dataGridViewInfo.ClientRectangle.Height - dataGridViewInfo.ColumnHeadersHeight) / dataGridViewInfo.Rows.Count;
+            }
+        }
+
         private void MLAT_MOPS_Load(object sender, EventArgs e)
         {
-
+            dataGridViewInfo.Visible = true;
+            dataGridViewInfo.ClearSelection();
+            dataGridViewInfo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewInfo.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewInfo.AllowUserToAddRows = false;
+            dataGridViewInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewInfo.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dataGridViewInfo.RowHeadersVisible = false;
         }
     }
 }
