@@ -10,7 +10,7 @@ namespace ClassLibrary
     {
         List<Coordinates> coordinates;
         List<TimeSpan> times;
-        string sensor;
+        List<string> sensor;
         string emitterCategory;
         int typeVehicleNum;
         double trackNumber;
@@ -21,7 +21,8 @@ namespace ClassLibrary
         string targetIdentification;
         public Flight(string sensor, string emitterCategory, double trackNumber)
         {
-            this.sensor = sensor;
+            this.sensor = new List<string>();
+            this.sensor.Add(sensor);
             this.emitterCategory = emitterCategory;
             this.trackNumber = trackNumber;
             this.groundSpeed = new List<double>();
@@ -94,9 +95,14 @@ namespace ClassLibrary
             return coordinates;
         }
 
-        public string getSensor()
+        public List<string> getSensors()
         {
             return sensor;
+        }
+        
+        public void setSensor(string sensor)
+        {
+            this.sensor.Add(sensor);
         }
 
         public string getFL(int j)
@@ -138,6 +144,7 @@ namespace ClassLibrary
         {
             flightLevel.RemoveAt(j);
         }
+
     }
 
     public class Coordinates

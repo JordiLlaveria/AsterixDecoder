@@ -2442,11 +2442,12 @@ namespace ClassLibrary
             string[] values = new string[45];
             values[0] = j.ToString();
             values[1] = "21";
-            
+            /*
             for (int k = 2; k < values.Length; k++)
             {
                 values[k] = "No data";
             }
+            */
             for (int i = 0; i < UAP.Length; i++)
             {
                 if (UAP[i] == 1)

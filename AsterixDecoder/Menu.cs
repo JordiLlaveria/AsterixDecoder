@@ -108,7 +108,7 @@ namespace AsterixDecoder
         {
             if (CAT10list.Count != 0 && CAT10list[0].getSic() == 107)
             {
-                MLAT_MOPS mlatMOPS = new MLAT_MOPS(CAT21list, CAT10list, file);
+                MLAT_MOPS mlatMOPS = new MLAT_MOPS(CAT10list, file);
                 mlatMOPS.TopLevel = false;
                 mlatMOPS.TopMost = true;
                 mlatMOPS.FormBorderStyle = FormBorderStyle.None;

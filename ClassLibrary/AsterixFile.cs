@@ -54,6 +54,7 @@ namespace ClassLibrary
                     Flight flightFound = Flightslist.FirstOrDefault(flight => flight.getTrackNumber() == tracknumber);
                     if (flightFound != null)
                     {
+                        
                         if (cat10Info.getMessageType() == "Target Report") 
                         {
                             double[] latLong = cat10Info.getLatitudeLongitudeWGS84(sensor);
@@ -62,6 +63,8 @@ namespace ClassLibrary
                             flightFound.setFlightLevel(cat10Info.getFlightLevel());
                             flightFound.setTime(cat10Info.getTime());
                             flightFound.setGroundSpeed(cat10Info.getGroundSpeed());
+                            flightFound.setSensor(sensor);
+
                         }
                     }
                     else
@@ -98,6 +101,11 @@ namespace ClassLibrary
                         flightFound.setFlightLevel(cat21Info.getFlightLevel());
                         flightFound.setTime(cat21Info.getTime());
                         flightFound.setGroundSpeed(cat21Info.getGroundSpeed());
+                        flightFound.setSensor(sensor);
+                        if (cat21Info.getTypeVehicleNum() != flightFound.getTypeVehicleNum() && cat21Info.getTypeVehicleNum() != 0 && cat21Info.getTypeVehicleNum() != null)
+                        {
+                            flightFound.setTypeVehicleNum(cat21Info.getTypeVehicleNum());
+                        }
                     }
                     else
                     {
@@ -110,8 +118,7 @@ namespace ClassLibrary
                         flight.setFlightLevel(cat21Info.getFlightLevel());
                         flight.setTime(cat21Info.getTime());
                         flight.setGroundSpeed(cat21Info.getGroundSpeed());
-                        flight.setTypeVehicle(cat21Info.getTypeVehicle());
-                        flight.setTypeVehicleNum(cat21Info.getTypeVehicleNum());
+                        flight.setTypeVehicle(cat21Info.getTypeVehicle());                                              
                         flight.setTargetAddress(cat21Info.getTargetAddress());
                         Flightslist.Add(flight);
                     }

@@ -1240,10 +1240,12 @@ namespace ClassLibrary
             string[] values = new string[28];
             values[0] = j.ToString();
             values[1] = "10";
+            /*
             for (int k = 2; k < values.Length; k++)
             {
                 values[k] = "No data";
             }
+            */
             for (int i = 0; i < UAP.Length; i++)
             {
                 if (UAP[i] == 1)
@@ -1372,8 +1374,10 @@ namespace ClassLibrary
         {
             if (sic == 7)
                 return "SMR";
-            else
+            else if (sic == 107)
                 return "MLAT";
+            else
+                return null;
         }
 
         public string getTargetAddress()
