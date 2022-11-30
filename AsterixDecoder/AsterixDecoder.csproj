@@ -176,6 +176,8 @@
   <ItemGroup>
     <Content Include="Resources\aircraft.png" />
     <Content Include="Resources\bluedot.png" />
+    <None Include="Resources\fondo.png" />
+    <None Include="Resources\fondo2.png" />
     <Content Include="Resources\greendot.png" />
     <Content Include="Resources\helpPic.png" />
     <None Include="Resources\helpTablePic.png" />

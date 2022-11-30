@@ -272,7 +272,7 @@ namespace AsterixDecoder
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             InitTimer();
-            buttonX1.BackColor = Color.Green;
+            buttonX1.BackColor = Color.LightBlue;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
@@ -283,7 +283,7 @@ namespace AsterixDecoder
         private void buttonX1_Click(object sender, EventArgs e)
         {
             timer.Interval = 1000;
-            buttonX1.BackColor = Color.Green;
+            buttonX1.BackColor = Color.LightBlue;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
@@ -294,7 +294,7 @@ namespace AsterixDecoder
         {
             timer.Interval = 500;
             buttonX1.BackColor = Color.White;
-            buttonX2.BackColor = Color.Green;
+            buttonX2.BackColor = Color.LightBlue;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
             buttonX20.BackColor = Color.White;
@@ -305,7 +305,7 @@ namespace AsterixDecoder
             timer.Interval = 200;
             buttonX1.BackColor = Color.White;
             buttonX2.BackColor = Color.White;
-            buttonX5.BackColor = Color.Green;
+            buttonX5.BackColor = Color.LightBlue;
             buttonX10.BackColor = Color.White;
             buttonX20.BackColor = Color.White;
         }
@@ -316,7 +316,7 @@ namespace AsterixDecoder
             buttonX1.BackColor = Color.White;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
-            buttonX10.BackColor = Color.Green;
+            buttonX10.BackColor = Color.LightBlue;
             buttonX20.BackColor = Color.White;
         }
 
@@ -327,7 +327,7 @@ namespace AsterixDecoder
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
-            buttonX20.BackColor = Color.Green;
+            buttonX20.BackColor = Color.LightBlue;
         }
 
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
@@ -555,7 +555,7 @@ namespace AsterixDecoder
             timer.Interval = 1000;
             time = new TimeSpan(8, 0, 0);
             firstTick = true;
-            buttonX1.BackColor = Color.Green;
+            buttonX1.BackColor = Color.LightBlue;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
@@ -633,7 +633,7 @@ namespace AsterixDecoder
             else if(trajectoryCheckBox.Checked == false)
             {
                 InitTimer();
-                buttonX1.BackColor = Color.Green;
+                buttonX1.BackColor = Color.LightBlue;
                 buttonX2.BackColor = Color.White;
                 buttonX5.BackColor = Color.White;
                 buttonX10.BackColor = Color.White;
