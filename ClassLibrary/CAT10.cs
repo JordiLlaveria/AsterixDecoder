@@ -1374,8 +1374,10 @@ namespace ClassLibrary
         {
             if (sic == 7)
                 return "SMR";
-            else
+            else if (sic == 107)
                 return "MLAT";
+            else
+                return null;
         }
 
         public string getTargetAddress()
