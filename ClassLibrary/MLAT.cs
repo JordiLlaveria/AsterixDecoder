@@ -9,20 +9,23 @@ namespace ClassLibrary
     public class MLAT
     {
         List<Coordinates> coordinates;
-        List<Coordinates> coordinatesADSB;
         List<string> listIdentifications;
         List<TimeSpan> timePositions;
+        List<double> groundSpeeds;
         string tracknumber;
         string targetAddress;
 
-        public MLAT(string tracknumber, string targetAddress)
+        public MLAT(string tracknumber, string targetAddress, TimeSpan times, string identifications, double groundSpeed)
         {
             this.targetAddress = targetAddress;
             this.tracknumber = tracknumber;
             coordinates = new List<Coordinates>();
-            coordinatesADSB = new List<Coordinates>();
             listIdentifications = new List<string>();
             timePositions = new List<TimeSpan>();
+            groundSpeeds = new List<double>();
+            listIdentifications.Add(identifications);
+            timePositions.Add(times);
+            groundSpeeds.Add(groundSpeed);
         }
 
         public string getTrackNumber()
@@ -49,16 +52,6 @@ namespace ClassLibrary
         {
             return coordinates;
         }
-
-        public List<Coordinates> getCoordinatesADSB()
-        {
-            return coordinatesADSB;
-        }
-
-        public void setCoordinatesADSB(Coordinates coordADSB)
-        {
-            coordinatesADSB.Add(coordADSB);
-        }
         public void setCoordinates(Coordinates coord)
         {
             coordinates.Add(coord);
@@ -82,6 +75,36 @@ namespace ClassLibrary
         public void setIdentification(string identifications)
         {
             listIdentifications.Add(identifications);
+        }
+
+        public void setGroundSpeed(double groundspeed)
+        {
+            groundSpeeds.Add(groundspeed);
+        }
+
+        public TimeSpan getLastTime()
+        {
+            return timePositions[timePositions.Count - 1];
+        }
+
+        public TimeSpan getTime(int j)
+        {
+            return timePositions[j];
+        }
+
+        public double getGroundSpeed(int j)
+        {
+            return groundSpeeds[j];
+        }
+
+        public double getLongitude(int j)
+        {
+            return coordinates[j].GetLongitude();
+        }
+
+        public double getLatitude(int j)
+        {
+            return coordinates[j].GetLatitude();
         }
     }
 
