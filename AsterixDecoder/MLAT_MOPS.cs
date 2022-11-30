@@ -142,8 +142,12 @@ namespace AsterixDecoder
                 information[0] = "Total target identifications detected";
                 information[1] = totalTargetIDAllFlights.ToString();
                 dataTable.Rows.Add(information);
+                information[0] = "Probability of correct identification";
+                information[1] = probabilityFalseIdentification.ToString() + "%";
+                dataTable.Rows.Add(information);
                 information[0] = "Probability of false identification";
-                information[1] = probabilityFalseIdentification.ToString() + " %";
+                double probabilityfalse = 100 - probabilityFalseIdentification;
+                information[1] = probabilityfalse.ToString() + "%";
                 dataTable.Rows.Add(information);
                 dataTable2 = dataTable.Copy();
                 DataView dv = new DataView(dataTable2);
@@ -213,8 +217,12 @@ namespace AsterixDecoder
                 information[0] = "Total amount of coordinates analysed";
                 information[1] = totalCoordinatesAllFlights.ToString();
                 dataTable.Rows.Add(information);
-                information[0] = "Probability of false detection";
+                information[0] = "Probability of correct detection";
                 information[1] = probabilityFalseDetection.ToString() + " %";
+                dataTable.Rows.Add(information);
+                information[0] = "Probability of false detection";
+                double probabilityfalse = 100 - probabilityFalseDetection;
+                information[1] = probabilityfalse.ToString() + " %";
                 dataTable.Rows.Add(information);
                 dataTable2 = dataTable.Copy();
                 DataView dv = new DataView(dataTable2);
@@ -228,12 +236,14 @@ namespace AsterixDecoder
 
         private void buttonIDProb_Click(object sender, EventArgs e)
         {
+            dataGridViewInfo.Visible = true;
             probabilityFalseIdentification = 0;
             calculateProbIdentification();
         }
 
         private void buttonFalseDetect_Click(object sender, EventArgs e)
         {
+            dataGridViewInfo.Visible = true;
             probabilityFalseDetection = 0;
             calculateFalseDetection();
         }
@@ -272,7 +282,7 @@ namespace AsterixDecoder
 
         private void MLAT_MOPS_Load(object sender, EventArgs e)
         {
-            dataGridViewInfo.Visible = true;
+            dataGridViewInfo.Visible = false;
             dataGridViewInfo.ClearSelection();
             dataGridViewInfo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewInfo.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;

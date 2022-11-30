@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonIDProb = new System.Windows.Forms.Button();
             this.buttonFalseDetect = new System.Windows.Forms.Button();
             this.labelID = new System.Windows.Forms.Label();
@@ -42,12 +42,11 @@
             this.buttonIDProb.BackColor = System.Drawing.Color.Transparent;
             this.buttonIDProb.FlatAppearance.BorderSize = 5;
             this.buttonIDProb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonIDProb.Font = new System.Drawing.Font("Rubik", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonIDProb.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonIDProb.ForeColor = System.Drawing.Color.AliceBlue;
-            this.buttonIDProb.Location = new System.Drawing.Point(145, 64);
-            this.buttonIDProb.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonIDProb.Location = new System.Drawing.Point(129, 82);
             this.buttonIDProb.Name = "buttonIDProb";
-            this.buttonIDProb.Size = new System.Drawing.Size(434, 264);
+            this.buttonIDProb.Size = new System.Drawing.Size(386, 211);
             this.buttonIDProb.TabIndex = 0;
             this.buttonIDProb.Text = "Probability Identification";
             this.buttonIDProb.UseVisualStyleBackColor = false;
@@ -58,12 +57,11 @@
             this.buttonFalseDetect.BackColor = System.Drawing.Color.Transparent;
             this.buttonFalseDetect.FlatAppearance.BorderSize = 5;
             this.buttonFalseDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFalseDetect.Font = new System.Drawing.Font("Rubik", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonFalseDetect.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonFalseDetect.ForeColor = System.Drawing.Color.AliceBlue;
-            this.buttonFalseDetect.Location = new System.Drawing.Point(143, 346);
-            this.buttonFalseDetect.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonFalseDetect.Location = new System.Drawing.Point(127, 308);
             this.buttonFalseDetect.Name = "buttonFalseDetect";
-            this.buttonFalseDetect.Size = new System.Drawing.Size(434, 351);
+            this.buttonFalseDetect.Size = new System.Drawing.Size(386, 281);
             this.buttonFalseDetect.TabIndex = 1;
             this.buttonFalseDetect.Text = "Probability False Detection";
             this.buttonFalseDetect.UseVisualStyleBackColor = false;
@@ -72,56 +70,56 @@
             // labelID
             // 
             this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(723, 192);
+            this.labelID.Location = new System.Drawing.Point(643, 185);
             this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(0, 20);
+            this.labelID.Size = new System.Drawing.Size(0, 16);
             this.labelID.TabIndex = 2;
             // 
             // dataGridViewInfo
             // 
             this.dataGridViewInfo.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.dataGridViewInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewInfo.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewInfo.Location = new System.Drawing.Point(705, 119);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewInfo.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewInfo.Location = new System.Drawing.Point(627, 82);
+            this.dataGridViewInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridViewInfo.MultiSelect = false;
             this.dataGridViewInfo.Name = "dataGridViewInfo";
             this.dataGridViewInfo.ReadOnly = true;
             this.dataGridViewInfo.RowHeadersWidth = 51;
             this.dataGridViewInfo.RowTemplate.Height = 24;
-            this.dataGridViewInfo.Size = new System.Drawing.Size(640, 506);
+            this.dataGridViewInfo.Size = new System.Drawing.Size(569, 507);
             this.dataGridViewInfo.TabIndex = 3;
             this.dataGridViewInfo.TabStop = false;
             // 
             // MLAT_MOPS
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1528, 824);
+            this.ClientSize = new System.Drawing.Size(1358, 659);
             this.Controls.Add(this.dataGridViewInfo);
             this.Controls.Add(this.labelID);
             this.Controls.Add(this.buttonFalseDetect);
             this.Controls.Add(this.buttonIDProb);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MLAT_MOPS";
             this.Text = "MLAT";
             this.Load += new System.EventHandler(this.MLAT_MOPS_Load);
