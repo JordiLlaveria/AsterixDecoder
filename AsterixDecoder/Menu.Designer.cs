@@ -50,7 +50,7 @@
             this.InputFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.InputFile.Font = new System.Drawing.Font("Source Sans Pro Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputFile.ForeColor = System.Drawing.Color.AliceBlue;
-            this.InputFile.Location = new System.Drawing.Point(624, 377);
+            this.InputFile.Location = new System.Drawing.Point(556, 337);
             this.InputFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.InputFile.Name = "InputFile";
             this.InputFile.Size = new System.Drawing.Size(214, 114);
@@ -72,7 +72,7 @@
             this.FileReadLabel.AutoSize = true;
             this.FileReadLabel.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileReadLabel.ForeColor = System.Drawing.Color.AliceBlue;
-            this.FileReadLabel.Location = new System.Drawing.Point(605, 517);
+            this.FileReadLabel.Location = new System.Drawing.Point(531, 458);
             this.FileReadLabel.Name = "FileReadLabel";
             this.FileReadLabel.Size = new System.Drawing.Size(263, 28);
             this.FileReadLabel.TabIndex = 2;
@@ -86,10 +86,10 @@
             this.CAT10TableButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CAT10TableButton.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CAT10TableButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.CAT10TableButton.Location = new System.Drawing.Point(29, 65);
+            this.CAT10TableButton.Location = new System.Drawing.Point(40, 40);
             this.CAT10TableButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CAT10TableButton.Name = "CAT10TableButton";
-            this.CAT10TableButton.Size = new System.Drawing.Size(218, 99);
+            this.CAT10TableButton.Size = new System.Drawing.Size(218, 100);
             this.CAT10TableButton.TabIndex = 3;
             this.CAT10TableButton.Text = "CAT10 Table";
             this.CAT10TableButton.UseVisualStyleBackColor = false;
@@ -99,13 +99,14 @@
             // 
             this.panelMenu.BackColor = System.Drawing.Color.Transparent;
             this.panelMenu.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo;
+            this.panelMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panelMenu.Controls.Add(this.FileReadLabel);
             this.panelMenu.Controls.Add(this.label1);
             this.panelMenu.Controls.Add(this.InputFile);
             this.panelMenu.Location = new System.Drawing.Point(331, 41);
             this.panelMenu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(1591, 983);
+            this.panelMenu.Size = new System.Drawing.Size(1581, 990);
             this.panelMenu.TabIndex = 4;
             // 
             // CAT21Button
@@ -116,10 +117,10 @@
             this.CAT21Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CAT21Button.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CAT21Button.ForeColor = System.Drawing.Color.AliceBlue;
-            this.CAT21Button.Location = new System.Drawing.Point(29, 212);
+            this.CAT21Button.Location = new System.Drawing.Point(40, 190);
             this.CAT21Button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CAT21Button.Name = "CAT21Button";
-            this.CAT21Button.Size = new System.Drawing.Size(218, 116);
+            this.CAT21Button.Size = new System.Drawing.Size(218, 100);
             this.CAT21Button.TabIndex = 5;
             this.CAT21Button.Text = "CAT21 Table";
             this.CAT21Button.UseVisualStyleBackColor = false;
@@ -133,10 +134,10 @@
             this.mapViewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mapViewButton.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapViewButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.mapViewButton.Location = new System.Drawing.Point(29, 385);
+            this.mapViewButton.Location = new System.Drawing.Point(40, 340);
             this.mapViewButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.mapViewButton.Name = "mapViewButton";
-            this.mapViewButton.Size = new System.Drawing.Size(218, 121);
+            this.mapViewButton.Size = new System.Drawing.Size(218, 100);
             this.mapViewButton.TabIndex = 6;
             this.mapViewButton.Text = "Map View";
             this.mapViewButton.UseVisualStyleBackColor = false;
@@ -150,10 +151,10 @@
             this.buttonMLAT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMLAT.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonMLAT.ForeColor = System.Drawing.Color.AliceBlue;
-            this.buttonMLAT.Location = new System.Drawing.Point(29, 572);
+            this.buttonMLAT.Location = new System.Drawing.Point(40, 490);
             this.buttonMLAT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonMLAT.Name = "buttonMLAT";
-            this.buttonMLAT.Size = new System.Drawing.Size(218, 111);
+            this.buttonMLAT.Size = new System.Drawing.Size(218, 100);
             this.buttonMLAT.TabIndex = 7;
             this.buttonMLAT.Text = "MLAT MOPS";
             this.buttonMLAT.UseVisualStyleBackColor = false;
@@ -167,10 +168,10 @@
             this.buttonHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonHelp.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonHelp.ForeColor = System.Drawing.Color.AliceBlue;
-            this.buttonHelp.Location = new System.Drawing.Point(29, 730);
+            this.buttonHelp.Location = new System.Drawing.Point(40, 640);
             this.buttonHelp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonHelp.Name = "buttonHelp";
-            this.buttonHelp.Size = new System.Drawing.Size(218, 111);
+            this.buttonHelp.Size = new System.Drawing.Size(218, 100);
             this.buttonHelp.TabIndex = 8;
             this.buttonHelp.Text = "Help";
             this.buttonHelp.UseVisualStyleBackColor = false;
@@ -184,10 +185,10 @@
             this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exitButton.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.exitButton.Location = new System.Drawing.Point(29, 882);
+            this.exitButton.Location = new System.Drawing.Point(40, 790);
             this.exitButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(218, 111);
+            this.exitButton.Size = new System.Drawing.Size(218, 100);
             this.exitButton.TabIndex = 9;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = false;
@@ -197,9 +198,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FloralWhite;
             this.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo2;
-            this.ClientSize = new System.Drawing.Size(1924, 1050);
+            this.ClientSize = new System.Drawing.Size(1924, 1044);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.buttonHelp);
             this.Controls.Add(this.buttonMLAT);

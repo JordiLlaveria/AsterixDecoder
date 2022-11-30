@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CAT21Grid = new System.Windows.Forms.DataGridView();
             this.filterByTargetAddressLabel = new System.Windows.Forms.Label();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
@@ -45,25 +45,23 @@
             this.CAT21Grid.AllowUserToDeleteRows = false;
             this.CAT21Grid.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.CAT21Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.NullValue = "No data";
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.CAT21Grid.DefaultCellStyle = dataGridViewCellStyle3;
             this.CAT21Grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.CAT21Grid.Location = new System.Drawing.Point(73, 61);
+            this.CAT21Grid.Location = new System.Drawing.Point(-2, 114);
             this.CAT21Grid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.NullValue = "No data";
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-
-            this.CAT21Grid.DefaultCellStyle = dataGridViewCellStyle1;
             this.CAT21Grid.Name = "CAT21Grid";
             this.CAT21Grid.ReadOnly = true;
             this.CAT21Grid.RowHeadersWidth = 51;
             this.CAT21Grid.RowTemplate.Height = 24;
-            this.CAT21Grid.Size = new System.Drawing.Size(1313, 875);
+            this.CAT21Grid.Size = new System.Drawing.Size(1367, 671);
             this.CAT21Grid.TabIndex = 1;
             this.CAT21Grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CAT21Grid_CellClick);
             // 
@@ -71,33 +69,33 @@
             // 
             this.filterByTargetAddressLabel.AutoSize = true;
             this.filterByTargetAddressLabel.BackColor = System.Drawing.Color.Transparent;
-            this.filterByTargetAddressLabel.Font = new System.Drawing.Font("Rubik", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressLabel.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterByTargetAddressLabel.ForeColor = System.Drawing.Color.AliceBlue;
-            this.filterByTargetAddressLabel.Location = new System.Drawing.Point(79, 15);
+            this.filterByTargetAddressLabel.Location = new System.Drawing.Point(56, 22);
             this.filterByTargetAddressLabel.Name = "filterByTargetAddressLabel";
-            this.filterByTargetAddressLabel.Size = new System.Drawing.Size(92, 24);
+            this.filterByTargetAddressLabel.Size = new System.Drawing.Size(109, 28);
             this.filterByTargetAddressLabel.TabIndex = 2;
             this.filterByTargetAddressLabel.Text = "Filter by:";
             // 
             // filterByTargetAddressTextBox
             // 
-            this.filterByTargetAddressTextBox.Font = new System.Drawing.Font("Rubik", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(303, 15);
+            this.filterByTargetAddressTextBox.Font = new System.Drawing.Font("Rubik", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 22);
             this.filterByTargetAddressTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
-            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(122, 29);
+            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
             this.filterByTargetAddressTextBox.TabIndex = 3;
             // 
             // filterByTargetAddressButton
             // 
             this.filterByTargetAddressButton.BackColor = System.Drawing.Color.Transparent;
             this.filterByTargetAddressButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.filterByTargetAddressButton.Font = new System.Drawing.Font("Rubik", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByTargetAddressButton.Font = new System.Drawing.Font("Rubik", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterByTargetAddressButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.filterByTargetAddressButton.Location = new System.Drawing.Point(431, 9);
+            this.filterByTargetAddressButton.Location = new System.Drawing.Point(471, 22);
             this.filterByTargetAddressButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterByTargetAddressButton.Name = "filterByTargetAddressButton";
-            this.filterByTargetAddressButton.Size = new System.Drawing.Size(87, 45);
+            this.filterByTargetAddressButton.Size = new System.Drawing.Size(91, 35);
             this.filterByTargetAddressButton.TabIndex = 4;
             this.filterByTargetAddressButton.Text = "Filter";
             this.filterByTargetAddressButton.UseVisualStyleBackColor = false;
@@ -107,12 +105,12 @@
             // 
             this.resetFilterButton.BackColor = System.Drawing.Color.Transparent;
             this.resetFilterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.resetFilterButton.Font = new System.Drawing.Font("Rubik", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetFilterButton.Font = new System.Drawing.Font("Rubik", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.resetFilterButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.resetFilterButton.Location = new System.Drawing.Point(524, 10);
+            this.resetFilterButton.Location = new System.Drawing.Point(579, 22);
             this.resetFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.resetFilterButton.Name = "resetFilterButton";
-            this.resetFilterButton.Size = new System.Drawing.Size(83, 45);
+            this.resetFilterButton.Size = new System.Drawing.Size(101, 35);
             this.resetFilterButton.TabIndex = 5;
             this.resetFilterButton.Text = "Reset";
             this.resetFilterButton.UseVisualStyleBackColor = false;
@@ -122,12 +120,12 @@
             // 
             this.exportButton.BackColor = System.Drawing.Color.Transparent;
             this.exportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportButton.Font = new System.Drawing.Font("Rubik", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportButton.Font = new System.Drawing.Font("Rubik", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exportButton.ForeColor = System.Drawing.Color.AliceBlue;
-            this.exportButton.Location = new System.Drawing.Point(1311, 6);
+            this.exportButton.Location = new System.Drawing.Point(918, 22);
             this.exportButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(75, 48);
+            this.exportButton.Size = new System.Drawing.Size(98, 35);
             this.exportButton.TabIndex = 6;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = false;
@@ -138,7 +136,7 @@
             this.filterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterComboBox.Font = new System.Drawing.Font("Rubik", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterComboBox.FormattingEnabled = true;
-            this.filterComboBox.Location = new System.Drawing.Point(176, 15);
+            this.filterComboBox.Location = new System.Drawing.Point(193, 22);
             this.filterComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filterComboBox.Name = "filterComboBox";
             this.filterComboBox.Size = new System.Drawing.Size(121, 27);
@@ -148,9 +146,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo;
-            this.ClientSize = new System.Drawing.Size(1557, 1050);
+            this.ClientSize = new System.Drawing.Size(1924, 844);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterComboBox);
             this.Controls.Add(this.resetFilterButton);
