@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CAT10Grid = new System.Windows.Forms.DataGridView();
             this.filterByTargetAddressButton = new System.Windows.Forms.Button();
             this.filterByTargetAddressTextBox = new System.Windows.Forms.TextBox();
@@ -47,27 +47,27 @@
             this.CAT10Grid.AllowUserToDeleteRows = false;
             this.CAT10Grid.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.CAT10Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.CAT10Grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CAT10Grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.CAT10Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.NullValue = "No data";
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.CAT10Grid.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.NullValue = "No data";
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.CAT10Grid.DefaultCellStyle = dataGridViewCellStyle2;
             this.CAT10Grid.EnableHeadersVisualStyles = false;
             this.CAT10Grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.CAT10Grid.Location = new System.Drawing.Point(12, 71);
             this.CAT10Grid.Name = "CAT10Grid";
             this.CAT10Grid.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.CAT10Grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CAT10Grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.CAT10Grid.RowHeadersWidth = 51;
             this.CAT10Grid.RowTemplate.Height = 24;
             this.CAT10Grid.Size = new System.Drawing.Size(1012, 500);
@@ -93,7 +93,7 @@
             this.filterByTargetAddressTextBox.Font = new System.Drawing.Font("Rubik", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filterByTargetAddressTextBox.Location = new System.Drawing.Point(320, 22);
             this.filterByTargetAddressTextBox.Name = "filterByTargetAddressTextBox";
-            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 26);
+            this.filterByTargetAddressTextBox.Size = new System.Drawing.Size(141, 20);
             this.filterByTargetAddressTextBox.TabIndex = 2;
             // 
             // resetFilterButton
@@ -131,7 +131,7 @@
             this.filterComboBox.FormattingEnabled = true;
             this.filterComboBox.Location = new System.Drawing.Point(193, 22);
             this.filterComboBox.Name = "filterComboBox";
-            this.filterComboBox.Size = new System.Drawing.Size(121, 27);
+            this.filterComboBox.Size = new System.Drawing.Size(121, 21);
             this.filterComboBox.TabIndex = 5;
             // 
             // filterLabel
@@ -142,13 +142,14 @@
             this.filterLabel.ForeColor = System.Drawing.Color.AliceBlue;
             this.filterLabel.Location = new System.Drawing.Point(93, 22);
             this.filterLabel.Name = "filterLabel";
-            this.filterLabel.Size = new System.Drawing.Size(109, 28);
+            this.filterLabel.Size = new System.Drawing.Size(74, 19);
             this.filterLabel.TabIndex = 6;
             this.filterLabel.Text = "Filter by:";
             // 
             // Table10
             // 
             this.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1528, 824);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filterLabel);
@@ -157,6 +158,7 @@
             this.Controls.Add(this.filterByTargetAddressButton);
             this.Controls.Add(this.filterByTargetAddressTextBox);
             this.Controls.Add(this.CAT10Grid);
+            this.DoubleBuffered = true;
             this.Name = "Table10";
             this.Load += new System.EventHandler(this.Table10_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CAT10Grid)).EndInit();

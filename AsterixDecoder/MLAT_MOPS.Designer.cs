@@ -42,7 +42,7 @@
             this.buttonIDProb.BackColor = System.Drawing.Color.Transparent;
             this.buttonIDProb.FlatAppearance.BorderSize = 5;
             this.buttonIDProb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonIDProb.Font = new System.Drawing.Font("Rubik", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonIDProb.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonIDProb.ForeColor = System.Drawing.Color.AliceBlue;
             this.buttonIDProb.Location = new System.Drawing.Point(97, 42);
             this.buttonIDProb.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -58,7 +58,7 @@
             this.buttonFalseDetect.BackColor = System.Drawing.Color.Transparent;
             this.buttonFalseDetect.FlatAppearance.BorderSize = 5;
             this.buttonFalseDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFalseDetect.Font = new System.Drawing.Font("Rubik", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonFalseDetect.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonFalseDetect.ForeColor = System.Drawing.Color.AliceBlue;
             this.buttonFalseDetect.Location = new System.Drawing.Point(95, 225);
             this.buttonFalseDetect.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -88,6 +88,7 @@
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(88)))), ((int)(((byte)(102)))));
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.AliceBlue;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(95)))), ((int)(((byte)(112)))));
+
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

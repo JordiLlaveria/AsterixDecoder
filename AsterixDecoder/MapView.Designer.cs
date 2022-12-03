@@ -61,14 +61,14 @@
             // 
             this.dataMarker.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.dataMarker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataMarker.Location = new System.Drawing.Point(14, 4);
-            this.dataMarker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataMarker.Location = new System.Drawing.Point(9, 3);
+            this.dataMarker.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.dataMarker.Name = "dataMarker";
             this.dataMarker.ReadOnly = true;
             this.dataMarker.RowHeadersWidth = 51;
             this.dataMarker.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataMarker.RowTemplate.Height = 24;
-            this.dataMarker.Size = new System.Drawing.Size(1524, 90);
+            this.dataMarker.Size = new System.Drawing.Size(1016, 58);
             this.dataMarker.TabIndex = 1;
             // 
             // gMapControl1
@@ -79,8 +79,8 @@
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapControl1.LevelsKeepInMemmory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(14, 125);
-            this.gMapControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gMapControl1.Location = new System.Drawing.Point(9, 81);
+            this.gMapControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.gMapControl1.MarkersEnabled = true;
             this.gMapControl1.MaxZoom = 2;
             this.gMapControl1.MinZoom = 2;
@@ -94,7 +94,7 @@
             this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Size = new System.Drawing.Size(1150, 788);
+            this.gMapControl1.Size = new System.Drawing.Size(767, 512);
             this.gMapControl1.TabIndex = 2;
             this.gMapControl1.Zoom = 0D;
             this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load_1);
@@ -102,10 +102,10 @@
             // buttonPlay
             // 
             this.buttonPlay.Font = new System.Drawing.Font("Rubik", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPlay.Location = new System.Drawing.Point(1204, 231);
-            this.buttonPlay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonPlay.Location = new System.Drawing.Point(803, 150);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(144, 80);
+            this.buttonPlay.Size = new System.Drawing.Size(96, 52);
             this.buttonPlay.TabIndex = 3;
             this.buttonPlay.Text = "Play";
             this.buttonPlay.UseVisualStyleBackColor = true;
@@ -117,9 +117,10 @@
             this.labelTime.BackColor = System.Drawing.Color.Transparent;
             this.labelTime.Font = new System.Drawing.Font("Rubik", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTime.ForeColor = System.Drawing.Color.Black;
-            this.labelTime.Location = new System.Drawing.Point(1352, 243);
+            this.labelTime.Location = new System.Drawing.Point(901, 158);
+            this.labelTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(211, 52);
+            this.labelTime.Size = new System.Drawing.Size(144, 35);
             this.labelTime.TabIndex = 4;
             this.labelTime.Text = "08:00:00";
             // 
@@ -131,10 +132,10 @@
             // 
             this.buttonX1.BackColor = System.Drawing.Color.White;
             this.buttonX1.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonX1.Location = new System.Drawing.Point(1206, 139);
-            this.buttonX1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonX1.Location = new System.Drawing.Point(804, 90);
+            this.buttonX1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonX1.Name = "buttonX1";
-            this.buttonX1.Size = new System.Drawing.Size(65, 51);
+            this.buttonX1.Size = new System.Drawing.Size(43, 33);
             this.buttonX1.TabIndex = 5;
             this.buttonX1.Text = "x1";
             this.buttonX1.UseVisualStyleBackColor = false;
@@ -144,10 +145,10 @@
             // 
             this.buttonX2.BackColor = System.Drawing.Color.White;
             this.buttonX2.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonX2.Location = new System.Drawing.Point(1270, 139);
-            this.buttonX2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonX2.Location = new System.Drawing.Point(847, 90);
+            this.buttonX2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonX2.Name = "buttonX2";
-            this.buttonX2.Size = new System.Drawing.Size(55, 51);
+            this.buttonX2.Size = new System.Drawing.Size(37, 33);
             this.buttonX2.TabIndex = 6;
             this.buttonX2.Text = "x2";
             this.buttonX2.UseVisualStyleBackColor = false;
@@ -157,10 +158,10 @@
             // 
             this.buttonX5.BackColor = System.Drawing.Color.White;
             this.buttonX5.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonX5.Location = new System.Drawing.Point(1325, 139);
-            this.buttonX5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonX5.Location = new System.Drawing.Point(883, 90);
+            this.buttonX5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonX5.Name = "buttonX5";
-            this.buttonX5.Size = new System.Drawing.Size(54, 51);
+            this.buttonX5.Size = new System.Drawing.Size(36, 33);
             this.buttonX5.TabIndex = 7;
             this.buttonX5.Text = "x5";
             this.buttonX5.UseVisualStyleBackColor = false;
@@ -170,10 +171,10 @@
             // 
             this.buttonX10.BackColor = System.Drawing.Color.White;
             this.buttonX10.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonX10.Location = new System.Drawing.Point(1379, 139);
-            this.buttonX10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonX10.Location = new System.Drawing.Point(919, 90);
+            this.buttonX10.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonX10.Name = "buttonX10";
-            this.buttonX10.Size = new System.Drawing.Size(75, 51);
+            this.buttonX10.Size = new System.Drawing.Size(50, 33);
             this.buttonX10.TabIndex = 8;
             this.buttonX10.Text = "x10";
             this.buttonX10.UseVisualStyleBackColor = false;
@@ -183,10 +184,10 @@
             // 
             this.buttonX20.BackColor = System.Drawing.Color.White;
             this.buttonX20.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonX20.Location = new System.Drawing.Point(1452, 139);
-            this.buttonX20.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonX20.Location = new System.Drawing.Point(968, 90);
+            this.buttonX20.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.buttonX20.Name = "buttonX20";
-            this.buttonX20.Size = new System.Drawing.Size(78, 51);
+            this.buttonX20.Size = new System.Drawing.Size(52, 33);
             this.buttonX20.TabIndex = 9;
             this.buttonX20.Text = "x20";
             this.buttonX20.UseVisualStyleBackColor = false;
@@ -199,10 +200,10 @@
             this.checkBoxSMR.Checked = true;
             this.checkBoxSMR.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSMR.Font = new System.Drawing.Font("Rubik", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxSMR.Location = new System.Drawing.Point(1206, 557);
-            this.checkBoxSMR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkBoxSMR.Location = new System.Drawing.Point(804, 362);
+            this.checkBoxSMR.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.checkBoxSMR.Name = "checkBoxSMR";
-            this.checkBoxSMR.Size = new System.Drawing.Size(119, 47);
+            this.checkBoxSMR.Size = new System.Drawing.Size(81, 32);
             this.checkBoxSMR.TabIndex = 10;
             this.checkBoxSMR.Text = "SMR";
             this.checkBoxSMR.UseVisualStyleBackColor = false;
@@ -214,10 +215,10 @@
             this.checkBoxMLAT.Checked = true;
             this.checkBoxMLAT.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxMLAT.Font = new System.Drawing.Font("Rubik", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxMLAT.Location = new System.Drawing.Point(1206, 605);
-            this.checkBoxMLAT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkBoxMLAT.Location = new System.Drawing.Point(804, 393);
+            this.checkBoxMLAT.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.checkBoxMLAT.Name = "checkBoxMLAT";
-            this.checkBoxMLAT.Size = new System.Drawing.Size(138, 47);
+            this.checkBoxMLAT.Size = new System.Drawing.Size(94, 32);
             this.checkBoxMLAT.TabIndex = 11;
             this.checkBoxMLAT.Text = "MLAT";
             this.checkBoxMLAT.UseVisualStyleBackColor = false;
@@ -229,10 +230,10 @@
             this.checkBoxADSB.Checked = true;
             this.checkBoxADSB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxADSB.Font = new System.Drawing.Font("Rubik", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxADSB.Location = new System.Drawing.Point(1206, 653);
-            this.checkBoxADSB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkBoxADSB.Location = new System.Drawing.Point(804, 424);
+            this.checkBoxADSB.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.checkBoxADSB.Name = "checkBoxADSB";
-            this.checkBoxADSB.Size = new System.Drawing.Size(140, 47);
+            this.checkBoxADSB.Size = new System.Drawing.Size(95, 32);
             this.checkBoxADSB.TabIndex = 12;
             this.checkBoxADSB.Text = "ADSB";
             this.checkBoxADSB.UseVisualStyleBackColor = false;
@@ -242,10 +243,10 @@
             this.textBoxHour.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxHour.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxHour.Font = new System.Drawing.Font("Rubik", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxHour.Location = new System.Drawing.Point(1354, 397);
-            this.textBoxHour.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxHour.Location = new System.Drawing.Point(903, 258);
+            this.textBoxHour.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.textBoxHour.Name = "textBoxHour";
-            this.textBoxHour.Size = new System.Drawing.Size(58, 53);
+            this.textBoxHour.Size = new System.Drawing.Size(39, 35);
             this.textBoxHour.TabIndex = 13;
             this.textBoxHour.Text = "08";
             // 
@@ -254,10 +255,10 @@
             this.textBoxMinutes.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxMinutes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxMinutes.Font = new System.Drawing.Font("Rubik", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMinutes.Location = new System.Drawing.Point(1417, 397);
-            this.textBoxMinutes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxMinutes.Location = new System.Drawing.Point(945, 258);
+            this.textBoxMinutes.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.textBoxMinutes.Name = "textBoxMinutes";
-            this.textBoxMinutes.Size = new System.Drawing.Size(55, 53);
+            this.textBoxMinutes.Size = new System.Drawing.Size(37, 35);
             this.textBoxMinutes.TabIndex = 14;
             this.textBoxMinutes.Text = "00";
             // 
@@ -266,20 +267,20 @@
             this.textBoxSeconds.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSeconds.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxSeconds.Font = new System.Drawing.Font("Rubik", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSeconds.Location = new System.Drawing.Point(1475, 397);
-            this.textBoxSeconds.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxSeconds.Location = new System.Drawing.Point(983, 258);
+            this.textBoxSeconds.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.textBoxSeconds.Name = "textBoxSeconds";
-            this.textBoxSeconds.Size = new System.Drawing.Size(55, 53);
+            this.textBoxSeconds.Size = new System.Drawing.Size(37, 35);
             this.textBoxSeconds.TabIndex = 15;
             this.textBoxSeconds.Text = "00";
             // 
             // buttonSelectTime
             // 
             this.buttonSelectTime.Font = new System.Drawing.Font("Rubik", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSelectTime.Location = new System.Drawing.Point(1204, 399);
-            this.buttonSelectTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonSelectTime.Location = new System.Drawing.Point(803, 259);
+            this.buttonSelectTime.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.buttonSelectTime.Name = "buttonSelectTime";
-            this.buttonSelectTime.Size = new System.Drawing.Size(133, 49);
+            this.buttonSelectTime.Size = new System.Drawing.Size(89, 32);
             this.buttonSelectTime.TabIndex = 17;
             this.buttonSelectTime.Text = "Select Time";
             this.buttonSelectTime.UseVisualStyleBackColor = true;
@@ -288,10 +289,10 @@
             // buttonExportKML
             // 
             this.buttonExportKML.Font = new System.Drawing.Font("Rubik", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonExportKML.Location = new System.Drawing.Point(1204, 468);
-            this.buttonExportKML.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonExportKML.Location = new System.Drawing.Point(803, 304);
+            this.buttonExportKML.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.buttonExportKML.Name = "buttonExportKML";
-            this.buttonExportKML.Size = new System.Drawing.Size(303, 59);
+            this.buttonExportKML.Size = new System.Drawing.Size(202, 38);
             this.buttonExportKML.TabIndex = 18;
             this.buttonExportKML.Text = "Export KML";
             this.buttonExportKML.UseVisualStyleBackColor = true;
@@ -300,19 +301,19 @@
             // filterTextBox
             // 
             this.filterTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterTextBox.Location = new System.Drawing.Point(1204, 752);
-            this.filterTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.filterTextBox.Location = new System.Drawing.Point(803, 489);
+            this.filterTextBox.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.filterTextBox.Name = "filterTextBox";
-            this.filterTextBox.Size = new System.Drawing.Size(188, 35);
+            this.filterTextBox.Size = new System.Drawing.Size(127, 26);
             this.filterTextBox.TabIndex = 10;
             // 
             // filterButton
             // 
             this.filterButton.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterButton.Location = new System.Drawing.Point(1399, 747);
-            this.filterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.filterButton.Location = new System.Drawing.Point(933, 486);
+            this.filterButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.filterButton.Name = "filterButton";
-            this.filterButton.Size = new System.Drawing.Size(107, 40);
+            this.filterButton.Size = new System.Drawing.Size(71, 26);
             this.filterButton.TabIndex = 11;
             this.filterButton.Text = "Find";
             this.filterButton.UseVisualStyleBackColor = true;
@@ -324,19 +325,20 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.label1.Location = new System.Drawing.Point(1200, 710);
+            this.label1.Location = new System.Drawing.Point(800, 461);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(284, 28);
+            this.label1.Size = new System.Drawing.Size(193, 19);
             this.label1.TabIndex = 12;
             this.label1.Text = "Filter by Target Address:";
             // 
             // seeAllButton
             // 
             this.seeAllButton.Font = new System.Drawing.Font("Rubik", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seeAllButton.Location = new System.Drawing.Point(1206, 858);
-            this.seeAllButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.seeAllButton.Location = new System.Drawing.Point(804, 558);
+            this.seeAllButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.seeAllButton.Name = "seeAllButton";
-            this.seeAllButton.Size = new System.Drawing.Size(301, 40);
+            this.seeAllButton.Size = new System.Drawing.Size(201, 26);
             this.seeAllButton.TabIndex = 13;
             this.seeAllButton.Text = "See All";
             this.seeAllButton.UseVisualStyleBackColor = true;
@@ -345,10 +347,10 @@
             // stopButton
             // 
             this.stopButton.Font = new System.Drawing.Font("Rubik", 9.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopButton.Location = new System.Drawing.Point(1361, 333);
-            this.stopButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.stopButton.Location = new System.Drawing.Point(907, 216);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(145, 50);
+            this.stopButton.Size = new System.Drawing.Size(97, 32);
             this.stopButton.TabIndex = 14;
             this.stopButton.Text = "STOP";
             this.stopButton.UseVisualStyleBackColor = true;
@@ -357,10 +359,10 @@
             // restartButton
             // 
             this.restartButton.Font = new System.Drawing.Font("Rubik", 9.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.restartButton.Location = new System.Drawing.Point(1204, 333);
-            this.restartButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.restartButton.Location = new System.Drawing.Point(803, 216);
+            this.restartButton.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.restartButton.Name = "restartButton";
-            this.restartButton.Size = new System.Drawing.Size(143, 50);
+            this.restartButton.Size = new System.Drawing.Size(95, 32);
             this.restartButton.TabIndex = 15;
             this.restartButton.Text = "RESTART";
             this.restartButton.UseVisualStyleBackColor = true;
@@ -372,10 +374,10 @@
             this.trajectoryCheckBox.BackColor = System.Drawing.Color.Transparent;
             this.trajectoryCheckBox.Font = new System.Drawing.Font("Rubik", 9.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.trajectoryCheckBox.ForeColor = System.Drawing.Color.AliceBlue;
-            this.trajectoryCheckBox.Location = new System.Drawing.Point(1204, 801);
-            this.trajectoryCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.trajectoryCheckBox.Location = new System.Drawing.Point(803, 521);
+            this.trajectoryCheckBox.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.trajectoryCheckBox.Name = "trajectoryCheckBox";
-            this.trajectoryCheckBox.Size = new System.Drawing.Size(171, 28);
+            this.trajectoryCheckBox.Size = new System.Drawing.Size(123, 21);
             this.trajectoryCheckBox.TabIndex = 19;
             this.trajectoryCheckBox.Text = "See Trajectory";
             this.trajectoryCheckBox.UseVisualStyleBackColor = false;
@@ -383,11 +385,12 @@
             // 
             // MapView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::AsterixDecoder.Properties.Resources.fondo;
-            this.ClientSize = new System.Drawing.Size(1650, 950);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1100, 618);
             this.Controls.Add(this.trajectoryCheckBox);
             this.Controls.Add(this.buttonExportKML);
             this.Controls.Add(this.buttonSelectTime);
@@ -412,7 +415,8 @@
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.gMapControl1);
             this.Controls.Add(this.dataMarker);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "MapView";
             this.Text = "MapView";
             this.TransparencyKey = System.Drawing.Color.White;
