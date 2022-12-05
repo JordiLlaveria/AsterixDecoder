@@ -125,26 +125,6 @@ namespace ClassLibrary
             return emitterCategory;
         }
 
-        public void removeTimes(int j)
-        {
-            times.RemoveAt(j);
-        }
-
-        public void removeCoordinates(int j)
-        {
-            coordinates.RemoveAt(j);
-        }
-
-        public void removeGroundSpeed(int j)
-        {
-            groundSpeed.RemoveAt(j);
-        }
-
-        public void removeFL(int j)
-        {
-            flightLevel.RemoveAt(j);
-        }
-
     }
 
     public class Coordinates

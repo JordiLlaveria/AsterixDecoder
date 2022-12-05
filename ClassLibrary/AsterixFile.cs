@@ -15,31 +15,37 @@ namespace ClassLibrary
         List<Flight> Flightslist = new List<Flight>();
         public AsterixFile(string path)
         {
-            byte[] messages = File.ReadAllBytes(path);
-            int i = 0;
-            int lenmessage;
-            while (i < messages.Length)
+            try
             {
-                lenmessage = messages[i + 1] + messages[i + 2];
-                byte[] arraymessage = new byte[lenmessage];
-                for (int j = 0; j < lenmessage; j++)
+                byte[] messages = File.ReadAllBytes(path);
+                int i = 0;
+                int lenmessage;
+                while (i < messages.Length)
                 {
-                    arraymessage[j] = messages[i];
-                    i++;
+                    lenmessage = messages[i + 1] + messages[i + 2];
+                    byte[] arraymessage = new byte[lenmessage];
+                    for (int j = 0; j < lenmessage; j++)
+                    {
+                        arraymessage[j] = messages[i];
+                        i++;
+                    }
+                    if (arraymessage[0] == 10)
+                    {
+                        CAT10 cat10 = new CAT10(arraymessage);
+                        CAT10list.Add(cat10);
+                    }
+                    else if (arraymessage[0] == 21)
+                    {
+                        CAT21 cat21 = new CAT21(arraymessage);
+                        CAT21list.Add(cat21);
+                    }
                 }
-                if (arraymessage[0] == 10)
-                {
-                    CAT10 cat10 = new CAT10(arraymessage);
-                    CAT10list.Add(cat10);
-                }
-                else if(arraymessage[0] == 21)
-                {
-                    CAT21 cat21 = new CAT21(arraymessage);
-                    CAT21list.Add(cat21);
-                }
+                this.obtainFlights();
+                GC.Collect();
             }
-            this.obtainFlights();
-            GC.Collect();
+            catch (Exception ex)
+            {
+            }
         }
 
         public void obtainFlights()
@@ -73,8 +79,11 @@ namespace ClassLibrary
                         double[] latLong = cat10Info.getLatitudeLongitudeWGS84(sensor);
                         Coordinates coordinates = new Coordinates(latLong[0], latLong[1]);
                         string targetaddress = cat10Info.getTargetAddress();
+                        string targetIdentification = cat10Info.getTargetIdentification();
                         if (targetaddress != null)
                             flight.setTargetAddress(targetaddress);
+                        if (targetIdentification != null)
+                            flight.setTargetIdentification(targetIdentification);
                         flight.setCoordinates(coordinates);
                         flight.setFlightLevel(cat10Info.getFlightLevel());
                         flight.setTime(cat10Info.getTime());

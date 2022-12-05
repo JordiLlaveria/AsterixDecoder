@@ -27,9 +27,12 @@ namespace AsterixDecoder
 
         private void OnClickFile(object sender, EventArgs e)
         {
+            CAT10list.Clear();
+            CAT21list.Clear();
+            Flightslist.Clear();
             Stream stream = null;
             OpenFileDialog openFileDialog = new OpenFileDialog();
-
+            FileReadLabel.Visible = true;
             openFileDialog.InitialDirectory = @"C:\";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -40,11 +43,18 @@ namespace AsterixDecoder
                 }
             }
             asterixFile = new AsterixFile(file);
-            FileReadLabel.Text = "File " + file + " read";
-            CAT10list = asterixFile.getCAT10List();
-            CAT21list = asterixFile.getCAT21List();
-            Flightslist = asterixFile.getFlights();
-
+            if (file == null)
+            {
+                MessageBox.Show("No file has added");
+                FileReadLabel.Visible = false;
+            }
+            else
+            {
+                FileReadLabel.Text = "File " + file + " read";
+                CAT10list = asterixFile.getCAT10List();
+                CAT21list = asterixFile.getCAT21List();
+                Flightslist = asterixFile.getFlights();
+            }
         }
 
         private void CAT10TableButton_Click(object sender, EventArgs e)

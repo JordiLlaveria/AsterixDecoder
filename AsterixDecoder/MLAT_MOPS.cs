@@ -142,7 +142,7 @@ namespace AsterixDecoder
                 information[0] = "Total target identifications detected";
                 information[1] = totalTargetIDAllFlights.ToString();
                 dataTable.Rows.Add(information);
-                information[0] = "Probability of correct identification";
+                information[0] = "Probability of identification";
                 information[1] = probabilityFalseIdentification.ToString() + "%";
                 dataTable.Rows.Add(information);
                 information[0] = "Probability of false identification";
@@ -181,7 +181,7 @@ namespace AsterixDecoder
                 {
                     differenceTimes = (MLATlist[i].getTime(j + 1) - MLATlist[i].getTime(j)).TotalSeconds;
                     distanceMadeBetweenDetection = differenceTimes * MLATlist[i].getGroundSpeed(j);
-                    positionInsideRange = GetDistance(distanceMadeBetweenDetection, MLATlist[i].getLatitude(j), MLATlist[i].getLongitude(j), MLATlist[i].getLatitude(j + 1), MLATlist[i].getLongitude(j + 1));
+                    positionInsideRange = getDistance(distanceMadeBetweenDetection, MLATlist[i].getLatitude(j), MLATlist[i].getLongitude(j), MLATlist[i].getLatitude(j + 1), MLATlist[i].getLongitude(j + 1));
                     if (positionInsideRange)
                     {
                         equalCoordinatesDetected++;
@@ -218,11 +218,11 @@ namespace AsterixDecoder
                 information[1] = totalCoordinatesAllFlights.ToString();
                 dataTable.Rows.Add(information);
                 information[0] = "Probability of correct detection";
-                information[1] = probabilityFalseDetection.ToString() + " %";
+                information[1] = probabilityFalseDetection.ToString() + "%";
                 dataTable.Rows.Add(information);
                 information[0] = "Probability of false detection";
                 double probabilityfalse = 100 - probabilityFalseDetection;
-                information[1] = probabilityfalse.ToString() + " %";
+                information[1] = probabilityfalse.ToString() + "%";
                 dataTable.Rows.Add(information);
                 dataTable2 = dataTable.Copy();
                 DataView dv = new DataView(dataTable2);
@@ -248,7 +248,7 @@ namespace AsterixDecoder
             calculateFalseDetection();
         }
 
-        private bool GetDistance(double mruDistance, double lat1, double lon1, double lat2, double lon2)
+        private bool getDistance(double mruDistance, double lat1, double lon1, double lat2, double lon2)
         {
             var R = 0.05 + mruDistance * Math.Pow(10,-3); // Radius in km
             var dLat = ToRadians(lat2 - lat1);
