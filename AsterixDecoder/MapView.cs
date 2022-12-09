@@ -223,7 +223,7 @@ namespace AsterixDecoder
                         marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), greenDotResized);
                         marker.Tag = trackNumberMarker.ToString();
                         marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        marker.ToolTipText = flightsList[i].getTargetAddress();
+                        marker.ToolTipText = filterFlight.getTargetAddress();
                         markers.Markers.Add(marker);
                     }
                     else if (sensor == "ADSB" && checkBoxADSB.Checked == true)
@@ -233,7 +233,7 @@ namespace AsterixDecoder
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), aircraftResized);
                             marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                            marker.ToolTipText = flightsList[i].getTargetAddress();
+                            marker.ToolTipText = filterFlight.getTargetAddress();
                             markers.Markers.Add(marker);
                         }
                         else if (filterFlight.getTypeVehicleNum() == 20 || filterFlight.getTypeVehicleNum() == 21)
@@ -241,7 +241,7 @@ namespace AsterixDecoder
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), groundResized);
                             marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                            marker.ToolTipText = flightsList[i].getTargetAddress();
+                            marker.ToolTipText = filterFlight.getTargetAddress();
                             markers.Markers.Add(marker);
                         }
                         else
@@ -249,7 +249,7 @@ namespace AsterixDecoder
                             marker = new GMarkerGoogle(new PointLatLng(coord.GetLatitude(), coord.GetLongitude()), redDotResized);
                             marker.Tag = trackNumberMarker.ToString();
                             marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                            marker.ToolTipText = flightsList[i].getTargetAddress();
+                            marker.ToolTipText = filterFlight.getTargetAddress();
                             markers.Markers.Add(marker);
                         }
                     }
@@ -427,12 +427,10 @@ namespace AsterixDecoder
             information[4] = sb.ToString();
             information[5] = time.ToString();
             j = flight.getTimes().IndexOf(time);
-            information[6] = flight.getGroundSpeed(j);
-            information[7] = flight.getFL(j);
-            for (int i = 0; i < information.Length; i++)
+            if (j >= 0)
             {
-                if (information[i] == null)
-                    information[i] = "No Data";
+                information[6] = flight.getGroundSpeed(j);
+                information[7] = flight.getFL(j);
             }
             dataTable.Rows.Add(information);
         }
@@ -485,14 +483,17 @@ namespace AsterixDecoder
                 int len = flightsMarkers.Count();
                 for (int i = 0; i < len; i++)
                 {
-                    j = flightsMarkers[i].getTimes().IndexOf(time);
                     coordinates = flightsMarkers[i].getCoordinates();
                     coordinatesKML = coordinates[j];
                     this.latKML = coordinatesKML.GetLatitude().ToString();
                     this.latKML = this.latKML.Replace(',', '.');
                     this.longKML = coordinatesKML.GetLongitude().ToString();
                     this.longKML = this.longKML.Replace(',', '.');
-                    string flightname = flightsMarkers[i].getTrackNumber().ToString();
+                    string flightname;
+                    if (flightsMarkers[i].getTargetAddress()!=null)
+                        flightname = flightsMarkers[i].getTargetAddress().ToString();
+                    else
+                        flightname = flightsMarkers[i].getTrackNumber().ToString();
                     writer.WriteStartElement("Placemark");
                     writer.WriteStartElement("title");
                     if (flightsMarkers[i].getSensors()[7] == "SMR")
@@ -583,15 +584,17 @@ namespace AsterixDecoder
 
         private void restartButton_Click(object sender, EventArgs e)
         {
-            timer.Start();
-            timer.Interval = 1000;
-            time = new TimeSpan(8, 0, 0);
+            timer.Stop();
+            filtered = false;
+            filterTextBox.Clear();
+            time = new TimeSpan(8, 0, 1);
             firstTick = true;
             buttonX1.BackColor = Color.LightBlue;
             buttonX2.BackColor = Color.White;
             buttonX5.BackColor = Color.White;
             buttonX10.BackColor = Color.White;
             buttonX20.BackColor = Color.White;
+            InitTimer();
         }
 
         private void trajectoryCheckBox_CheckedChanged(object sender, EventArgs e)
