@@ -211,7 +211,7 @@ namespace AsterixDecoder
 
             for (int i = 0; i < CAT10list.Count; i++)
             {
-                string[] rowInformation = CAT10list[i].getInformation(i);
+                string[] rowInformation = CAT10list[i].getInfoCSV(i);
                 exportDT.Rows.Add(rowInformation);
             }
 
