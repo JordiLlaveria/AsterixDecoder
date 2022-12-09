@@ -257,7 +257,16 @@ namespace AsterixDecoder
             }            
             gMapControl1.Overlays.Add(markers);
             i = 0;
-            if (flightSelected.getEmitterCategory() != null && checkBoxSMR.Checked == true)
+            if (filtered == true)
+            {
+                dataTable.Rows.Clear();
+                ordenateInformation(filterFlight);
+                dataTable2 = dataTable.Copy();
+                DataView dv = new DataView(dataTable2);
+                dataMarker.DataSource = dv;
+                drawTable();
+            }
+            else if (flightSelected.getEmitterCategory() != null && checkBoxSMR.Checked == true)
             {
                 while (i < flightsMarkers.Count && findSelectedMarkerUpdate == false)
                 {
@@ -561,7 +570,7 @@ namespace AsterixDecoder
                 if (String.Equals(flightsMarkers[i].getTargetAddress(), filterTextBox.Text))
                 {
                     filtered = true;
-                    filterFlight = flightsList[i];
+                    filterFlight = flightsMarkers[i];
                 }
                 i++;
             }
